@@ -1,0 +1,47 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Create your own routines</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content color=dark padding>
+    <ion-avatar>
+        <img src="https://gravatar.com/avatar/dba6bae8c566f9d4041fb9cd9ada7741?d=identicon&f=y">
+      </ion-avatar>
+    <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
+        <ion-item margin>
+          <ion-label position="floating" color="primary">Title</ion-label>
+          <ion-input type="text" formControlName="title"></ion-input>
+        </ion-item>
+        <ion-item margin>
+          <ion-label position="floating" color="primary">Description</ion-label>
+          <ion-input type="text" formControlName="description"></ion-input>
+        </ion-item>
+        <div *ngIf="tasks">
+          <div *ngIf="tasks.length > 0" style="margin-top:20px">
+                <ion-fab vertical="end" horizontal="end">
+                        <ion-fab-button>
+                          <ion-icon name="add"></ion-icon>
+                        </ion-fab-button>
+                      </ion-fab>
+            <ion-title>
+                        Your Tasks
+                    </ion-title>
+                    <ion-list>
+                      <ion-item>
+                        <ion-label>{{item.payload.doc.data().id}}</ion-label>
+                      </ion-item>
+                      </ion-list>
+        </div>
+        <div *ngIf="tasks.length == 0" style="margin-top:20px">
+                    <ion-card class=solidrectangle [routerLink]="['/explore-tasks']">
+                                  + Add tasks to your routine...
+                      </ion-card>
+            </div>
+          </div>
+        <ion-button class="submit-btn" class=bottom-button expand="block" type="submit" [disabled]="!validations_form.valid">Create</ion-button>
+      </form>
+</ion-content>

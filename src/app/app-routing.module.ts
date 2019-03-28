@@ -3,14 +3,14 @@ import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
-  { path: 'login', loadChildren: './login/login.module#LoginPageModule' },
-  { path: 'register', loadChildren: './register/register.module#RegisterPageModule' },
-  { path: 'tabs', loadChildren: './tabs/tabs.module#TabsPageModule' },
-  { path: 'packages', loadChildren: './packages/packages.module#PackagesPageModule' },
-  { path: 'create-routine', loadChildren: './create-routine/create-routine.module#CreateRoutinePageModule' },
-  { path: 'edit-routine/:id', loadChildren: './edit-routine/edit-routine.module#EditRoutinePageModule' },
-  { path: 'intro', loadChildren: './intro/intro.module#IntroPageModule' },
-  { path: 'view-routine/:id', loadChildren: './view-routine/view-routine.module#ViewRoutinePageModule' }
+  { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
+  { path: 'register', loadChildren: './pages/register/register.module#RegisterPageModule' },
+  { path: 'tabs', loadChildren: './pages/tabs/tabs.module#TabsPageModule' },
+  { path: 'packages', loadChildren: './pages/packages/packages.module#PackagesPageModule' },
+  { path: 'create-routine', loadChildren: './create/create-routine/create-routine.module#CreateRoutinePageModule' },
+  { path: 'edit-routine/:id', loadChildren: './edit/edit-routine/edit-routine.module#EditRoutinePageModule' },
+  { path: 'intro', loadChildren: './pages/intro/intro.module#IntroPageModule' },
+  { path: 'view-routine/:id', loadChildren: './view/view-routine/view-routine.module#ViewRoutinePageModule' }
 ];
 @NgModule({
   imports: [

@@ -1,0 +1,18 @@
+
+
+<ion-content *ngIf="items">
+  <ion-grid>
+          <div *ngIf="items.length > 0">
+              <div *ngFor="let item of items;let i=index;let even=even">
+              <ion-row *ngIf="even" align-items-center margin-vertical>
+              <ion-col>
+              <img class=itemsquare [src]="items[i].payload.doc.data().imgurl">
+              </ion-col>
+              <ion-col>
+              <img class=itemsquare [src]="items[i+1].payload.doc.data().imgurl">
+            </ion-col>
+              </ion-row>
+              </div>
+          </div>
+    </ion-grid>
+</ion-content>

@@ -1,0 +1,44 @@
+// http://ionicframework.com/docs/theming/
+@import '~@ionic/angular/css/core.css';
+@import '~@ionic/angular/css/normalize.css';
+@import '~@ionic/angular/css/structure.css';
+@import '~@ionic/angular/css/typography.css';
+
+@import '~@ionic/angular/css/padding.css';
+@import '~@ionic/angular/css/float-elements.css';
+@import '~@ionic/angular/css/text-alignment.css';
+@import '~@ionic/angular/css/text-transformation.css';
+@import '~@ionic/angular/css/flex-utils.css';
+
+ion-tabs{
+    --ion-background-color: #1e1e1e;
+    --ion-text-color: #ffffff;
+}
+
+ion-row{
+    --ion-margin:24px;
+}
+
+ion-title {
+  font-family: Arial, Helvetica, sans-serif;
+    .subtitle {
+      font-size: 60%;
+      color:lightgray;
+    }
+}
+
+.solidsquare {
+    background-color: #35393d;
+    border-radius: 25px;
+    width: 95%;
+    height: 35vw;
+    border: solid black;
+}
+
+.dottedsquare{
+  background-color: #35393d;
+    border-radius: 15px;
+    height: 30vw;
+    border: dotted gray;
+    margin: 2vw;
+}

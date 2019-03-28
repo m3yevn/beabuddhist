@@ -1,0 +1,17 @@
+<ion-content color=dark>
+  <ion-slides pager="true" [options]="slideOpts">
+
+    <ion-slide>
+      <img src="assets/img/slide1.png" />
+    </ion-slide>
+  
+    <ion-slide>
+      <img src="assets/img/slide2.png" />
+    </ion-slide>
+  
+    <ion-slide>
+          <img src="assets/img/slide3.png"  (click)="goToHome()" />
+    </ion-slide>
+  
+  </ion-slides>
+</ion-content>

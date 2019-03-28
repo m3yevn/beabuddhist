@@ -1,0 +1,7 @@
+{
+  "name": "Be_A_Buddhist",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "angular"
+}

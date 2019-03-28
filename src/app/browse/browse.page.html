@@ -1,0 +1,11 @@
+
+
+<ion-content *ngIf="items">
+  <ion-grid>
+          <div *ngIf="items.length > 0">
+              <div *ngFor="let item of items;let i=index;let even=even">          
+              <img class=itemsquare [src]="item.payload.doc.data().imgurl">
+              </div>
+          </div>
+    </ion-grid>
+</ion-content>

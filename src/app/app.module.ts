@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule} from '@angular/common/http';
 import { InMemoryDataService }  from '../app/services/in-memory-data.service';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 

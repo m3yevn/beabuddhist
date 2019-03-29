@@ -4,3 +4,20 @@
     bottom: 10px;
     right: 0;
 }
+
+
+.transparent {
+    background-color: transparent;
+}
+
+.middle-form{
+    margin:30px;
+    padding: 20px;
+}
+
+.item-avatar  {     
+    width:100% !important;  
+    height : 100% !important;  
+    max-width: 100px !important;  //any size
+    max-height: 100px !important; //any size 
+}

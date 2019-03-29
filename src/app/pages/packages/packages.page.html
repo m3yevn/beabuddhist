@@ -1,4 +1,11 @@
-
+<ion-header>
+    <ion-toolbar color="dark">
+      <ion-buttons slot="start">
+        <ion-button [routerLink]="['/tabs/browse']"><ion-icon name="arrow-round-back"></ion-icon></ion-button>
+      </ion-buttons>
+      <ion-title>Explore {{title}}</ion-title>
+    </ion-toolbar>
+  </ion-header>
 
 <ion-content *ngIf="items">
   <ion-grid>

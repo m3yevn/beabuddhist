@@ -4,7 +4,7 @@
   <ion-grid>
           <div *ngIf="items.length > 0">
               <div *ngFor="let item of items;let i=index;let even=even">          
-              <img class=itemsquare [src]="item.payload.doc.data().imgurl">
+              <img class=itemsquare [src]="item.payload.doc.data().imgurl" [routerLink]="['/packages', item.payload.doc.data().name]">
               </div>
           </div>
     </ion-grid>

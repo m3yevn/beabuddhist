@@ -1,0 +1,21 @@
+<ion-header>
+        <ion-toolbar color="dark">
+          <ion-buttons slot="start">
+            <ion-back-button></ion-back-button>
+          </ion-buttons>
+          <ion-title>Select a {{title}} avatar</ion-title>
+        </ion-toolbar>
+      </ion-header>
+    
+    <ion-content *ngIf="items">
+      <ion-grid>
+              <div *ngIf="items.length > 0">
+                  <div class="avatar" *ngFor="let item of items">
+                        <ion-avatar>
+                  <img [src]="item.payload.doc.data().imgurl">
+                        </ion-avatar>
+                  </div>
+              </div>
+        </ion-grid>
+    </ion-content>
+    

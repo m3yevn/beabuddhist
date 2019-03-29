@@ -1,16 +1,17 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="home"></ion-back-button>
+      <ion-back-button defaultHref="tabs/home"></ion-back-button>
     </ion-buttons>
     <ion-title>Create your own routines</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color=dark padding center>
-    <ion-avatar class=item-avatar size=60>
-        <img src="">
+    <ion-avatar class=item-avatar size=60 [routerLink]="['/avatar','routine']">
+        <img [attr.src]="routineAvatarUrl">
       </ion-avatar>
+      <div class="underline" style="color: rgba(216, 141, 2, 0.829)" [routerLink]="['/avatar','routine']">Edit your routine avatar</div>
     <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
         <ion-item margin>
           <ion-label position="floating" color="primary">Title</ion-label>

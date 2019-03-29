@@ -4,18 +4,20 @@ import { LoadingController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 
 @Component({
-  selector: 'app-packages',
-  templateUrl: './packages.page.html',
-  styleUrls: ['./packages.page.scss'],
+  selector: 'app-avatar',
+  templateUrl: './avatar.page.html',
+  styleUrls: ['./avatar.page.scss'],
 })
-export class PackagesPage implements OnInit {
+export class AvatarPage implements OnInit {
 
   items: Array<any>;
-  title :string;
+  title: string;
 
   constructor(
     public loadingCtrl: LoadingController,
-    private route: ActivatedRoute,
+    private authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {

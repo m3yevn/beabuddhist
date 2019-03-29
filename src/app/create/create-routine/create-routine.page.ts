@@ -13,7 +13,7 @@ import { Task } from '../../classes/task'
   styleUrls: ['./create-routine.page.scss'],
 })
 export class CreateRoutinePage implements OnInit {
-
+ public routineAvatarUrl = 'assets/icon/favicon.png';
   tasks: Array<Task>;
 
   validations_form: FormGroup;
@@ -55,6 +55,7 @@ export class CreateRoutinePage implements OnInit {
     let data = {
       title: value.title,
       description: value.description,
+      imgurl: this.routineAvatarUrl
     }
     this.firebaseService.createRoutine(data)
     .then(

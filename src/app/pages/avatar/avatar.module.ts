@@ -3,16 +3,16 @@ import { Routes,RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PackagesPage } from './packages.page';
-import { PackagesResolver,TitleResolver } from './packages.resolver';
+import { AvatarPage } from './avatar.page';
+import { AvatarResolver,TitleResolver } from './avatar.resolver';
 
 const routes: Routes = [
   {
     path: '',
-    component: PackagesPage,
+    component: AvatarPage,
     resolve: {
-      data: PackagesResolver,
-      title: TitleResolver
+      data: AvatarResolver,
+      title:TitleResolver
     }
   }
 ];
@@ -25,10 +25,10 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [PackagesPage],
+  declarations: [AvatarPage],
   providers: [
-    PackagesResolver,
+    AvatarResolver,
     TitleResolver
   ]
 })
-export class PackagesPageModule {}
+export class AvatarPageModule {}

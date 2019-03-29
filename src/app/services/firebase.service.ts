@@ -16,22 +16,33 @@ export class FirebaseService {
     public afAuth: AngularFireAuth
   ){}
 
-  getCategories(){
+  getAvatars(categoryId){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {
         if(currentUser){
-          this.snapshotChangesSubscription = this.afs.collection('buddhism').doc('global').collection('categories', ref => ref.orderBy('id')).snapshotChanges();
+          this.snapshotChangesSubscription = this.afs.collection('buddhism').doc('global').collection('avatars').doc('n59WzCUZ9qCVN7qxp1ge').collection(categoryId, ref => ref.orderBy('id')).snapshotChanges();
           resolve(this.snapshotChangesSubscription);
         }
       })
     })
   }
 
-  getPackages(){
+  getPackages(categoryId){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {
         if(currentUser){
-          this.snapshotChangesSubscription = this.afs.collection('buddhism').doc('global').collection('packages', ref => ref.orderBy('id')).snapshotChanges();
+          this.snapshotChangesSubscription = this.afs.collection('buddhism').doc('global').collection('packages').doc('kYsoUNpIYBQDphOtfn5R').collection(categoryId, ref => ref.orderBy('id')).snapshotChanges();
+          resolve(this.snapshotChangesSubscription);
+        }
+      })
+    })
+  }
+
+  getCategories(){
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.user.subscribe(currentUser => {
+        if(currentUser){
+          this.snapshotChangesSubscription = this.afs.collection('buddhism').doc('global').collection('categories', ref => ref.orderBy('id')).snapshotChanges();
           resolve(this.snapshotChangesSubscription);
         }
       })

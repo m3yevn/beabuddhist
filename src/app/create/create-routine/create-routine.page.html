@@ -1,16 +1,18 @@
 <ion-header>
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-back-button defaultHref="tabs/home"></ion-back-button>
+      <ion-button [routerLink]="['/tabs/home']"><ion-icon name="arrow-round-back"></ion-icon></ion-button>
     </ion-buttons>
     <ion-title>Create your own routines</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color=dark padding center>
-    <ion-avatar class=item-avatar size=60 [routerLink]="['/avatar','routine']">
-        <img [attr.src]="routineAvatarUrl">
-      </ion-avatar>
+    <div *ngIf="avatar">
+    <div class=item-avatar [routerLink]="['/avatar','routine']">
+        <img [attr.src]="avatar.imgurl">
+    </div>
+    </div>
       <div class="underline" style="color: rgba(216, 141, 2, 0.829)" [routerLink]="['/avatar','routine']">Edit your routine avatar</div>
     <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
         <ion-item margin>
@@ -38,7 +40,7 @@
                       </ion-list>
         </div>
         <div *ngIf="tasks.length == 0" style="margin-top:20px">
-                    <ion-card class=solidrectangle [routerLink]="['/explore-tasks']">
+                    <ion-card class=solidrectangle [routerLink]="['/browse']">
                                   + Add tasks to your routine...
                       </ion-card>
             </div>

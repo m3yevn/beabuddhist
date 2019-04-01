@@ -1,3 +1,4 @@
+
 <ion-header>
         <ion-toolbar color="dark">
           <ion-buttons slot="start">
@@ -11,11 +12,8 @@
       <ion-grid>
               <div *ngIf="items.length > 0">
                   <div class="avatar" *ngFor="let item of items">
-                        <ion-avatar>
-                  <img [src]="item.payload.doc.data().imgurl">
-                        </ion-avatar>
+                  <img  class="circle" [src]="item.payload.doc.data().imgurl" (click)="selectAvatar(item.payload.doc.data().id,item.payload.doc.data().imgurl)">
                   </div>
               </div>
         </ion-grid>
     </ion-content>
-    

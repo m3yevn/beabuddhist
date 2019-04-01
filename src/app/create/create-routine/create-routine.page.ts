@@ -1,11 +1,10 @@
 import { ViewChild,Component, OnInit } from '@angular/core';
 import { FirebaseService } from '../../services/firebase.service';
 import { Validators, FormBuilder, FormGroup, FormControl,ReactiveFormsModule } from '@angular/forms';
-import { LoadingController, ToastController } from '@ionic/angular';
+import { LoadingController, ToastController, ModalController } from '@ionic/angular';
 import { Router,ActivatedRoute} from '@angular/router';
-import { TaskService } from '../../services/task.service';
-import { Task } from '../../classes/task'
-
+import { TaskService,AvatarService } from '../../services/in-memory-api.service';
+import { Task,Avatar } from '../../classes/in-memory'
 
 @Component({
   selector: 'app-create-routine',
@@ -13,7 +12,8 @@ import { Task } from '../../classes/task'
   styleUrls: ['./create-routine.page.scss'],
 })
 export class CreateRoutinePage implements OnInit {
- public routineAvatarUrl = 'assets/icon/favicon.png';
+
+  avatar: Avatar;
   tasks: Array<Task>;
 
   validations_form: FormGroup;
@@ -24,12 +24,13 @@ export class CreateRoutinePage implements OnInit {
     private formBuilder: FormBuilder,
     private firebaseService: FirebaseService,
     private taskService : TaskService,
-    private route: ActivatedRoute,
+    private route : ActivatedRoute,
   ) { }
 
   ngOnInit() {
     this.resetFields();
     this.getTasks();
+    this.getAvatar();
   }
 
   async getTasks(){
@@ -44,6 +45,19 @@ export class CreateRoutinePage implements OnInit {
     })
   }
 
+  async getAvatar(){
+    const loading = await this.loadingCtrl.create({
+      message: 'Please wait...'
+    });
+    this.presentLoading(loading);
+    this.route.data.subscribe(routeData => {
+      routeData['avatarData'].subscribe(data => {
+        loading.dismiss();
+        this.avatar = data;
+      })
+    })
+  }
+  
   resetFields(){
     this.validations_form = this.formBuilder.group({
       title: new FormControl('', Validators.required),
@@ -55,7 +69,7 @@ export class CreateRoutinePage implements OnInit {
     let data = {
       title: value.title,
       description: value.description,
-      imgurl: this.routineAvatarUrl
+      imgurl: this.avatar.imgurl
     }
     this.firebaseService.createRoutine(data)
     .then(

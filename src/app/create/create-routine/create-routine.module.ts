@@ -4,11 +4,15 @@ import { FormsModule,ReactiveFormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 import {  CreateRoutinePage } from './create-routine.page';
+import { AvatarResolver } from './create-routine.resolver'
 
 const routes: Routes = [
   {
     path: '',
     component: CreateRoutinePage,
+    resolve:{
+      avatarData : AvatarResolver,
+    }
   }
 ];
 
@@ -21,8 +25,10 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   providers: [
-    Location],
-  declarations: [CreateRoutinePage]
+    Location,
+  AvatarResolver,
+],
+  declarations: [CreateRoutinePage ]
 })
 export class CreateRoutinePageModule {}
 

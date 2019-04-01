@@ -5,20 +5,29 @@
     right: 0;
 }
 
-
-.transparent {
-    background-color: transparent;
-}
-
 .middle-form{
     margin:30px;
     padding: 20px;
 }
 
 .item-avatar  {     
-    width:100% !important;  
-    height : 100% !important;  
-    max-width: 100px !important;  //any size
-    max-height: 100px !important; //any size 
+    width:35%;  
+    height : 35%;  
     border:solid black;
+    border-radius: 50%;
+    background-color: white;
+    padding:10px 10px;
 }
+
+.itemsquare {
+    background-color: #35393d;
+    border-radius: 10px;
+    border: solid black;
+}
+
+
+
+  ion-content{
+    --ion-background-color: #1e1e1e;
+    --ion-text-color: #ffffff;
+  }

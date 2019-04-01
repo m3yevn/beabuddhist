@@ -13,10 +13,10 @@
               <div *ngFor="let item of items;let i=index;let even=even">
               <ion-row *ngIf="even" align-items-center margin-vertical>
               <ion-col>
-              <img class=itemsquare [src]="items[i].payload.doc.data().imgurl"  [routerLink]="['/view-package','prayers',item.payload.doc.id]">
+              <img class=itemsquare [src]="items[i].payload.doc.data().imgurl">
               </ion-col>
               <ion-col>
-              <img class=itemsquare [src]="items[i+1].payload.doc.data().imgurl"  [routerLink]="['/view-package','prayers',item.payload.doc.id]">
+              <img class=itemsquare [src]="items[i+1].payload.doc.data().imgurl">
             </ion-col>
               </ion-row>
               </div>

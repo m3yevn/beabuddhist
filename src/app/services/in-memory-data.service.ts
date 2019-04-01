@@ -1,5 +1,4 @@
 import { InMemoryDbService } from 'angular-in-memory-web-api';
-import { Task } from '../classes/task';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -9,7 +8,11 @@ export class InMemoryDataService implements InMemoryDbService {
   createDb() {
     const tasks = [
     ];
-    return {tasks};
+    const avatar = [{
+      id:'default',
+      imgurl:'assets/icon/favicon.png',
+    }];
+    return {tasks,avatar};
   }
 
 }

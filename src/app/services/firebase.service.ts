@@ -38,6 +38,21 @@ export class FirebaseService {
     })
   }
 
+  getPackageDetails(catId,packageId){
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.user.subscribe(currentUser => {
+        if(currentUser){
+          this.snapshotChangesSubscription = this.afs.doc<any>('buddhism/' + 'global' + '/packages/' + 'kYsoUNpIYBQDphOtfn5R'+'/'+catId+'/'+packageId).valueChanges()
+          .subscribe(snapshots => {
+            resolve(snapshots);
+          }, err => {
+            reject(err)
+          })
+        }
+      })
+    });
+  }
+
   getCategories(){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {

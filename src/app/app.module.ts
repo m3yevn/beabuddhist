@@ -21,12 +21,14 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TabsPageModule } from './pages/tabs/tabs.module';
+import { AvatarPageModule } from './pages/avatar/avatar.module'
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
     BrowserModule,
     HttpClientModule,
+    AvatarPageModule,
     IonicModule.forRoot(),
     AppRoutingModule,
     FormsModule,

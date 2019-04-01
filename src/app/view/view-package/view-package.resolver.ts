@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, ActivatedRoute } from "@angular/router";
 import { FirebaseService } from '../../services/firebase.service';
-import { AvatarService } from '../../services/in-memory-api.service';
 
 @Injectable()
-export class AvatarResolver implements Resolve<any> {
+export class PackagesResolver implements Resolve<any> {
 
   constructor(public firebaseService: FirebaseService,) { }
 
@@ -12,7 +11,8 @@ export class AvatarResolver implements Resolve<any> {
 
     return new Promise((resolve, reject) => {
       let itemId = route.paramMap.get('id');
-      this.firebaseService.getAvatars(itemId)
+      let catId = route.paramMap.get('cat');
+      this.firebaseService.getPackageDetails(catId,itemId)
       .then(data => {
         resolve(data);
       }, err => {
@@ -22,24 +22,6 @@ export class AvatarResolver implements Resolve<any> {
   }
 }
 
-@Injectable()
-export class CurrentAvatarResolver implements Resolve<any> {
-
-  constructor(public avatarService: AvatarService) { }
-
-  resolve() {
-    return new Promise((resolve, reject) => {
-      this.avatarService.getAvatars()
-      .then(data => {
-        resolve(data);
-      }, err => {
-        reject(err);
-      })
-    })
-  }
-}
-
-@Injectable()
 export class TitleResolver implements Resolve<any> {
 
     constructor() { }

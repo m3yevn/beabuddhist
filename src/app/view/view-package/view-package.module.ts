@@ -3,17 +3,16 @@ import { Routes,RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AvatarPage } from './avatar.page';
-import { AvatarResolver,TitleResolver, CurrentAvatarResolver } from './avatar.resolver';
+import { PackagesPage } from './view-package.page';
+import { PackagesResolver,TitleResolver } from './view-package.resolver';
 
 const routes: Routes = [
   {
     path: '',
-    component: AvatarPage,
+    component: PackagesPage,
     resolve: {
-      data: AvatarResolver,
-      title:TitleResolver,
-      currentAvatar: CurrentAvatarResolver,
+      data: PackagesResolver,
+      title: TitleResolver
     }
   }
 ];
@@ -26,11 +25,10 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [AvatarPage],
+  declarations: [PackagesPage],
   providers: [
-    AvatarResolver,
-    TitleResolver,
-    CurrentAvatarResolver,
+    PackagesResolver,
+    TitleResolver
   ]
 })
-export class AvatarPageModule {}
+export class ViewPackagePageModule {}

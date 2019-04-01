@@ -20,7 +20,6 @@ export class ViewRoutinePage implements OnInit {
   constructor(
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
-    private formBuilder: FormBuilder,
     private firebaseService: FirebaseService,
     private alertCtrl: AlertController,
     private route: ActivatedRoute,

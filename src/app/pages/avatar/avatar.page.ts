@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth.service';
+import { Component, OnInit, } from '@angular/core';
 import { LoadingController } from '@ionic/angular';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { ActivatedRoute,Router } from '@angular/router';
+import { AvatarService } from '../../services/in-memory-api.service';
+import { Avatar } from '../../classes/in-memory'
+import { setCheckNoChangesMode } from '@angular/core/src/render3/state';
 
 @Component({
   selector: 'app-avatar',
@@ -12,12 +15,14 @@ export class AvatarPage implements OnInit {
 
   items: Array<any>;
   title: string;
+  originalAvatar: Avatar;
 
   constructor(
     public loadingCtrl: LoadingController,
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private avatarService: AvatarService,
+    private location : Location,
+    private router : Router,
   ) { }
 
   ngOnInit() {
@@ -25,6 +30,17 @@ export class AvatarPage implements OnInit {
       this.getData();
     }
   }
+
+  async selectAvatar(id,imgurl){
+    let selectedAvatar = new Avatar();
+    selectedAvatar.id = id;
+    selectedAvatar.imgurl = imgurl;
+
+        this.avatarService.addAvatar(selectedAvatar).subscribe(data=>{
+          this.router.navigate(['/tabs/home']);
+          this.router.navigate(['/create-routine',data.id]);
+        });
+    }
   
   async getData(){
     const loading = await this.loadingCtrl.create({
@@ -37,6 +53,12 @@ export class AvatarPage implements OnInit {
         loading.dismiss();
         this.items = data;
       })
+
+      routeData['currentAvatar'].subscribe(data => {
+        loading.dismiss();
+        this.originalAvatar = data[0];
+      })
+    
       this.title  = routeData['title'].title;
     })
   }

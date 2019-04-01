@@ -5,7 +5,6 @@ import { SplashScreen } from '@ionic-native/splash-screen/ngx';
 import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AngularFireAuth } from '@angular/fire/auth';
-
 import { Router } from '@angular/router';
 
 @Component({
@@ -18,7 +17,7 @@ export class AppComponent {
     private splashScreen: SplashScreen,
     private statusBar: StatusBar,
     private router: Router,
-    public afAuth: AngularFireAuth
+    public afAuth: AngularFireAuth,
   ) {
     this.initializeApp();
   }
@@ -39,4 +38,5 @@ export class AppComponent {
       this.statusBar.styleDefault();
     });
   }
+
 }

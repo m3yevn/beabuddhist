@@ -8,4 +8,17 @@
     width: 25%;
     display: inline-block;
     border-radius: 50%;
+    margin-bottom: 5px;
+    background-color: white;
+    text-align:center;
+    padding:10px 10px;
+  }
+
+  .circle {
+    border-radius: 50%;
+  }
+
+  ion-content{
+    --ion-background-color: #1e1e1e;
+    --ion-text-color: #ffffff;
   }

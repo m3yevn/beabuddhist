@@ -6,12 +6,14 @@ const routes: Routes = [
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './pages/register/register.module#RegisterPageModule' },
   { path: 'tabs', loadChildren: './pages/tabs/tabs.module#TabsPageModule' },
+  { path: 'browse', loadChildren: './pages/browse/browse.module#BrowsePageModule' },
   { path: 'avatar/:id', loadChildren: './pages/avatar/avatar.module#AvatarPageModule' },
   { path: 'packages/:id', loadChildren: './pages/packages/packages.module#PackagesPageModule' },
-  { path: 'create-routine', loadChildren: './create/create-routine/create-routine.module#CreateRoutinePageModule' },
+  { path: 'create-routine/:avatar', loadChildren: './create/create-routine/create-routine.module#CreateRoutinePageModule' },
   { path: 'edit-routine/:id', loadChildren: './edit/edit-routine/edit-routine.module#EditRoutinePageModule' },
   { path: 'intro', loadChildren: './pages/intro/intro.module#IntroPageModule' },
-  { path: 'view-routine/:id', loadChildren: './view/view-routine/view-routine.module#ViewRoutinePageModule' }
+  { path: 'view-routine/:id', loadChildren: './view/view-routine/view-routine.module#ViewRoutinePageModule' },
+  { path: 'view-package/:cat/:id', loadChildren: './view/view-package/view-package.module#ViewPackagePageModule' },
 ];
 @NgModule({
   imports: [

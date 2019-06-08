@@ -1,25 +1,18 @@
 <ion-header>
     <ion-toolbar color="dark">
       <ion-buttons slot="start">
-        <ion-button [routerLink]="['/tabs/browse']"><ion-icon name="arrow-round-back"></ion-icon></ion-button>
+        <ion-button [routerLink]="['/packages', cat, option, currentAvatar,title,description,taskJSON]"><ion-icon name="arrow-round-back"></ion-icon></ion-button>
       </ion-buttons>
-      <ion-title>Explore {{title}}</ion-title>
+      <ion-title *ngIf="packageDetails">{{packageDetails.name}}</ion-title>
     </ion-toolbar>
   </ion-header>
 
-<ion-content *ngIf="items">
-  <ion-grid>
-          <div *ngIf="items.length > 0">
-              <div *ngFor="let item of items;let i=index;let even=even">
-              <ion-row *ngIf="even" align-items-center margin-vertical>
-              <ion-col>
-              <img class=itemsquare [src]="items[i].payload.doc.data().imgurl">
-              </ion-col>
-              <ion-col>
-              <img class=itemsquare [src]="items[i+1].payload.doc.data().imgurl">
-            </ion-col>
-              </ion-row>
-              </div>
-          </div>
-    </ion-grid>
+<ion-content *ngIf="packageDetails">             
+<img class=itemsquare [attr.src]="packageDetails.detailimgurl">
+
+<blockquote>
+  <p class="quote-card" *ngFor="let str of packageDetails.details.split('~')">
+{{str}}
+</p>
+</blockquote>
 </ion-content>

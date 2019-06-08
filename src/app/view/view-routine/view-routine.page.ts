@@ -16,6 +16,7 @@ export class ViewRoutinePage implements OnInit {
   image: any;
   item: any;
   load: boolean = false;
+  id:any;
 
   constructor(
     public toastCtrl: ToastController,
@@ -32,14 +33,15 @@ export class ViewRoutinePage implements OnInit {
 
   getData(){
     this.route.data.subscribe(routeData => {
-     let data = routeData['data'];
-     if (data) {
-       this.item = data;
-       this.image = this.item.image;
-     }
+      this.id = routeData['data'].id;
+     routeData['data'].subscribe(data => {
+      if (data) {
+        this.item = data;
+        this.title = this.item.title;
+        this.description = this.item.description;
+      }
     })
-      this.title = this.item.title;
-      this.description = this.item.description;
+  })
   }
 
   onSubmit(value){

@@ -1,22 +1,27 @@
 <ion-header>
     <ion-toolbar color="dark">
       <ion-buttons slot="start">
+        <div *ngIf="option == 'create'">
+        <ion-button [routerLink]="['/browse',option,currentAvatar,title,description,taskJSON]"><ion-icon name="arrow-round-back"></ion-icon></ion-button>
+      </div>
+    <div *ngIf="option == ''">
         <ion-button [routerLink]="['/tabs/browse']"><ion-icon name="arrow-round-back"></ion-icon></ion-button>
+      </div>
       </ion-buttons>
-      <ion-title>Explore {{title}}</ion-title>
+      <ion-title>Explore {{id}}</ion-title>
     </ion-toolbar>
   </ion-header>
 
-<ion-content *ngIf="items">
+<ion-content *ngIf="packageList">
   <ion-grid>
-          <div *ngIf="items.length > 0">
-              <div *ngFor="let item of items;let i=index;let even=even">
+          <div *ngIf="packageList.length > 0">
+              <div *ngFor="let item of packageList;let i=index;let even=even">
               <ion-row *ngIf="even" align-items-center margin-vertical>
               <ion-col>
-              <img class=itemsquare [src]="items[i].payload.doc.data().imgurl"  [routerLink]="['/view-package','prayers',item.payload.doc.id]">
+              <img class=itemsquare [src]="packageList[i].payload.doc.data().imgurl"  [routerLink]="['/view-package',id,packageList[i].payload.doc.id,option,currentAvatar,title,description,taskJSON]">
               </ion-col>
               <ion-col>
-              <img class=itemsquare [src]="items[i+1].payload.doc.data().imgurl"  [routerLink]="['/view-package','prayers',item.payload.doc.id]">
+              <img class=itemsquare [src]="packageList[i+1].payload.doc.data().imgurl"  [routerLink]="['/view-package',id,packageList[i+1].payload.doc.id,option,currentAvatar,title,description,taskJSON]">
             </ion-col>
               </ion-row>
               </div>

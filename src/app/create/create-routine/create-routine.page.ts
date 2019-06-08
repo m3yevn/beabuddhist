@@ -3,8 +3,7 @@ import { FirebaseService } from '../../services/firebase.service';
 import { Validators, FormBuilder, FormGroup, FormControl,ReactiveFormsModule } from '@angular/forms';
 import { LoadingController, ToastController, ModalController } from '@ionic/angular';
 import { Router,ActivatedRoute} from '@angular/router';
-import { TaskService,AvatarService } from '../../services/in-memory-api.service';
-import { Task,Avatar } from '../../classes/in-memory'
+import { Routine } from '../../classes/routine'
 
 @Component({
   selector: 'app-create-routine',
@@ -13,8 +12,10 @@ import { Task,Avatar } from '../../classes/in-memory'
 })
 export class CreateRoutinePage implements OnInit {
 
-  avatar: Avatar;
-  tasks: Array<Task>;
+  routine: Routine;
+  tasks: Array<any>;
+  taskJSON: string;
+
 
   validations_form: FormGroup;
   constructor(
@@ -23,40 +24,33 @@ export class CreateRoutinePage implements OnInit {
     public router: Router,
     private formBuilder: FormBuilder,
     private firebaseService: FirebaseService,
-    private taskService : TaskService,
     private route : ActivatedRoute,
   ) { }
 
   ngOnInit() {
     this.resetFields();
-    this.getTasks();
-    this.getAvatar();
+    this.getRoutine();
   }
 
-  async getTasks(){
-    const loading = await this.loadingCtrl.create({
-      message: 'Please wait...'
-    });
-    this.presentLoading(loading);
-
-    this.taskService.getTasks().subscribe(data=>{
-      loading.dismiss();
-      this.tasks = data;
-    })
-  }
-
-  async getAvatar(){
+  async getRoutine(){
     const loading = await this.loadingCtrl.create({
       message: 'Please wait...'
     });
     this.presentLoading(loading);
     this.route.data.subscribe(routeData => {
-      routeData['avatarData'].subscribe(data => {
-        loading.dismiss();
-        this.avatar = data;
+    loading.dismiss();
+    this.routine = routeData['routineData'];
+    this.tasks = this.routine.tasks;
+    this.taskJSON =JSON.stringify(this.tasks);
+    this.validations_form = this.formBuilder.group({
+          title: new FormControl(this.routine.title, Validators.required),
+          description: new FormControl(this.routine.description, Validators.required)
       })
     })
+
   }
+
+
   
   resetFields(){
     this.validations_form = this.formBuilder.group({
@@ -69,7 +63,7 @@ export class CreateRoutinePage implements OnInit {
     let data = {
       title: value.title,
       description: value.description,
-      imgurl: this.avatar.imgurl
+      imgurl: this.routine.avatar,
     }
     this.firebaseService.createRoutine(data)
     .then(

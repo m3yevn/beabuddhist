@@ -1,0 +1,19 @@
+
+<ion-header>
+        <ion-toolbar color="dark">
+          <ion-buttons slot="end">
+            <ion-icon style="font-weight: bolder;font-size: 30px" name=close [routerLink]="['/create-routine',currentAvatar,title,description,tasks]"></ion-icon>
+          </ion-buttons>
+          <ion-title>Select a routine avatar</ion-title>
+        </ion-toolbar>
+      </ion-header>
+    
+    <ion-content *ngIf="avatarList">
+      <ion-grid>
+              <div *ngIf="avatarList.length > 0">
+                  <div class="avatar" *ngFor="let item of avatarList">
+                  <img  class="circle" [src]="item.payload.doc.data().imgurl" [routerLink]="['/create-routine',item.payload.doc.data().imgurl,title,description,tasks]">
+                  </div>
+              </div>
+        </ion-grid>
+    </ion-content>

@@ -4,15 +4,14 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { PackagesPage } from './view-package.page';
-import { PackagesResolver,TitleResolver } from './view-package.resolver';
+import { PackagesResolver} from './view-package.resolver';
 
 const routes: Routes = [
   {
     path: '',
     component: PackagesPage,
     resolve: {
-      data: PackagesResolver,
-      title: TitleResolver
+      packageData: PackagesResolver,
     }
   }
 ];
@@ -28,7 +27,6 @@ const routes: Routes = [
   declarations: [PackagesPage],
   providers: [
     PackagesResolver,
-    TitleResolver
   ]
 })
 export class ViewPackagePageModule {}

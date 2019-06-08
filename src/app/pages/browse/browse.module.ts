@@ -11,7 +11,7 @@ const routes: Routes = [
     path: '',
     component: BrowsePage,
     resolve: {
-      data: BrowseResolver
+      browseData: BrowseResolver
     }
   }
 ];

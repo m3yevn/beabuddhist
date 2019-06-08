@@ -3,11 +3,17 @@
     <ion-buttons slot="start">
       <ion-back-button defaultHref="home"></ion-back-button>
     </ion-buttons>
-    <ion-title>Edit {{item.title}}</ion-title>
+    <ion-title>Edit {{title}}</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content color=dark padding>
+    <div *ngIf="avatar">
+        <div class=item-avatar [routerLink]="['/avatar','routine','edit-routine']">
+            <img [attr.src]="avatar">
+        </div>
+        </div>
+        <div class="underline" style="color: rgba(216, 141, 2, 0.829)" [routerLink]="['/avatar','routine','edie-routine']">Edit your routine avatar</div>
     <form [formGroup]="validations_form" (ngSubmit)="onSubmit(validations_form.value)">
         <ion-item margin>
           <ion-label position="floating" color="primary">Title</ion-label>

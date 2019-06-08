@@ -8,3 +8,50 @@ ion-content{
     --ion-background-color: #1e1e1e;
     --ion-text-color: #ffffff;
   }
+
+.ws{
+	white-space: pre-line;
+}
+
+.quote-card{
+  background-color: #35393d;
+  font-family: Georgia, 'Times New Roman', Times, serif ;
+  font-size: 1.25em;
+  text-align: center;
+  padding:10px 10px;
+  color: #ffb170;
+}
+
+blockquote {
+  font-family: Georgia, serif;
+  position: relative;
+  margin: 0.5em;
+  padding: 0.5em 2em 0.5em 3em;
+}
+
+blockquote:before {
+  font-family: Georgia, serif;
+  position: absolute;
+  font-size: 6em;
+  line-height: 1;
+  top: 0;
+  left: 0;
+  content: "\201C";
+}
+blockquote:after {
+  font-family: Georgia, serif;
+  position: absolute;
+  float:right;
+  font-size:6em;
+  line-height: 1;
+  right:0;
+  bottom:-0.5em;
+  content: "\201D";
+}
+blockquote footer {
+  padding: 0 2em 0 0;
+  text-align:right;
+}
+blockquote cite:before {
+  content: "\2013";
+}

@@ -42,13 +42,10 @@ export class FirebaseService {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {
         if(currentUser){
-          this.snapshotChangesSubscription = this.afs.doc<any>('buddhism/' + 'global' + '/packages/' + 'kYsoUNpIYBQDphOtfn5R'+'/'+catId+'/'+packageId).valueChanges()
-          .subscribe(snapshots => {
-            resolve(snapshots);
-          }, err => {
-            reject(err)
-          })
-        }
+          this.snapshotChangesSubscription = this.afs.doc<any>('buddhism/' + 'global' + '/packages/' + 'kYsoUNpIYBQDphOtfn5R'+'/'+catId+'/'+packageId).valueChanges();       
+            resolve(this.snapshotChangesSubscription);
+          }
+
       })
     });
   }
@@ -102,13 +99,9 @@ export class FirebaseService {
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {
         if(currentUser){
-          this.snapshotChangesSubscription = this.afs.doc<any>('people/' + currentUser.uid + '/routines/' + routineId).valueChanges()
-          .subscribe(snapshots => {
-            resolve(snapshots);
-          }, err => {
-            reject(err)
-          })
-        }
+          this.snapshotChangesSubscription = this.afs.doc<any>('people/' + currentUser.uid + '/routines/' + routineId).valueChanges();  
+            resolve(this.snapshotChangesSubscription);
+          }
       })
     });
   }
@@ -146,7 +139,8 @@ export class FirebaseService {
 
       this.afs.collection('people').doc(currentUser.uid).collection('routines').add({
         title: value.title,
-        description: value.description
+        description: value.description,
+        imgurl: value.imgurl
       })
       .then(
         res => resolve(res),

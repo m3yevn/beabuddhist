@@ -15,6 +15,10 @@ export class EditRoutinePage implements OnInit {
   image: any;
   item: any;
   load: boolean = false;
+  title:any;
+  description:any;
+  id:any;
+  avatar:any;
 
   constructor(
     public toastCtrl: ToastController,
@@ -27,21 +31,29 @@ export class EditRoutinePage implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.validations_form = this.formBuilder.group({
+      title: new FormControl('',Validators.required),
+      description: new FormControl('',Validators.required)
+    });
     this.getData();
   }
 
   getData(){
     this.route.data.subscribe(routeData => {
-     let data = routeData['data'];
+      this.id = routeData['data'].id;
+     routeData['data'].subscribe(data => {
      if (data) {
        this.item = data;
-       this.image = this.item.image;
-     }
+       this.title = this.item.title;
+       this.description = this.item.description;
+       this.avatar = this.item.imgurl;
+       this.validations_form = this.formBuilder.group({
+        title: new FormControl(this.title,Validators.required),
+        description: new FormControl(this.description,Validators.required)
+      });
+        }
+      })
     })
-    this.validations_form = this.formBuilder.group({
-      title: new FormControl(this.item.title, Validators.required),
-      description: new FormControl(this.item.description, Validators.required)
-    });
   }
 
   onSubmit(value){
@@ -49,7 +61,7 @@ export class EditRoutinePage implements OnInit {
       title: value.title,
       description: value.description,
     }
-    this.firebaseService.updateRoutine(this.item.id,data)
+    this.firebaseService.updateRoutine(this.id,data)
     .then(
       res => {
         this.router.navigate(["/tabs/home"]);
@@ -60,7 +72,7 @@ export class EditRoutinePage implements OnInit {
   async delete() {
     const alert = await this.alertCtrl.create({
       header: 'Confirm',
-      message: 'Do you want to delete ' + this.item.title + '?',
+      message: 'Do you want to delete ' + this.title + '?',
       buttons: [
         {
           text: 'No',
@@ -71,7 +83,7 @@ export class EditRoutinePage implements OnInit {
         {
           text: 'Yes',
           handler: () => {
-            this.firebaseService.deleteRoutine(this.item.id)
+            this.firebaseService.deleteRoutine(this.id)
             .then(
               res => {
                 this.router.navigate(["/tabs/home"]);

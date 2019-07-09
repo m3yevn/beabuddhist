@@ -13,7 +13,7 @@ const routes: Routes = [
     path: '',
     component: ViewRoutinePage,
     resolve: {
-      data: ViewRoutineResolver
+      routineData: ViewRoutineResolver
     }
   }
 ];

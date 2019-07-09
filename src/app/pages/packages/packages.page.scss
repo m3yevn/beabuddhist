@@ -1,11 +1,9 @@
-.itemsquare {
-    background-color: #35393d;
-    border-radius: 10px;
-    border: solid black;
-}
 
 ion-content{
     --ion-background-color: #1e1e1e;
     --ion-text-color: #ffffff;
   }
 
+.package-content {
+    --background:linear-gradient(rgb(65, 58, 51),rgb(54, 49, 49),rgb(37, 35, 35),rgb(31, 30, 30),rgb(20, 20, 20));
+}

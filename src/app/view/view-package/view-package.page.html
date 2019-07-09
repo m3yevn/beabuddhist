@@ -1,18 +1,17 @@
-<ion-header>
-    <ion-toolbar color="dark">
-      <ion-buttons slot="start">
-        <ion-button [routerLink]="['/packages', cat, option, currentAvatar,title,description,taskJSON]"><ion-icon name="arrow-round-back"></ion-icon></ion-button>
+
+<ion-content class="package-content">  
+    <ion-toolbar style="--background:transparent">
+        <ion-buttons slot="start">
+            <ion-icon style="color:white;font-size: 30px" name="arrow-dropleft" [routerLink]="['/packages',cat]"></ion-icon>
+        </ion-buttons>
+        <ion-buttons slot="end">
+        <ion-icon style="color:white;font-size: 30px" name="more"></ion-icon>
       </ion-buttons>
-      <ion-title *ngIf="packageDetails">{{packageDetails.name}}</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-<ion-content *ngIf="packageDetails">             
+      </ion-toolbar>
+  <div *ngIf="packageDetails">          
 <img class=itemsquare [attr.src]="packageDetails.detailimgurl">
-
-<blockquote>
   <p class="quote-card" *ngFor="let str of packageDetails.details.split('~')">
 {{str}}
 </p>
-</blockquote>
+</div>
 </ion-content>

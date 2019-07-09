@@ -139,8 +139,7 @@ export class FirebaseService {
 
       this.afs.collection('people').doc(currentUser.uid).collection('routines').add({
         title: value.title,
-        description: value.description,
-        imgurl: value.imgurl
+        tasks: []
       })
       .then(
         res => resolve(res),

@@ -1,0 +1,19 @@
+.gradient-black{
+    --background: linear-gradient(rgb(112, 112, 112), rgb(65, 65, 65),rgb(32, 32, 32),rgb(0, 0, 0),rgb(0, 0, 0));
+}
+
+.large-label{
+    font-size:20px;font-weight: bold;
+}
+
+.large-input{
+    border-bottom:1px solid white;--color:white;margin:5vh 1vh;padding:3vh 3vh;font-size:25px;
+}
+
+.opac-white-button{
+    --background:transparent;--color:white;
+}
+
+.opac-primary-button{
+    --background:transparent;--color:var(--ion-color-primary);font-size:15px;
+}

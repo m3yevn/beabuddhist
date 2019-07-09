@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FirebaseService } from '../../services/firebase.service';
 import { Validators, FormBuilder, FormGroup, FormControl } from '@angular/forms';
-import { LoadingController, ToastController, AlertController } from '@ionic/angular';
+import { LoadingController, ToastController, AlertController,PopoverController } from '@ionic/angular';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Routine } from 'src/app/classes/routine';
 
 @Component({
   selector: 'app-view-routine',
@@ -11,6 +12,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ViewRoutinePage implements OnInit {
 
+  routine: Routine;
+  tasks: Array<any>;
+  taskJSON: string;
   title: any;
   description: any;
   image: any;
@@ -31,18 +35,16 @@ export class ViewRoutinePage implements OnInit {
     this.getData();
   }
 
-  getData(){
+  async getData(){
+    const loading = await this.loadingCtrl.create({
+      message: 'Please wait...'
+    });
+    this.presentLoading(loading);
     this.route.data.subscribe(routeData => {
-      this.id = routeData['data'].id;
-     routeData['data'].subscribe(data => {
-      if (data) {
-        this.item = data;
-        this.title = this.item.title;
-        this.description = this.item.description;
-      }
-    })
-  })
-  }
+    loading.dismiss();
+    this.routine = routeData['routineData'];
+      })
+    }
 
   onSubmit(value){
     let data = {

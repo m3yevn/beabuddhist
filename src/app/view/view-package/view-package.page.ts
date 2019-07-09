@@ -10,14 +10,8 @@ import { Packages } from '../../classes/packages';
   styleUrls: ['./view-package.page.scss'],
 })
 export class PackagesPage implements OnInit {
-
-  packages:Packages;
+  packages: Packages;
   packageDetails: any;
-  title:string;
-  description:string;
-  taskJSON:string;
-  currentAvatar:string;
-  option:string;
   id:string;
   cat:string;
 
@@ -41,34 +35,8 @@ export class PackagesPage implements OnInit {
     this.route.data.subscribe(routeData => {
       loading.dismiss();
       this.packages = routeData['packageData']
-      if(this.packages.title)
-      this.title = this.packages.title;
-      else
-      this.title = '';
-      if(this.packages.description)
-      this.description = this.packages.description;
-      else
-      this.description = '';
-      if(this.packages.tasks)
-      this.taskJSON = this.packages.tasks;
-      else
-      this.taskJSON = '';
-      if(this.packages.currentAvatar)
-      this.currentAvatar = this.packages.currentAvatar;
-      else
-      this.currentAvatar = '';
-      if(this.packages.option)
-      this.option = this.packages.option;
-      else
-      this.option = '';
-      if(this.packages.id)
-      this.id = this.packages.id;
-      else
-      this.id = '';
-      if(this.packages.cat)
       this.cat = this.packages.cat;
-      else
-      this.cat = '';
+      this.id = this.packages.id;
       this.packages.packageDetails.subscribe(data => {
         this.packageDetails = data;
       })

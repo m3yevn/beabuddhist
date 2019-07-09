@@ -19,10 +19,6 @@ export class AvatarResolver implements Resolve<any> {
       .then(data => {
         let avatar = new Avatar();
         avatar.avatarList = data;
-        avatar.title = title;
-        avatar.description = description;
-        avatar.tasks = tasks;
-        avatar.currentAvatar = currentAvatar;
         resolve(avatar);
       }, err => {
         reject(err);

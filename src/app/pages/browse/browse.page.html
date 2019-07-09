@@ -9,7 +9,7 @@
           <div *ngIf="categoryList.length > 0">
             <ion-title>All Catergories</ion-title>
               <div *ngFor="let item of categoryList;let i=index;let even=even">          
-              <img class=itemsquare [src]="item.payload.doc.data().imgurl" [routerLink]="['/packages', item.payload.doc.data().name, option, currentAvatar,title,description,taskJSON]">
+              <img class=itemsquare [src]="item.payload.doc.data().imgurl" [routerLink]="['/packages', item.payload.doc.data().name]">
               </div>
           </div>
     </ion-grid>

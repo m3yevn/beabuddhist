@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CreateRoutinePage } from './create-routine.page';
+import { CreateRoutineSimplePage } from './create-routine-simple.page';
 
-describe('CreateRoutinesPage', () => {
-  let component: CreateRoutinePage;
-  let fixture: ComponentFixture<CreateRoutinePage>;
+describe('CreateRoutineSimplePage', () => {
+  let component: CreateRoutineSimplePage;
+  let fixture: ComponentFixture<CreateRoutineSimplePage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CreateRoutinePage ],
+      declarations: [ CreateRoutineSimplePage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CreateRoutinePage);
+    fixture = TestBed.createComponent(CreateRoutineSimplePage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

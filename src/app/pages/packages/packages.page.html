@@ -1,30 +1,26 @@
-<ion-header>
-    <ion-toolbar color="dark">
-      <ion-buttons slot="start">
-        <div *ngIf="option == 'create'">
-        <ion-button [routerLink]="['/browse',option,currentAvatar,title,description,taskJSON]"><ion-icon name="arrow-round-back"></ion-icon></ion-button>
-      </div>
-    <div *ngIf="option == ''">
-        <ion-button [routerLink]="['/tabs/browse']"><ion-icon name="arrow-round-back"></ion-icon></ion-button>
-      </div>
-      </ion-buttons>
-      <ion-title>Explore {{id}}</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-<ion-content *ngIf="packageList">
-  <ion-grid>
+<ion-content class="package-content">
+    <ion-toolbar style="--background:transparent">
+        <ion-buttons slot="start">
+            <ion-icon style="color:white;font-size: 30px" name="arrow-dropleft" routerLink="/tabs/browse"></ion-icon>
+        </ion-buttons>
+        <h3 slot="end" color="light">Explore {{id}}</h3>
+      </ion-toolbar>
+  <div *ngIf="packageList">
           <div *ngIf="packageList.length > 0">
-              <div *ngFor="let item of packageList;let i=index;let even=even">
-              <ion-row *ngIf="even" align-items-center margin-vertical>
-              <ion-col>
-              <img class=itemsquare [src]="packageList[i].payload.doc.data().imgurl"  [routerLink]="['/view-package',id,packageList[i].payload.doc.id,option,currentAvatar,title,description,taskJSON]">
-              </ion-col>
-              <ion-col>
-              <img class=itemsquare [src]="packageList[i+1].payload.doc.data().imgurl"  [routerLink]="['/view-package',id,packageList[i+1].payload.doc.id,option,currentAvatar,title,description,taskJSON]">
-            </ion-col>
-              </ion-row>
-              </div>
+              <ion-list style="background-color:transparent">
+                    <ion-item style="--background:transparent" *ngFor="let item of packageList;let i=index;let even=even" [routerLink]="['/view-package',id,item.payload.doc.id]">
+                        <ion-thumbnail style="height:13vh;width:13vh" slot="start">
+                            <img [src]="item.payload.doc.data().imgurl">
+                          </ion-thumbnail>
+                          <ion-label>
+                            <h2 *ngIf="item.payload.doc.data().name.length < 25; else slice">{{item.payload.doc.data().name}}</h2>
+                         <ng-template #slice>
+                            <h2>{{item.payload.doc.data().name.slice(0,23)+".."}}</h2>
+                         </ng-template>
+                          </ion-label>
+                          <ion-icon style="color:var(--ion-color-primary);font-size:30px" name="add-circle" slot="end"></ion-icon>
+                    </ion-item>
+              </ion-list>
           </div>
-    </ion-grid>
+        </div>
 </ion-content>

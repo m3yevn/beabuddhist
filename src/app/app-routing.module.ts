@@ -6,14 +6,13 @@ const routes: Routes = [
   { path: 'login', loadChildren: './pages/login/login.module#LoginPageModule' },
   { path: 'register', loadChildren: './pages/register/register.module#RegisterPageModule' },
   { path: 'tabs', loadChildren: './pages/tabs/tabs.module#TabsPageModule' },
-  { path: 'browse/:option/:avatar/:title/:description/:tasks', loadChildren: './pages/browse/browse.module#BrowsePageModule' },
-  { path: 'avatar-routine/:avatar/:title/:description/:tasks', loadChildren: './pages/avatar-routine/avatar-routine.module#AvatarPageModule' },
-  { path: 'packages/:id/:option/:avatar/:title/:description/:tasks', loadChildren: './pages/packages/packages.module#PackagesPageModule' },
-  { path: 'create-routine/:avatar/:title/:description/:tasks', loadChildren: './create/create-routine/create-routine.module#CreateRoutinePageModule' },
-  { path: 'edit-routine/:avatar/:title/:description/:tasks', loadChildren: './edit/edit-routine/edit-routine.module#EditRoutinePageModule' },
+  { path: 'avatar-routine', loadChildren: './pages/avatar-routine/avatar-routine.module#AvatarPageModule' },
+  { path: 'packages/:id', loadChildren: './pages/packages/packages.module#PackagesPageModule' },
+  { path: 'edit-routine', loadChildren: './edit/edit-routine/edit-routine.module#EditRoutinePageModule' },
   { path: 'intro', loadChildren: './pages/intro/intro.module#IntroPageModule' },
-  { path: 'view-routine/:avatar/:title/:description/:tasks', loadChildren: './view/view-routine/view-routine.module#ViewRoutinePageModule' },
-  { path: 'view-package/:cat/:id/:option/:avatar/:title/:description/:tasks', loadChildren: './view/view-package/view-package.module#ViewPackagePageModule' },
+  { path: 'view-routine/:id', loadChildren: './view/view-routine/view-routine.module#ViewRoutinePageModule' },
+  { path: 'view-package/:cat/:id', loadChildren: './view/view-package/view-package.module#ViewPackagePageModule' },
+  { path: 'create-routine-simple', loadChildren: './create/create-routine-simple/create-routine-simple.module#CreateRoutineSimplePageModule' },
 ];
 @NgModule({
   imports: [

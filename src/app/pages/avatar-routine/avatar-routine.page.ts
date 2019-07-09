@@ -40,10 +40,6 @@ export class AvatarPage implements OnInit {
     this.route.data.subscribe(routeData => {
       loading.dismiss();
       this.avatar = routeData['avatarData']
-      this.title = this.avatar.title;
-      this.description = this.avatar.description;
-      this.tasks = this.avatar.tasks;
-      this.currentAvatar = this.avatar.currentAvatar;
       this.avatar.avatarList.subscribe(data => {
         this.avatarList = data;
       })

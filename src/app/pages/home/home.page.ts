@@ -16,7 +16,7 @@ export class HomePage implements OnInit {
   courses: Array<any>;
 
 sliderConfig = {
-  slidesPerView:2.3,
+  slidesPerView:2.5,
   centeredSlides:false,
 }
 

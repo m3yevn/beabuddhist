@@ -24,7 +24,15 @@ export class PackagesPage implements OnInit {
     if (this.route && this.route.data) {
       this.getData();
     }
+  
   }
+
+  play(audiourl:string){
+  }
+
+  pause(){
+  }
+  
   
   async getData(){
     const loading = await this.loadingCtrl.create({
@@ -47,4 +55,6 @@ export class PackagesPage implements OnInit {
     return await loading.present();
   }
 
+  
 }
+

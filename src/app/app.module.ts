@@ -23,6 +23,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TabsPageModule } from './pages/tabs/tabs.module';
 import { AvatarPageModule } from './pages/avatar-routine/avatar-routine.module'
 
+
+
 @NgModule({
   declarations: [AppComponent],
   imports: [

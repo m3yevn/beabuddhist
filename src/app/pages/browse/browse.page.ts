@@ -34,10 +34,10 @@ export class BrowsePage implements OnInit {
     this.presentLoading(loading);
 
     this.route.data.subscribe(routeData => {
-      loading.dismiss();
       this.browse = routeData['browseData']
       this.browse.categoryList.subscribe(data => {
         this.categoryList = data;
+        loading.dismiss();
       })
     })
   }

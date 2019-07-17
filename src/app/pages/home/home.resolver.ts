@@ -8,7 +8,7 @@ export class RoutineResolver implements Resolve<any> {
   constructor(private firebaseService: FirebaseService) {}
 
   resolve() {
-    return this.firebaseService.getRoutines();
+    return this.firebaseService.getRoutines(null);
   }
 }
 
@@ -18,7 +18,7 @@ export class CourseResolver implements Resolve<any> {
   constructor(private firebaseService: FirebaseService) {}
 
   resolve() {
-    return this.firebaseService.getCourses();
+    return this.firebaseService.getCourses(null);
   }
 }
 

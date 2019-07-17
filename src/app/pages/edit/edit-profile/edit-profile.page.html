@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-toolbar color=dark>
+      <ion-buttons slot="start">
+          <ion-icon style="color:gray;font-size: 4.5vh" name="arrow-dropleft" (click)="back();"></ion-icon>
+      </ion-buttons>
+      <ion-row class="ion-justify-content-center ion-align-items-center">
+      <h3  style="font-size:3vh" color="light">Edit Profile</h3>
+      </ion-row>
+      <ion-buttons slot="end" (click)="save();">
+<h3 style="font-size:2.5vh;color:orange">Done</h3>
+      </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+<ion-content style="--background:black">
+    <ion-grid *ngIf="profile" class="ion-padding-start ion-padding-end">
+        <ion-row class="ion-justify-content-center ion-align-items-center">
+              <ion-card style="height:20vh;width:20vh;--background:linear-gradient(to bottom right,#595959,black,black,black,black);border-radius: 50%">
+                         <ion-row style="z-index:-1;height:100%" class="ion-justify-content-center ion-align-items-center"> 
+                          <img *ngIf="profile.imgurl;else defaultImg" [src]="profile.imgurl">
+                          <ng-template #defaultImg>
+                            <ion-icon name="person" style="font-size:10vh;color:white"></ion-icon>
+                        </ng-template>
+                      </ion-row>
+                      <ion-row class="ion-justify-content-center ion-align-items-end" style="position: absolute;bottom:0;width:100%">
+                        <div style="background:rgba(8, 8, 8, 0.555);width: 100%;padding:0">
+                        <h5 style="font-size:3vh;color:white;margin:0" class="ion-text-center">Edit</h5>
+                      </div>
+                      </ion-row>
+              </ion-card>
+          </ion-row>
+    </ion-grid>
+</ion-content>

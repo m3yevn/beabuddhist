@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouteReuseStrategy } from '@angular/router';
 import { HttpClientModule} from '@angular/common/http';
-import { InMemoryDataService }  from '../app/services/in-memory-data.service';
-import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 
 import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -22,27 +20,20 @@ import { environment } from '../environments/environment';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TabsPageModule } from './pages/tabs/tabs.module';
 import { AvatarPageModule } from './pages/avatar-routine/avatar-routine.module'
+import { ProfileSettingsPageModule } from './pages/profile-settings/profile-settings.module'
+import { EditProfilePageModule } from './pages/edit/edit-profile/edit-profile.module'
+import { ViewRoutineSettingsPageModule } from './pages/view/view-routine-settings/view-routine-settings.module'
 
 
 
 @NgModule({
   declarations: [AppComponent],
   imports: [
-    BrowserModule,
-    HttpClientModule,
-    AvatarPageModule,
-    IonicModule.forRoot(),
-    AppRoutingModule,
-    FormsModule,
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    ),
-    TabsPageModule,
-    ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase), // imports firebase/app
-    AngularFirestoreModule, // imports firebase/firestore
-    AngularFireAuthModule, // imports firebase/auth
-    AngularFireStorageModule, // imports firebase/storage
+    BrowserModule,HttpClientModule,
+    AvatarPageModule,IonicModule.forRoot(),AppRoutingModule,FormsModule,TabsPageModule,ReactiveFormsModule,
+    AngularFireModule.initializeApp(environment.firebase),AngularFirestoreModule,
+    AngularFireAuthModule, AngularFireStorageModule,ProfileSettingsPageModule,EditProfilePageModule,
+    ViewRoutineSettingsPageModule
   ],
   providers: [
     StatusBar,

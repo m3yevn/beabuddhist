@@ -1,7 +1,62 @@
-
-
-<ion-content></ion-content>
-<ion-footer (click)="logoutConfirm()">
-  <ion-button color="danger" class="submit-btn" expand="block">
-      <ion-icon size="large" name="power"></ion-icon>&nbsp;Logout</ion-button>
-</ion-footer>
+<ion-content class="profile-content">
+    <ion-toolbar style="--background:transparent">
+        <ion-buttons slot="end">
+        <ion-icon *ngIf="isOwnProfile" style="color:white;font-size: 4vh" name="settings" (click)="presentModal()"></ion-icon>
+      </ion-buttons>
+      </ion-toolbar>   
+  <ion-grid *ngIf="profile" class="ion-padding-start ion-padding-end">
+    <ion-row class="ion-justify-content-center ion-align-items-center">
+          <ion-card style="height:30vh;width:30vh;--background:linear-gradient(to bottom right,#595959,black,black,black,black);border-radius:50%">
+                     <ion-row style="height:100%" class="ion-justify-content-center ion-align-items-center"> 
+                      <img *ngIf="profile.imgurl;else defaultImg" [src]="profile.imgurl">
+                      <ng-template #defaultImg>
+                        <ion-icon name="person" style="font-size:10vh;color:white"></ion-icon>
+                    </ng-template>
+                  </ion-row>
+          </ion-card>
+      </ion-row>
+      <ion-row justify-content-center align-items-center>
+                  <p style="margin-bottom:0;color:var(--ion-color-light);font-size:3vh">{{profile.name}}</p>
+      </ion-row>
+      <ion-row justify-content-center align-items-center>
+          <p *ngIf="profile.status != '' " style="margin-top:0;color:lightgray;font-size:2.5vh">"{{profile.status}}"</p>
+</ion-row>
+<ion-row justify-content-center align-items-center>
+    <ion-button style="font-size:2vh" (click)="testProfile()" *ngIf="isOwnProfile" shape="round" expand="block" width="25%">Find Friends</ion-button>
+</ion-row>
+      <ion-row justify-content-center align-items-center style="margin-top:2vh">
+        <ion-col style="padding:0">
+          <ion-row style="padding:0;margin:0" justify-content-center align-items-center>
+          <p style="margin:0;color:white;font-size:2.5vh">{{profile.followers.length}}</p>
+        </ion-row>
+        <ion-row style="padding:0;margin:0" justify-content-center align-items-center>
+          <p style="margin:0;color:gray;font-size:2vh">Followers</p>
+        </ion-row>
+        </ion-col>
+        <ion-col style="padding:0">
+            <ion-row style="padding:0;margin:0" justify-content-center align-items-center>
+            <p style="margin:0;color:white;font-size:2.5vh">{{profile.following.length}}</p>
+          </ion-row>
+          <ion-row style="padding:0;margin:0" justify-content-center align-items-center>
+            <p style="margin:0;color:gray;font-size:2vh">Following</p>
+          </ion-row>
+          </ion-col>
+          <ion-col style="padding:0">
+              <ion-row *ngIf="routines" style="padding:0;margin:0" justify-content-center align-items-center>
+              <p style="margin:0;color:white;font-size:2.5vh">{{routines.length}}</p>
+            </ion-row>
+            <ion-row style="padding:0;margin:0" justify-content-center align-items-center>
+              <p style="margin:0;color:gray;font-size:2vh">Routines</p>
+            </ion-row>
+            </ion-col>
+            <ion-col style="padding:0">
+                <ion-row *ngIf="courses" style="padding:0;margin:0" justify-content-center align-items-center>
+                <p style="margin:0;color:white;font-size:2.5vh">{{courses.length}}</p>
+              </ion-row>
+              <ion-row style="padding:0;margin:0" justify-content-center align-items-center>
+                <p style="margin:0;color:gray;font-size:2vh">Courses</p>
+              </ion-row>
+              </ion-col>
+        </ion-row>
+</ion-grid>
+</ion-content>

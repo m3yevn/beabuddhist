@@ -38,10 +38,10 @@ export class AvatarPage implements OnInit {
     this.presentLoading(loading);
 
     this.route.data.subscribe(routeData => {
-      loading.dismiss();
       this.avatar = routeData['avatarData']
       this.avatar.avatarList.subscribe(data => {
         this.avatarList = data;
+        loading.dismiss();
       })
     })
   }

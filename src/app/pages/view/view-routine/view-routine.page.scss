@@ -1,0 +1,17 @@
+.border{
+    border-radius: 8%;
+    border:solid black;
+}
+
+.item-avatar  {     
+    width:35%;  
+    height : 35%;  
+    border:solid black;
+    border-radius: 50%;
+    background-color: white;
+    padding:1vh 1vh;
+}
+
+.view-routine-content {
+    --background:linear-gradient(rgb(65, 58, 51),rgb(54, 49, 49),rgb(37, 35, 35),rgb(31, 30, 30),rgb(20, 20, 20));
+}

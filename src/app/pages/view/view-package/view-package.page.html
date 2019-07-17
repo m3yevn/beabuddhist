@@ -1,0 +1,65 @@
+
+<ion-content class="package-content">  
+    <ion-toolbar style="--background:transparent">
+        <ion-buttons slot="start">
+            <ion-icon style="color:white;font-size: 4.5vh" name="arrow-dropleft" (click)="back();"></ion-icon>
+        </ion-buttons>
+        <ion-buttons slot="end">
+        <ion-icon style="color:white;font-size: 4.5vh" name="more"></ion-icon>
+      </ion-buttons>
+      </ion-toolbar>   
+      <ion-row *ngIf="packageDetails" class="ion-justify-content-center ion-align-items-center">
+            <ion-card style="height:45vh;width:45vh;--background:transparent">
+                       <ion-row style="height:100%" class="ion-justify-content-center ion-align-items-center"> 
+                        <img *ngIf="packageDetails.imgurl;else defaultImg" [src]="packageDetails.imgurl">
+                        <ng-template #defaultImg>
+                          <div style="font-size:10vh;color:white">♫</div>
+                      </ng-template>
+                    </ion-row>
+            </ion-card>
+        </ion-row>
+ <ion-grid *ngIf="packageDetails" class="ion-padding-start ion-padding-end ion-no-margin" style="padding-top:0;padding-bottom:0;bottom:0;position:absolute;width:100%">
+        <ion-row justify-content-left align-items-left style="margin-left:1vh">
+                <p style="color:var(--ion-color-light);font-size:2.5vh">{{packageDetails.name}}</p>
+    </ion-row>
+            <ion-row justify-content-center align-items-center class="ion-no-margin">
+                <ion-range style="--bar-height:0.5vh;--knob-size:3vh;--knob-background:var(--ion-color-primary)" color="primary" min="0" max="{{duration}}" [(ngModel)]="position" (ngModelChange)="setPosition()">
+                </ion-range>
+            </ion-row>
+            <ion-row class="ion-no-margin">
+                <ion-col class="ion-align-self-start">
+                <h5 style="font-size:2vh;margin:0" class="ion-text-start">{{ positionFormat }}</h5>
+            </ion-col>
+        <ion-col class="ion-align-self-end">
+                <h5 style="font-size:2vh;margin:0" class="ion-text-end" *ngIf="duration == -1" >--:--</h5>
+                <h5 style="font-size:2vh;margin:0" class="ion-text-end"  *ngIf="duration != -1">{{ durationFormat }}</h5>
+        </ion-col>
+            </ion-row>
+            <ion-row justify-content-center align-items-center style="margin-bottom:8vh">
+<ion-buttons style="margin-left:2vh;margin-right:2vh">
+<ion-icon style="color:white;font-size: 6vh" name="skip-backward" (click)="previous()"></ion-icon>      
+</ion-buttons>
+<ion-buttons style="margin-left:1vh;margin-right:1vh">
+    <ion-icon *ngIf="!isPlaying" style="color:white;font-size: 7vh" name="play" (click)="play()"></ion-icon>
+    <ion-icon *ngIf="isPlaying" style="color:white;font-size: 7vh" name="pause" (click)="pause()"></ion-icon>       
+    </ion-buttons>
+    <ion-buttons style="margin-left:2vh;margin-right:2vh">
+        <ion-icon style="color:white;font-size: 6vh" name="skip-forward" (click)="next()"></ion-icon>      
+        </ion-buttons>
+  </ion-row>
+  <ion-row justify-content-center align-items-center style="margin-bottom:2vh">
+      <ion-col size="6">
+      <ion-buttons class="ion-justify-content-start">
+        <ion-icon *ngIf="!isShuffled" style="color:white;font-size: 3vh" name="shuffle" (click)="shuffle()"></ion-icon>
+        <ion-icon *ngIf="isShuffled" style="color:var(--ion-color-primary);font-size: 2.5vh" name="shuffle" (click)="unshuffle()"></ion-icon>
+    </ion-buttons>
+</ion-col>
+<ion-col size="6">
+    <ion-buttons class="ion-justify-content-end">
+        <ion-icon *ngIf="!isRepeated" style="color:white;font-size: 3vh" name="repeat" (click)="repeat()"></ion-icon>
+        <ion-icon *ngIf="isRepeated" style="color:var(--ion-color-primary);font-size: 2.5vh" name="repeat" (click)="unrepeat()"></ion-icon>
+    </ion-buttons>
+</ion-col>
+  </ion-row>
+      </ion-grid>
+</ion-content>

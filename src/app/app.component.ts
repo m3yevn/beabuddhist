@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 
 import { Platform } from '@ionic/angular';
 import { SplashScreen } from '@ionic-native/splash-screen/ngx';
@@ -11,7 +11,8 @@ import { Router } from '@angular/router';
   selector: 'app-root',
   templateUrl: 'app.component.html'
 })
-export class AppComponent {
+export class AppComponent implements OnDestroy,OnInit{
+
   constructor(
     private platform: Platform,
     private splashScreen: SplashScreen,
@@ -20,6 +21,14 @@ export class AppComponent {
     public afAuth: AngularFireAuth,
   ) {
     this.initializeApp();
+  }
+
+  ngOnInit(){
+    localStorage.clear();
+  }
+
+  ngOnDestroy(){
+    localStorage.clear();
   }
 
   initializeApp() {

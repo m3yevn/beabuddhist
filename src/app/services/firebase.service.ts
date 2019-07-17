@@ -16,6 +16,19 @@ export class FirebaseService {
     public afAuth: AngularFireAuth
   ){}
 
+  getProfile(uid:string){
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.user.subscribe(currentUser => {
+        if(currentUser){
+          if(!uid)
+          uid = currentUser.uid;
+          this.snapshotChangesSubscription = this.afs.doc<any>('people/' + uid + '/profile/personalinfo' ).valueChanges();  
+            resolve(this.snapshotChangesSubscription);
+        }
+      })
+    })
+  }
+
   getAvatars(categoryId){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {
@@ -72,11 +85,13 @@ export class FirebaseService {
     })
   }
 
-  getRoutines(){
+  getRoutines(uid:string){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {
         if(currentUser){
-          this.snapshotChangesSubscription = this.afs.collection('people').doc(currentUser.uid).collection('routines', ref => ref.orderBy('title')).snapshotChanges();
+          if(!uid)
+          uid = currentUser.uid;
+          this.snapshotChangesSubscription = this.afs.collection('people').doc(uid).collection('routines', ref => ref.orderBy('title')).snapshotChanges();
           resolve(this.snapshotChangesSubscription);
         }
       })
@@ -84,11 +99,13 @@ export class FirebaseService {
   }
 
   
-  getCourses(){
+  getCourses(uid:string){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {
         if(currentUser){
-          this.snapshotChangesSubscription = this.afs.collection('people').doc(currentUser.uid).collection('courses', ref => ref.orderBy('title')).snapshotChanges();
+          if(!uid)
+          uid = currentUser.uid;
+          this.snapshotChangesSubscription = this.afs.collection('people').doc(uid).collection('courses', ref => ref.orderBy('title')).snapshotChanges();
           resolve(this.snapshotChangesSubscription);
         }
       })

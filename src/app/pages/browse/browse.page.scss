@@ -1,7 +1,8 @@
 .itemsquare {
     background-color: #35393d;
-    border-radius: 10px;
+    border-radius: 1vh;
     border: solid black;
+    height:100%;width:100%;
 }
 
 ion-content{
@@ -10,7 +11,7 @@ ion-content{
   }
 
   .large-card{
-      font-size: 70px;
+      font-size: 10vh;
       font-family: Arial, Helvetica, sans-serif;
   }
 

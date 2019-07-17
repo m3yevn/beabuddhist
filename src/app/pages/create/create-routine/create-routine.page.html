@@ -1,0 +1,14 @@
+<ion-content padding center class="gradient-black">
+  <ion-grid style="height: 100%">
+    <ion-row justify-content-center align-items-center style="height: 100%; flex-direction: column">
+      <div>
+      <ion-label color="light" class="large-label">Give your routine a name.</ion-label>
+      <ion-input maxlength="15" class="large-input" [(ngModel)]="routineName"></ion-input>
+      <div>
+      <ion-button class="opac-white-button" [routerLink]="'/tabs/home'">Cancel</ion-button>
+      <ion-button [disabled]="routineName.length == 0" class="opac-primary-button" (click)="createRoutine()">Create</ion-button>
+    </div>
+      </div> 
+    </ion-row>
+  </ion-grid>
+</ion-content>

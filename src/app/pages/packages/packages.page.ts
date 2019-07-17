@@ -11,16 +11,18 @@ import { Packages } from 'src/app/classes/packages';
 })
 export class PackagesPage implements OnInit {
 
-  packages:Packages;
+  packages:any;
   packageList: Array<any>;
   id:string;
 
   constructor(
     public loadingCtrl: LoadingController,
     private route: ActivatedRoute,
+    private router: Router
   ) { }
 
   ngOnInit() {
+    localStorage.clear();
     if (this.route && this.route.data) {
       this.getData();
     }
@@ -33,7 +35,6 @@ export class PackagesPage implements OnInit {
     this.presentLoading(loading);
 
     this.route.data.subscribe(routeData => {
-      loading.dismiss();
       this.packages = routeData['packageData']
       if(this.packages.id)
       this.id = this.packages.id;
@@ -41,8 +42,24 @@ export class PackagesPage implements OnInit {
       this.id = '';
       this.packages.packageList.subscribe(data => {
         this.packageList = data;
+        let packageList = Array<string>();
+        this.packageList.forEach( value => {
+          packageList.push(value.payload.doc.id)
+        })
+        localStorage.setItem("packageList",window.btoa(JSON.stringify(packageList)));
+        loading.dismiss();
       })
     })
+  }
+
+  back(){
+    localStorage.clear();
+    this.router.navigateByUrl("/tabs/browse");
+  }
+
+  viewPackage(id:string){
+    localStorage.setItem("viewPackage",window.btoa(JSON.stringify({packageId:id,catId:this.id})));
+    this.router.navigateByUrl("/view-package")
   }
 
   async presentLoading(loading) {

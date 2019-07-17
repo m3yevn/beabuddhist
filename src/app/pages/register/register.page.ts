@@ -15,8 +15,9 @@ export class RegisterPage implements OnInit {
   successMessage: string = '';
 
   validation_messages = {
-    'username': [
-      { type: 'required', message: 'Username is required.' }
+    'name': [
+      { type: 'required', message: 'Name is required.' },
+      { type: 'maxlength', message: 'Name has a limit of 25 characters'}
     ],
    'email': [
      { type: 'required', message: 'Email is required.' },
@@ -36,6 +37,10 @@ export class RegisterPage implements OnInit {
 
   ngOnInit() {
     this.validations_form = this.formBuilder.group({
+      name: new FormControl('', Validators.compose([
+        Validators.required,
+        Validators.maxLength(25)
+      ])),
       email: new FormControl('', Validators.compose([
         Validators.required,
         Validators.pattern('^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$')
@@ -50,9 +55,12 @@ export class RegisterPage implements OnInit {
   tryRegister(value){
     this.authService.doRegister(value)
      .then(res => {
-       console.log(res);
-       this.errorMessage = "";
-       this.successMessage = "Your account has been created. Please log in.";
+      this.authService.doCreateProfile(value.name).then( res => {
+        this.router.navigate(["/intro"]);
+        console.log(res);
+        this.errorMessage = "";
+        this.successMessage = "Your account has been created";
+      })
      }, err => {
        console.log(err);
        this.errorMessage = err.message;

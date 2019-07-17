@@ -1,0 +1,31 @@
+<ion-content padding class="view-routine-content">
+    <ion-toolbar style="--background:transparent">
+        <ion-buttons slot="start">
+            <ion-icon style="color:white;font-size: 4vh" name="arrow-dropleft" routerLink="/tabs/home"></ion-icon>
+        </ion-buttons>
+        <ion-buttons slot="end">
+            <ion-icon style="color:white;font-size: 4vh" name="more" (click)="presentModal()"></ion-icon>
+        </ion-buttons>
+      </ion-toolbar>
+      <ion-grid *ngIf="routine">
+          <ion-row class="ion-justify-content-center ion-align-items-center">
+                <ion-card style="height:25vh;width:28vh;--background:linear-gradient(to bottom right,#595959,black,black,black,black)">
+                           <ion-row style="height:100%" class="ion-justify-content-center ion-align-items-center"> 
+                            <img *ngIf="routine.imgurl;else defaultImg" [src]="routine.imgurl">
+                            <ng-template #defaultImg>
+                              <ion-icon name="hourglass" style="font-size:10vh;color:lightgray"></ion-icon>
+                          </ng-template>
+                        </ion-row>
+                </ion-card>
+            </ion-row>
+            <ion-row justify-content-center align-content-center>
+                        <p style="color:var(--ion-color-light);font-size:3vh">{{routine.title}}</p>
+            </ion-row>
+            <ion-row *ngIf="routine.tasks" class="ion-justify-content-center ion-align-items-center">
+                <div *ngIf="routine.tasks.length == 0" class="ion-justify-content-center ion-align-items-center">
+                    <p style="color:whitesmoke;font-size:2vh">Let's explore tasks for your routine.</p>
+                    <ion-button style="font-size:2vh" shape="round" expand="block" width="50%">Add Tasks</ion-button>
+                </div>
+            </ion-row>
+      </ion-grid>
+</ion-content>

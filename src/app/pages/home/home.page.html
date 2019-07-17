@@ -1,96 +1,80 @@
-<ion-header>
-  <ion-toolbar class="home-header">
-<ion-title>BE A BUDDHIST</ion-title>
-  </ion-toolbar>
-</ion-header>
+
 <ion-content>
-        <ion-slides *ngIf="banners" autoplay="2500" loop="true" speed="500" pager="true" #mySlider (ionSlidesDidLoad)="slidesDidLoad(mySlider)">
-                <ion-slide *ngFor="let item of banners">
+        <ion-slides *ngIf="banners" autoplay="2500" loop="true" speed="500" pager="true" #mySlider (ionSlidesDidLoad)="slidesDidLoad(mySlider)"> 
+          <ion-slide *ngFor="let item of banners" style="width:100%">
+              <ion-row justify-content-center align-items-center style="width:100%">    
                     <ion-card>
                           <img [src]="item.payload.doc.data().imgurl">
                     </ion-card>
+                  </ion-row> 
                 </ion-slide>
               </ion-slides>
               <div *ngIf="routines">
-              <div *ngIf="routines.length > 0" style="margin-top:10px">
-                    <ion-fab vertical="center" horizontal="end">
-                            <ion-fab-button>
-                              <ion-icon name="add" [routerLink]="['/create-routine-simple']"></ion-icon>
-                            </ion-fab-button>
-                          </ion-fab>
-                <ion-title>
-                            Your Routines
-                        </ion-title>
-                            <ion-slides [options]="sliderConfig">
-                <ion-slide *ngFor="let item of routines">
-                  <div>
-                    <ion-card style="height:18vh;width:20vh;--background:linear-gradient(to bottom right,#595959,black,black,black,black)">
-                        <ion-row style="height:100%" class="ion-justify-content-center ion-align-items-center" [routerLink]="['/view-routine', item.payload.doc.id]">
-                            <img *ngIf="item.payload.doc.data().imgurl;else defaultImg" [src]="item.payload.doc.data().imgurl">
-                            <ng-template #defaultImg>
-                              <div style="font-size:100px;color:white">?</div>
-                          </ng-template>
-                        </ion-row>
-                        </ion-card>
-                        <p *ngIf="item.payload.doc.data().title.length < 15;else slice" style="color:var(--ion-color-light);font-size:14px">{{item.payload.doc.data().title}}</p>
-                        <ng-template #slice>
-                            <p style="color:var(--ion-color-light);font-size:14px">{{item.payload.doc.data().title.slice(0,13)+".."}}</p>
-                        </ng-template>
-                  </div>
-                </ion-slide>
-              </ion-slides>
-            </div>
-            <div *ngIf="routines.length == 0" style="margin-top:10px">
-                    <ion-title>
-                            Your routines are empty.
-                            <li class="subtitle">Create routines now</li>
-                        </ion-title>
-                        <ion-card class=solidsquare>
-                          <div class=dottedsquare>
+            <div *ngIf="routines.length == 0;else routineSlides" style="margin-top:1vh;padding:1vh;">
+              <ion-row class="ion-margin-start">
+                <h5  style="font-size:2.5vh;margin:0;padding:0">Your routines are empty</h5>
+              </ion-row>
+              <ion-row class="ion-margin-start">
+                  <h6 style="font-size:2vh;margin:0;padding:0;color:lightgrey">Create one now.</h6>
+                </ion-row>
+                <ion-row>
+                        <ion-card class="solidrect">
+                          <div class=dottedrect>
                                 <ion-fab vertical="center" horizontal="center" slot="fixed">
-                                        <ion-fab-button [routerLink]="['/create-routine-simple']">
+                                        <ion-fab-button [routerLink]="['/create-routine']">
                                           <ion-icon name="add"></ion-icon>
                                         </ion-fab-button>
                                       </ion-fab>
                                     </div>
                           </ion-card>
+                        </ion-row>
                 </div>
+                <ng-template #routineSlides>
+                  <div style="margin-top:1vh">
+                    <ion-row class="ion-margin-start">
+                      <ion-col size="6" class="ion-justify-content-start">
+                        <h5 style="font-size:3vh;margin:0;padding:0;">Your routines</h5>
+                      </ion-col>
+                    <ion-col  size="6" class="ion-justify-content-end ion-text-end">
+                        <div style="font-size:2.5vh;padding:0;margin:0;color:var(--ion-color-primary)" routerLink="/create-routine">Create more..</div>
+                      </ion-col>
+                      </ion-row>
+                    <ion-slides style="height: 25vh;margin-bottom:1vh;margin-top: 1vh;" [options]="sliderConfig">
+                        <ion-slide *ngFor="let item of routines" style="padding:0;margin:0">
+                            <tr style="padding:0;margin:0">
+                            <ion-card [routerLink]="['/view-routine',item.payload.doc.id]" style="margin:1vh;padding:6vh;background-image:linear-gradient(to bottom right,#595959,black,black,black,black)">
+                              <ion-row style="height:100%" class="ion-justify-content-center ion-align-items-center">
+                              <ion-icon name="hourglass" style="font-size:7vh;color:lightgray"></ion-icon>
+                            </ion-row>  
+                            </ion-card>
+                          </tr>
+                          <tr style="padding:0;margin:0">
+                              <p style="font-size:2.5vh">{{item.payload.doc.data().title}}</p>
+                            </tr>
+                        </ion-slide>
+                      </ion-slides> 
+                    </div> 
+                </ng-template>
               </div>
               <div *ngIf="courses">
-            <div *ngIf="courses.length > 0" style="margin-top:10px">
-                    <ion-fab horizontal="end" slot="fixed">
-                            <ion-fab-button>
-                              <ion-icon name="add"></ion-icon>
-                            </ion-fab-button>
-                          </ion-fab>
-                    <ion-title>
-                                Your Courses
-                        
-                            </ion-title>
-                            <ion-slides [options]="sliderConfig">
-                                <ion-slide *ngFor="let item of routines">
-                                    <ion-card class=solidsquare>
-                                        <div class=dottedsquare [routerLink]="['/coursedetails', item.payload.doc.id]">
-                                            <ion-label>{{item.payload.doc.data().title}}</ion-label>
-                                                  </div>
-                                        </ion-card>
-                                </ion-slide>
-                              </ion-slides>
-            </div>
-            <div *ngIf="courses.length == 0" style="margin-top:10px">
-                        <ion-title>
-                                Your courses are empty.
-                                <li class="subtitle">Explore courses now</li>
-                        </ion-title>
-                        <ion-card class=solidsquare>
-                            <div class=dottedsquare>
+            <div *ngIf="courses.length == 0" style="margin-top:1vh;padding:1vh">
+                <ion-row class="ion-margin-start">
+                    <h5  style="font-size:2.5vh;margin:0;padding:0">Your courses are empty</h5>
+                  </ion-row>
+                  <ion-row class="ion-margin-start">
+                      <h6  style="font-size:2vh;margin:0;padding:0;color:lightgrey">Explore one now.</h6>
+                    </ion-row>
+                    <ion-row>
+                        <ion-card class=solidrect>
+                            <div class=dottedrect>
                                   <ion-fab vertical="center" horizontal="center" slot="fixed">
-                                          <ion-fab-button [routerLink]="['/explorecourses']">
+                                          <ion-fab-button [routerLink]="['/explore-courses']">
                                             <ion-icon name="add"></ion-icon>
                                           </ion-fab-button>
                                         </ion-fab>
                                       </div>
                             </ion-card>
+                          </ion-row>
              </div>
             </div>
 </ion-content>

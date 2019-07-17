@@ -1,10 +1,12 @@
 
-  <img src="..\assets\img\logo.jpg">
-<ion-content  color="dark" padding class="form-content">
+<ion-content  style="--background:rgb(24, 24, 24);" padding class="form-content">
+    <ion-row justify-content-center align-items-center>
+        <img src="..\assets\img\logo.jpg">
+       </ion-row>
   <form class="form" [formGroup]="validations_form" (ngSubmit)="tryLogin(validations_form.value)">
-    <ion-item>
-      <ion-label position="floating" color="dark">Email</ion-label>
-      <ion-input type="text" formControlName="email"></ion-input>
+    <ion-item margin-bottom style="--background:rgb(44, 44, 44);">
+      <ion-label position="floating" color="light">Email</ion-label>
+      <ion-input color="primary" type="text" formControlName="email"></ion-input>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.email">
@@ -13,9 +15,9 @@
         </div>
       </ng-container>
     </div>
-    <ion-item>
-      <ion-label position="floating" color="dark">Password</ion-label>
-      <ion-input type="password" formControlName="password"></ion-input>
+    <ion-item margin-bottom style="--background:rgb(44, 44, 44);">
+      <ion-label position="floating" color="light">Password</ion-label>
+      <ion-input color="primary" type="password" formControlName="password"></ion-input>
     </ion-item>
     <div class="validation-errors">
       <ng-container *ngFor="let validation of validation_messages.password">
@@ -24,11 +26,11 @@
         </div>
       </ng-container>
     </div>
-    <ion-button color="primary" class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Log In</ion-button>
+    <ion-button shape="round" color="primary" class="submit-btn" expand="block" type="submit" [disabled]="!validations_form.valid">Log In</ion-button>
     <label class="error-message">{{errorMessage}}</label>
   </form>
   
-  <p class="go-to-register">
+  <p class="go-to-register" style="color:white">
     No account yet? <a color="primary" (click)="goRegisterPage()">Create an account.</a>
   </p>
 </ion-content>

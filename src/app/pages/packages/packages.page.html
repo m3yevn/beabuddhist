@@ -1,24 +1,26 @@
 <ion-content class="package-content">
     <ion-toolbar style="--background:transparent">
         <ion-buttons slot="start">
-            <ion-icon style="color:white;font-size: 30px" name="arrow-dropleft" routerLink="/tabs/browse"></ion-icon>
+            <ion-icon style="color:white;font-size: 4.5vh" name="arrow-dropleft" (click)="back()"></ion-icon>
         </ion-buttons>
-        <h3 slot="end" color="light">Explore {{id}}</h3>
+        <h3 style="font-size:3.5vh" slot="end" color="light">Explore {{id}}</h3>
       </ion-toolbar>
   <div *ngIf="packageList">
           <div *ngIf="packageList.length > 0">
               <ion-list style="background-color:transparent">
-                    <ion-item style="--background:transparent" *ngFor="let item of packageList;let i=index;let even=even" [routerLink]="['/view-package',id,item.payload.doc.id]">
-                        <ion-thumbnail style="height:13vh;width:13vh" slot="start">
-                            <img [src]="item.payload.doc.data().imgurl">
+                    <ion-item style="--background:transparent" *ngFor="let item of packageList;let i=index;let even=even" (click)="viewPackage(item.payload.doc.id);">
+                        <ion-thumbnail style="height:13vh;width:13vh;background-image:linear-gradient(to bottom right,#595959,black,black,black,black)" slot="start">
+                                <ion-row style="height:100%" class="ion-justify-content-center ion-align-items-center"> 
+                            <img *ngIf="item.payload.doc.data().imgurl;else defaultImg" [src]="item.payload.doc.data().imgurl">                 
+                            <ng-template #defaultImg>
+                              <div style="font-size:5vh;color:white">♫</div>
+                          </ng-template>
+                                </ion-row>
                           </ion-thumbnail>
                           <ion-label>
-                            <h2 *ngIf="item.payload.doc.data().name.length < 25; else slice">{{item.payload.doc.data().name}}</h2>
-                         <ng-template #slice>
-                            <h2>{{item.payload.doc.data().name.slice(0,23)+".."}}</h2>
-                         </ng-template>
+                            <h2 style="font-size:2vh">{{item.payload.doc.data().name}}</h2>
                           </ion-label>
-                          <ion-icon style="color:var(--ion-color-primary);font-size:30px" name="add-circle" slot="end"></ion-icon>
+                          <ion-icon style="color:var(--ion-color-primary);font-size:3vh" name="add-circle" slot="end"></ion-icon>
                     </ion-item>
               </ion-list>
           </div>

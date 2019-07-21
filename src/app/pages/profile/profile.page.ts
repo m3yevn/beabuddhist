@@ -9,6 +9,7 @@ import { AngularFireAuth } from '@angular/fire/auth'
 import { ModalController } from '@ionic/angular';
 import { ProfileSettingsPage } from '../profile-settings/profile-settings.page'
 import { Observable } from 'rxjs';
+import { CountryService } from 'src/app/services/country.service';
 
 @Component({
   selector: 'app-profile',
@@ -20,15 +21,12 @@ export class ProfilePage implements OnInit {
   routines: Array<any>;
   courses:Array<any>;
   isOwnProfile: boolean = false;
+  flagSrc: string;
 
   constructor(
-    public loadingCtrl: LoadingController,
-    private authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute,
-    private alertCtrl: AlertController,
-    private afAuth: AngularFireAuth,
-    private modal: ModalController
+    public loadingCtrl: LoadingController,private authService: AuthService,private router: Router,
+    private route: ActivatedRoute,private alertCtrl: AlertController,private afAuth: AngularFireAuth,
+    private modal: ModalController,private countrySrv: CountryService
   ) { }
 
   ngOnInit() {
@@ -36,13 +34,20 @@ export class ProfilePage implements OnInit {
   }
 
   async presentModal(){
+    const loading = await this.loadingCtrl.create({
+      message: 'Please wait...'
+    });
+    this.presentLoading(loading);
     var modal = await this.modal.create({
       component: ProfileSettingsPage,
+      cssClass: 'settings-modal',
       componentProps: {
         'profile': this.profile
       }
     });
-    return await modal.present();
+    return await modal.present().then( () => {
+      loading.dismiss();
+    });
   }
 
   async getProfileDetails() {
@@ -50,10 +55,14 @@ export class ProfilePage implements OnInit {
       message: 'Please wait...'
     });
     this.presentLoading(loading);
-
     this.route.data.subscribe(routeData => {
      routeData['profileData'].subscribe( data => {
        this.profile = data;
+       if(this.profile.country){
+        this.countrySrv.getCountry(this.profile.country).then( res => {
+          this.flagSrc = res.flag;
+        })
+       }
        loading.dismiss();
      })
      routeData['routineData'].subscribe( data => {
@@ -79,9 +88,6 @@ export class ProfilePage implements OnInit {
       }}
     })
 }
-
-
-  
 
   async presentLoading(loading) {
     return await loading.present();

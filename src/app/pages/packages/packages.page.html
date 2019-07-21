@@ -8,7 +8,7 @@
   <div *ngIf="packageList">
           <div *ngIf="packageList.length > 0">
               <ion-list style="background-color:transparent">
-                    <ion-item style="--background:transparent" *ngFor="let item of packageList;let i=index;let even=even" (click)="viewPackage(item.payload.doc.id);">
+                    <ion-item style="--background:transparent" *ngFor="let item of packageList;let i=index;let even=even" (click)="viewPackage(item.payload.doc.id,i);">
                         <ion-thumbnail style="height:13vh;width:13vh;background-image:linear-gradient(to bottom right,#595959,black,black,black,black)" slot="start">
                                 <ion-row style="height:100%" class="ion-justify-content-center ion-align-items-center"> 
                             <img *ngIf="item.payload.doc.data().imgurl;else defaultImg" [src]="item.payload.doc.data().imgurl">                 

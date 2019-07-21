@@ -31,10 +31,7 @@ export class EditRoutinePage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.validations_form = this.formBuilder.group({
-      title: new FormControl('',Validators.required),
-      description: new FormControl('',Validators.required)
-    });
+
     this.getData();
   }
 

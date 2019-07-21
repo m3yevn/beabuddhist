@@ -6,14 +6,15 @@ import { Routes, RouterModule} from '@angular/router';
 import { IonicModule } from '@ionic/angular';
 
 import { ViewRoutinePage } from './view-routine.page';
-import { ViewRoutineResolver } from './view-routine.resolver';
+import { ViewRoutineResolver, TasksResolver } from './view-routine.resolver';
 
 const routes: Routes = [
   {
     path: '',
     component: ViewRoutinePage,
     resolve: {
-      routineData: ViewRoutineResolver
+      routineData: ViewRoutineResolver,
+      taskData: TasksResolver
     }
   }
 ];
@@ -27,6 +28,6 @@ const routes: Routes = [
     RouterModule.forChild(routes)
   ],
   declarations: [ViewRoutinePage],
-  providers:[ViewRoutineResolver]
+  providers:[ViewRoutineResolver,TasksResolver]
 })
 export class ViewRoutinePageModule {}

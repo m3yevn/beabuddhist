@@ -1,13 +1,13 @@
-<ion-content padding class="view-routine-content">
+<ion-content class="view-routine-content">
     <ion-toolbar style="--background:transparent">
         <ion-buttons slot="start">
             <ion-icon style="color:white;font-size: 4vh" name="arrow-dropleft" routerLink="/tabs/home"></ion-icon>
         </ion-buttons>
         <ion-buttons slot="end">
-            <ion-icon style="color:white;font-size: 4vh" name="more" (click)="presentModal()"></ion-icon>
+            <ion-icon style="color:white;font-size: 4vh" name="more" (click)="presentSettingModal()"></ion-icon>
         </ion-buttons>
       </ion-toolbar>
-      <ion-grid *ngIf="routine">
+      <ion-grid *ngIf="routine" class="ion-no-padding">
           <ion-row class="ion-justify-content-center ion-align-items-center">
                 <ion-card style="height:25vh;width:28vh;--background:linear-gradient(to bottom right,#595959,black,black,black,black)">
                            <ion-row style="height:100%" class="ion-justify-content-center ion-align-items-center"> 
@@ -19,13 +19,30 @@
                 </ion-card>
             </ion-row>
             <ion-row justify-content-center align-content-center>
-                        <p style="color:var(--ion-color-light);font-size:3vh">{{routine.title}}</p>
+                        <p style="color:var(--ion-color-light);font-size:3vh;margin:0">{{routine.title}}</p>
             </ion-row>
-            <ion-row *ngIf="routine.tasks" class="ion-justify-content-center ion-align-items-center">
-                <div *ngIf="routine.tasks.length == 0" class="ion-justify-content-center ion-align-items-center">
-                    <p style="color:whitesmoke;font-size:2vh">Let's explore tasks for your routine.</p>
-                    <ion-button style="font-size:2vh" shape="round" expand="block" width="50%">Add Tasks</ion-button>
+            <ion-row class="ion-justify-content-center ion-align-items-center">
+                <div class="ion-justify-content-center ion-align-items-center">
+                    <p style="color:lightgray;font-size:2.5vh">Let's explore tasks for your routine.</p>
+                    <ion-button *ngIf="taskDetails.length == 0" (click)="presentAddTaskModal()" style="font-size:2vh" shape="round" expand="block" width="50%">Add Tasks</ion-button>
+                    <div *ngIf="taskDetails.length > 0">
+                        <ion-button (click)="playRoutine()" style="font-size:2vh" shape="round" expand="block" width="50%">Start Routine</ion-button>
+                        <ion-row class="ion-justify-content-center ion-align-items-center">
+                        <ion-button (click)="presentAddTaskModal()" style="font-size:1.5vh;color:var(--ion-color-primary);--background:transparent;border:1px solid orange;border-radius: 20px;height:4vh;padding-left:2vh;padding-right:2vh" width="100%">Add Tasks</ion-button>
+                    </ion-row>
+                    </div>
                 </div>
             </ion-row>
+            <div *ngIf="taskDetails">
+                <ion-list *ngIf="taskDetails.length > 0" style="background-color:transparent;">
+                      <ion-item style="--background:transparent;" *ngFor="let item of taskDetails;let i=index;let even=even">
+                            <ion-label style="width:100%" (click)="viewPackage(i);">
+                              <h2 style="font-size:2.5vh;color:white">{{item.name}}</h2>
+                              <h2 style="font-size:2.3vh;color:gray">{{item.catId}}</h2>
+                            </ion-label>
+                            <ion-icon style="color:var(--ion-color-primary);font-size:3vh" name="more" slot="end" (click)="presentTaskSettingModal(item,i)"></ion-icon>
+                      </ion-item>
+                </ion-list>
+            </div>
       </ion-grid>
 </ion-content>

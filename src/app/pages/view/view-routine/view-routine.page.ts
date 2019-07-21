@@ -5,6 +5,9 @@ import { LoadingController, ToastController, AlertController,ModalController,Pop
 import { ActivatedRoute,ActivatedRouteSnapshot, Router } from '@angular/router';
 import { Routine } from 'src/app/classes/routine';
 import { ViewRoutineSettingsPage } from '../view-routine-settings/view-routine-settings.page';
+import { AddTasksPage } from '../../add/add-tasks/add-tasks.page';
+import { ViewRoutineTaskSettingsPage } from '../view-routine-task-settings/view-routine-task-settings.page';
+import { ViewPackagePage } from '../view-package/view-package.page';
 
 @Component({
   selector: 'app-view-routine',
@@ -12,14 +15,15 @@ import { ViewRoutineSettingsPage } from '../view-routine-settings/view-routine-s
   styleUrls: ['./view-routine.page.scss'],
 })
 export class ViewRoutinePage implements OnInit {
-
+  taskDetails: Array<any> = [];
   routine: Routine;
   load: boolean = false;
+  packageIdList:Array<any> = [];
 
   constructor(
     public toastCtrl: ToastController,
     public loadingCtrl: LoadingController,
-    private firebaseService: FirebaseService,
+    private firebaseSrv: FirebaseService,
     private alertCtrl: AlertController,
     private route: ActivatedRoute,
     private router: Router,
@@ -30,13 +34,73 @@ export class ViewRoutinePage implements OnInit {
     this.getData();
   }
 
-  async presentModal() {
+  async presentSettingModal() {
     const modal = await this.modal.create({
       component: ViewRoutineSettingsPage,
       componentProps: {
-        'routine':this.routine
+        'routine':this.routine,
+        'taskDetails':this.taskDetails,
+        'packageList':this.packageIdList
       },
       cssClass: 'view-routine-settings-modal'
+    })
+    return await modal.present();
+  }
+
+  async presentAddTaskModal() {
+    const modal = await this.modal.create({
+      component: AddTasksPage,
+      componentProps: {
+        'routine':this.routine,
+        'taskDetails':this.taskDetails,
+        'packageList':this.packageIdList
+      },
+      cssClass: 'settings-modal'
+    })
+    return await modal.present();
+  }
+
+  async presentTaskSettingModal(task,index) {
+    const modal = await this.modal.create({
+      component: ViewRoutineTaskSettingsPage,
+      componentProps: {
+        'routine':this.routine,
+        'taskDetails':this.taskDetails,
+        'task':task,
+        'index':index,
+        'packageList':this.packageIdList
+      },
+      cssClass: 'view-routine-settings-modal'
+    });
+    return await modal.present();
+  }
+
+  async playRoutine(){
+    const modal = await this.modal.create({
+      component: ViewPackagePage,
+      componentProps: {
+        'cat':this.packageIdList[0].cat,
+        'taskDetails':this.taskDetails,
+        'id':this.packageIdList[0].id,
+        'packageList':this.packageIdList,
+        'currentIndex':0
+      },
+      cssClass: 'settings-modal'
+    })
+    return await modal.present();
+  }
+
+  async viewPackage(index){
+    const modal = await this.modal.create({
+      component: ViewPackagePage,
+      componentProps: {
+        'cat':this.packageIdList[index].cat,
+        'taskDetails':this.taskDetails,
+        'id':this.packageIdList[index].id,
+        'packageList':this.packageIdList,
+        'currentIndex':index
+      },
+      cssClass: 'settings-modal'
     })
     return await modal.present();
   }
@@ -48,6 +112,19 @@ export class ViewRoutinePage implements OnInit {
     this.presentLoading(loading);
     this.route.data.subscribe(routeData => {
     this.routine = routeData['routineData'];
+    let taskDetailList = [];
+    routeData['taskData'].forEach( taskDetail => {
+      let catId = taskDetail.payload.doc.data().catId; let packageId = taskDetail.payload.doc.data().packageId;
+        this.firebaseSrv.getPackageDetails(catId,packageId).then( res => {
+          res.subscribe( data => {
+            data.taskId = taskDetail.payload.doc.id;
+            let packageObj = { cat: catId,id:packageId};
+            this.packageIdList.push(packageObj);
+            taskDetailList.push(data);
+            this.taskDetails = taskDetailList;
+          })
+        })
+    })
     loading.dismiss();
       })
     }
@@ -57,7 +134,7 @@ export class ViewRoutinePage implements OnInit {
       title: value.title,
       description: value.description,
     }
-    this.firebaseService.updateRoutine(this.routine.id,data)
+    this.firebaseSrv.updateRoutine(this.routine.id,data)
     .then(
       res => {
         this.router.navigate(["/tabs/home"]);

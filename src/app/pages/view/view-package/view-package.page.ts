@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Packages } from '../../../classes/packages';
 import { AudioService } from 'src/app/services/audio.service';
@@ -13,7 +13,7 @@ import { ifStmt } from '@angular/compiler/src/output/output_ast';
   templateUrl: './view-package.page.html',
   styleUrls: ['./view-package.page.scss'],
 })
-export class PackagesPage implements OnInit {
+export class ViewPackagePage implements OnInit {
   packages: Packages;
   packageDetails: any;
   id:string;
@@ -24,17 +24,14 @@ export class PackagesPage implements OnInit {
   durationFormat: any;
   positionFormat: any;
   positionOb = new Subject<number>();
-  packageList: Array<string> = JSON.parse(window.atob(localStorage.getItem("packageList")));
+  packageList: Array<any>;
   currentIndex: number;
   isShuffled: boolean = false;
   isRepeated: boolean = false;
 
   constructor(
-    public loadingCtrl: LoadingController,
-    private route: ActivatedRoute,
-    private audioSrv: AudioService,
-    private router: Router,
-    private firebaseSrv: FirebaseService
+    public loadingCtrl: LoadingController,private route: ActivatedRoute,private audioSrv: AudioService,
+    private router: Router,private firebaseSrv: FirebaseService,private modal: ModalController
   ) {
   }
 
@@ -79,7 +76,9 @@ export class PackagesPage implements OnInit {
     nextIndex = this.blrand(0,this.packageList.length-1,[this.currentIndex])
     if(this.isRepeated)
     nextIndex = this.currentIndex;
-    localStorage.setItem("viewPackage",window.btoa(JSON.stringify({packageId:this.packageList[nextIndex].toString(),catId:this.cat})));
+    this.id = this.packageList[nextIndex].id;
+    this.cat = this.packageList[nextIndex].cat;
+    this.currentIndex = nextIndex;
     this.getData();
   }
 
@@ -94,7 +93,9 @@ export class PackagesPage implements OnInit {
     prevIndex = this.blrand(0,this.packageList.length-1,[this.currentIndex])
     if(this.isRepeated)
     prevIndex = this.currentIndex;
-    localStorage.setItem("viewPackage",window.btoa(JSON.stringify({packageId:this.packageList[prevIndex].toString(),catId:this.cat})));
+    this.id = this.packageList[prevIndex].id;
+    this.cat = this.packageList[prevIndex].cat;
+    this.currentIndex = prevIndex;
     this.getData();
   }
 
@@ -109,7 +110,9 @@ export class PackagesPage implements OnInit {
 
   back(){
     this.audioSrv.removeAudio();
-    this.router.navigateByUrl("/packages/"+this.cat)
+    this.modal.dismiss({
+      'dismissed': true
+    })
   }
 
   setPosition(){
@@ -143,10 +146,6 @@ export class PackagesPage implements OnInit {
   }
 
   async getData(){
-    let packageObj = JSON.parse(window.atob(localStorage.getItem("viewPackage")));
-    this.cat = packageObj.catId;
-    this.id = packageObj.packageId;
-    this.currentIndex = this.packageList.indexOf(this.id)
     this.firebaseSrv.getPackageDetails(this.cat,this.id).then( data => {
       this.packages = data.subscribe( detail => {
         this.packageDetails = detail;

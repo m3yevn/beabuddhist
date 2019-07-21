@@ -1,7 +1,8 @@
 {
-  "name": "Be_A_Buddhist",
+  "name": "MeyBuddhism",
   "integrations": {
     "cordova": {}
   },
-  "type": "angular"
+  "type": "angular",
+  "id": "f34d4ded"
 }

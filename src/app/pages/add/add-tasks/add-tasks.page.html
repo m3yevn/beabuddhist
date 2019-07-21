@@ -1,0 +1,35 @@
+<ion-content class="package-content">
+  <ion-toolbar style="--background:transparent;margin:0">
+    <ion-buttons slot="start">
+        <ion-icon style="color:white;font-size: 4.5vh" name="arrow-dropleft" (click)="back()"></ion-icon>
+    </ion-buttons>
+    <h3 style="font-size:3.5vh;color:white;" slot="end">Add Tasks</h3>
+  </ion-toolbar>
+ <ion-slides *ngIf="categories" pager="true" [options]="sliderConfig" style="height:90vh;padding:0"> 
+        <ion-slide *ngFor="let item of categories" style="width:100%;height:100%;margin-top:0;padding:0">  
+                  <ion-card style="height:82vh;width:100%;background: transparent;margin-top:0;margin-right:0.1vh">
+                  <ion-row justify-content-start>
+                    <h1 style="font-size:3vh;color:rgb(212, 212, 212);margin-left:1vh">{{item.payload.doc.data().name}}</h1>
+                  </ion-row>
+                  <ion-list *ngIf="item.packageList" style="background-color:transparent">
+                    <div *ngIf="item.packageList.length > 0">
+                    <ion-item style="--background:transparent" *ngFor="let package of item.packageList;let i=index;let even=even">
+                        <ion-thumbnail (click)="previewPackage(package.payload.doc.id);" style="height:8vh;width:8vh;background-image:linear-gradient(to bottom right,#595959,black,black,black,black)" slot="start">
+                                <ion-row style="height:100%" class="ion-justify-content-center ion-align-items-center"> 
+                            <img *ngIf="package.payload.doc.data().imgurl;else defaultImg" [src]="package.payload.doc.data().imgurl">                 
+                            <ng-template #defaultImg>
+                              <div style="font-size:5vh;color:white">♫</div>
+                          </ng-template>
+                                </ion-row>
+                          </ion-thumbnail>
+                          <ion-label>
+                            <h2 style="font-size:2vh;color:rgb(233, 233, 233)">{{package.payload.doc.data().name}}</h2>
+                          </ion-label>
+                          <ion-icon style="color:var(--ion-color-primary);font-size:3.5vh" name="add-circle" slot="end" (click)="addTask(item,package,i);"></ion-icon>
+                    </ion-item>
+                  </div>
+              </ion-list>
+                  </ion-card>
+              </ion-slide>
+            </ion-slides>
+</ion-content>

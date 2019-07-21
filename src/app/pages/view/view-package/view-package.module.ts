@@ -3,12 +3,12 @@ import { Routes,RouterModule } from '@angular/router';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { PackagesPage } from './view-package.page';
+import { ViewPackagePage } from './view-package.page';
 
 const routes: Routes = [
   {
     path: '',
-    component: PackagesPage
+    component: ViewPackagePage
   }
 ];
 
@@ -20,7 +20,7 @@ const routes: Routes = [
     FormsModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [PackagesPage],
+  declarations: [ViewPackagePage],
   providers: [
   ]
 })

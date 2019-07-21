@@ -6,6 +6,9 @@ import { ModalController } from '@ionic/angular';
 import { EditProfilePage } from '../edit/edit-profile/edit-profile.page';
 import { AuthService } from '../../services/auth.service';
 import { Observable } from 'rxjs';
+import { AboutPage } from '../about/about.page';
+import { PrivacyPolicyPage } from '../privacy-policy/privacy-policy.page';
+import { SupportPage } from '../support/support.page';
 
 @Component({
   selector: 'app-profile-settings',
@@ -21,31 +24,62 @@ export class ProfileSettingsPage implements OnInit {
     profile: Profile;
 
   ngOnInit() {
-    this.getProfileData();
   }
 
   async editProfile() {
-    let modal = await this.anotherModal.create({
-      component: EditProfilePage,
-      componentProps: {
-        'profile': this.profile
-      }
-    });
-    return await modal.present();
-  }
-
-  async getProfileData() {
     const loading = await this.loadingCtrl.create({
       message: 'Please wait...'
     });
     this.presentLoading(loading);
-    this.profile = this.navParams.get('profile');
-    loading.dismiss();
-}
+    let modal = await this.anotherModal.create({
+      component: EditProfilePage,
+      cssClass: 'settings-modal',
+      componentProps: {
+        'profile': this.profile
+      }
+    });
+    return await modal.present().then( () => {
+      loading.dismiss();
+    });
+  }
+
+  async deleteAccount() {
+    const alert = await this.alert.create({
+      header: 'Delete Account',
+      message: 'Are you sure you want to delete your account?',
+      buttons: [
+        {
+          text: 'No',
+          role: 'cancel',
+          cssClass: 'cancel-button',
+          handler: () => {}
+        },
+        {
+          text: 'Yes',
+          cssClass: 'confirm-button',
+          handler: () => {
+            this.authSrv.doDeleteProfile()
+            .then( () => {
+              this.modal.dismiss({
+                'dismissed': true,
+              })
+              this.authSrv.doDeleteAccount().then( () => {
+                this.router.navigate(["/tabs/home"]);
+              })
+              },
+              err => console.log(err)
+            )
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
 
 async logoutConfirm() {
   const alert = await this.alert.create({
-    header: 'Confirm to logout',
+    header: 'Logout Confirmation',
     message: 'Are you sure to logout?',
     buttons: [
       {
@@ -57,14 +91,60 @@ async logoutConfirm() {
       }, {
         text: 'Proceed',
         handler: () => {
+          this.logout();
           this.modal.dismiss();
-         this.logout();
         }
       }
     ]
   });
 
   await alert.present();
+}
+
+async showAbout(){
+  const loading = await this.loadingCtrl.create({
+    message: 'Please wait...'
+  });
+  this.presentLoading(loading);
+  let modal = await this.anotherModal.create({
+    component: AboutPage,
+    cssClass: 'settings-modal',
+  });
+  return await modal.present().then( () => {
+    loading.dismiss();
+  });
+}
+
+async showPP(){
+  const loading = await this.loadingCtrl.create({
+    message: 'Please wait...'
+  });
+  this.presentLoading(loading);
+  let modal = await this.anotherModal.create({
+    component: PrivacyPolicyPage,
+    cssClass: 'settings-modal',
+  });
+  return await modal.present().then( () => {
+    loading.dismiss();
+  });
+}
+
+async showSupport_InProgress() {
+  const loading = await this.loadingCtrl.create({
+    message: 'Please wait...'
+  });
+  this.presentLoading(loading);
+  let modal = await this.anotherModal.create({
+    component: SupportPage,
+    cssClass: 'settings-modal',
+  });
+  return await modal.present().then( () => {
+    loading.dismiss();
+  });
+}
+
+async showSupport(){
+  window.open("https://www.patreon.com/meyven", "_blank");
 }
 
 

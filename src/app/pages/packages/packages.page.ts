@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
-import { LoadingController } from '@ionic/angular';
+import { LoadingController, ModalController } from '@ionic/angular';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Packages } from 'src/app/classes/packages';
+import { ViewPackagePage } from '../view/view-package/view-package.page'
 
 @Component({
   selector: 'app-packages',
@@ -13,16 +14,15 @@ export class PackagesPage implements OnInit {
 
   packages:any;
   packageList: Array<any>;
+  packageIdList: Array<any> = [];
   id:string;
 
   constructor(
-    public loadingCtrl: LoadingController,
-    private route: ActivatedRoute,
-    private router: Router
+    public loadingCtrl: LoadingController,private route: ActivatedRoute,private router: Router,
+    private modal:ModalController
   ) { }
 
   ngOnInit() {
-    localStorage.clear();
     if (this.route && this.route.data) {
       this.getData();
     }
@@ -38,28 +38,33 @@ export class PackagesPage implements OnInit {
       this.packages = routeData['packageData']
       if(this.packages.id)
       this.id = this.packages.id;
-      else
-      this.id = '';
       this.packages.packageList.subscribe(data => {
         this.packageList = data;
-        let packageList = Array<string>();
         this.packageList.forEach( value => {
-          packageList.push(value.payload.doc.id)
+          let packageObj = { cat: this.id,id:value.payload.doc.id}
+          this.packageIdList.push(packageObj)
         })
-        localStorage.setItem("packageList",window.btoa(JSON.stringify(packageList)));
         loading.dismiss();
       })
     })
   }
 
   back(){
-    localStorage.clear();
     this.router.navigateByUrl("/tabs/browse");
   }
 
-  viewPackage(id:string){
-    localStorage.setItem("viewPackage",window.btoa(JSON.stringify({packageId:id,catId:this.id})));
-    this.router.navigateByUrl("/view-package")
+  async viewPackage(packageId:string,index:number){
+    const modal = await this.modal.create({
+      component: ViewPackagePage,
+      componentProps:{
+        'cat':this.id,
+        'id':packageId,
+        'packageList':this.packageIdList,
+        'currentIndex':index
+      },
+      cssClass: 'settings-modal'
+    })
+    modal.present();
   }
 
   async presentLoading(loading) {

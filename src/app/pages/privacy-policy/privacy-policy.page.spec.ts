@@ -1,22 +1,22 @@
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CoursesPage } from './courses.page';
+import { PrivacyPolicyPage } from './privacy-policy.page';
 
-describe('CoursesPage', () => {
-  let component: CoursesPage;
-  let fixture: ComponentFixture<CoursesPage>;
+describe('PrivacyPolicyPage', () => {
+  let component: PrivacyPolicyPage;
+  let fixture: ComponentFixture<PrivacyPolicyPage>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CoursesPage ],
+      declarations: [ PrivacyPolicyPage ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA],
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CoursesPage);
+    fixture = TestBed.createComponent(PrivacyPolicyPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

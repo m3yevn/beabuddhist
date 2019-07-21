@@ -16,10 +16,15 @@
           </ion-card>
       </ion-row>
       <ion-row justify-content-center align-items-center>
-                  <p style="margin-bottom:0;color:var(--ion-color-light);font-size:3vh">{{profile.name}}</p>
+                  <div style="margin-bottom:0;color:var(--ion-color-light);font-size:3vh">{{profile.name}}</div>
+                  <div *ngIf="profile.gender" style="margin-left:0.5vh">
+                    <ion-icon *ngIf="profile.gender == 'Male'" style="color:rgb(60, 156, 219);font-size:2.5vh" name="male"></ion-icon>
+                    <ion-icon *ngIf="profile.gender == 'Female'" style="color:rgb(219, 60, 185);font-size:2.5vh" name="female"></ion-icon>
+                    <ion-icon *ngIf="profile.gender == 'Undisclosed'" style="color:rgb(60, 219, 100);font-size:2.5vh" name="star"></ion-icon></div>        
+                  <img *ngIf="flagSrc" [src]="flagSrc" style="height:2vh;width:3vh;margin-left:0.5vh">     
       </ion-row>
       <ion-row justify-content-center align-items-center>
-          <p *ngIf="profile.status != '' " style="margin-top:0;color:lightgray;font-size:2.5vh">"{{profile.status}}"</p>
+          <div *ngIf="profile.status != '' " style="margin-top:0;margin-bottom:1vh;color:gray;font-size:2.5vh">"{{profile.status}}"</div>
 </ion-row>
 <ion-row justify-content-center align-items-center>
     <ion-button style="font-size:2vh" (click)="testProfile()" *ngIf="isOwnProfile" shape="round" expand="block" width="25%">Find Friends</ion-button>

@@ -112,6 +112,17 @@ export class FirebaseService {
     })
   }
 
+  getRoutineTasks(routineId){
+    return new Promise<any>((resolve, reject) => {
+      this.afAuth.user.subscribe(currentUser => {
+        if(currentUser){
+          this.snapshotChangesSubscription = this.afs.collection('people').doc(currentUser.uid).collection('routines').doc(routineId).collection('tasks', ref => ref.orderBy('id')).snapshotChanges(); 
+            resolve(this.snapshotChangesSubscription);
+          }
+      })
+    });
+  }
+
   getRoutineDetails(routineId){
     return new Promise<any>((resolve, reject) => {
       this.afAuth.user.subscribe(currentUser => {
@@ -128,24 +139,22 @@ export class FirebaseService {
     this.snapshotChangesSubscription.unsubscribe();
   }
 
-  updateRoutine(taskKey, value){
+  updateRoutine(routineKey, value){
     return new Promise<any>((resolve, reject) => {
       let currentUser = firebase.auth().currentUser;
-      this.afs.collection('people').doc(currentUser.uid).collection('routines').doc(taskKey).set(value)
+      this.afs.collection('people').doc(currentUser.uid).collection('routines').doc(routineKey).set(value)
       .then(
-        res => resolve(res),
-        err => reject(err)
+        res => resolve(res), err => reject(err)
       )
     })
   }
 
-  deleteRoutine(taskKey){
+  deleteRoutine(routineKey){
     return new Promise<any>((resolve, reject) => {
       let currentUser = firebase.auth().currentUser;
-      this.afs.collection('people').doc(currentUser.uid).collection('routines').doc(taskKey).delete()
+      this.afs.collection('people').doc(currentUser.uid).collection('routines').doc(routineKey).delete()
       .then(
-        res => resolve(res),
-        err => reject(err)
+        res => resolve(res), err => reject(err)
       )
     })
   }
@@ -159,8 +168,34 @@ export class FirebaseService {
         tasks: []
       })
       .then(
-        res => resolve(res),
-        err => reject(err),
+        res => resolve(res),err => reject(err),
+      )
+    })
+  }
+
+  addTask(routineKey,value){
+    return new Promise<any>((resolve, reject) => {
+      let currentUser = firebase.auth().currentUser;
+
+      this.afs.collection('people').doc(currentUser.uid).collection('routines').doc(routineKey).collection('tasks').add({
+        catId: value.catId,
+        packageId: value.packageId,
+        id:value.id
+      })
+      .then(
+        res => resolve(res),err => reject(err),
+      )
+    })
+  }
+
+  deleteTask(routineKey,taskKey){
+    return new Promise<any>((resolve, reject) => {
+      let currentUser = firebase.auth().currentUser;
+
+      this.afs.collection('people').doc(currentUser.uid).collection('routines').doc(routineKey).
+      collection('tasks').doc(taskKey).delete()
+      .then(
+        res => resolve(res),err => reject(err),
       )
     })
   }

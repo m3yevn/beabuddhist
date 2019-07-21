@@ -29,30 +29,30 @@
                 <h3 style="font-size:2.5vh;color:gray">Details about this app</h3>
               </ion-label>
         </ion-item>
-        <ion-item style="--background:transparent" (click)="showTNC();">
-          <ion-label>
-          <h2 style="font-size:3vh;color: white">Terms and Conditions</h2>
-                <h3 style="font-size:2.5vh;color:gray">Everything you need to know</h3>
-                </ion-label>
-        </ion-item>
         <ion-item style="--background:transparent" (click)="showPP();">
           <ion-label>
           <h2 style="font-size:3vh;color: white">Privacy Policy</h2>
                 <h3 style="font-size:2.5vh;color:gray">Important information on privacy agreement</h3>
         </ion-label>
               </ion-item>
-        <ion-item style="--background:transparent" (click)="showFeedback();">
+              <ion-item style="--background:transparent" (click)="showSupport();">
+                <ion-label>
+                <h2 style="font-size:3vh;color: white">Support</h2>
+                      <h3 style="font-size:2.5vh;color:gray">If you wish to donate and contribute</h3>
+              </ion-label>
+                    </ion-item>
+        <ion-item style="--background:transparent;visibility: hidden;" (click)="showTNC();">
+          <ion-label>
+          <h2 style="font-size:3vh;color: white">Terms and Conditions</h2>
+                <h3 style="font-size:2.5vh;color:gray">Everything you need to know</h3>
+                </ion-label>
+        </ion-item>
+        <ion-item style="--background:transparent;visibility: hidden;" (click)="showFeedback();">
           <ion-label>
           <h2 style="font-size:3vh;color: white">Feedback</h2>
                 <h3 style="font-size:2.5vh;color:gray">Feedback issues to the developer</h3>
                 </ion-label>
         </ion-item>
-        <ion-item style="--background:transparent" (click)="showSupport();">
-          <ion-label>
-          <h2 style="font-size:3vh;color: white">Support</h2>
-                <h3 style="font-size:2.5vh;color:gray">If you wish to donate and contribute</h3>
-        </ion-label>
-              </ion-item>
         <ion-item style="--background:transparent" (click)="logoutConfirm();">
           <ion-label>
           <h2 style="font-size:3vh;color: var(--ion-color-danger)">Logout</h2>
@@ -61,4 +61,7 @@
         </ion-label>
               </ion-item>
   </ion-list>
+  <ion-row class="ion-justify-content-center ion-align-items-center ion-margin ion-padding">
+    <ion-button (click)="deleteAccount()" style="font-size:2vh;--background:var(--ion-color-danger)" shape="round" expand="block" width="50%">Delete this account.</ion-button>
+</ion-row>
 </ion-content>

@@ -55,7 +55,7 @@ export class RegisterPage implements OnInit {
   tryRegister(value){
     this.authService.doRegister(value)
      .then(res => {
-      this.authService.doCreateProfile(value.name).then( res => {
+      this.authService.doCreateProfile(value).then( res => {
         this.router.navigate(["/intro"]);
         console.log(res);
         this.errorMessage = "";

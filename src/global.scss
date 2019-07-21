@@ -11,25 +11,19 @@
 @import '~@ionic/angular/css/flex-utils.css';
 
 ion-tabs{
-    --ion-background-color: #1e1e1e;
-    --ion-text-color: #ffffff;
+    --ion-background-color: #1e1e1e;--ion-text-color: #ffffff;
 }
 
 ion-title {
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
-    .subtitle {
-      font-family:'Times New Roman', Times, serif;
-      font-size: 60%;
-      color:lightgray;
+    .subtitle {font-family:'Times New Roman', Times, serif;font-size: 60%;color:lightgray;
     }
 }
 
 .dark-alert{
   .alert-wrapper{
     background:linear-gradient(rgb(65, 58, 51),rgb(54, 49, 49),rgb(37, 35, 35),rgb(31, 30, 30),rgb(20, 20, 20));
-    header{
-      color:white;
-    }
+    header{ color:white;}
   }
 }
 
@@ -42,13 +36,11 @@ ion-title {
 }
 
 .view-routine-settings-modal{
-  .modal-wrapper {
-    position: absolute;
-    top: 0;bottom: 0; right: 0;
-    width: 70%;
-    height: 100%;
-    box-shadow: -6vh 0vh 10vh 3vh rgba(0, 0, 0, 0.8);
-  }
+  .modal-wrapper {position: absolute;top: 0;bottom: 0; right: 0;width: 70%;height: 100%;box-shadow: -6vh 0vh 10vh 3vh rgba(0, 0, 0, 0.8);}
+}
+
+.settings-modal{
+  .modal-wrapper {position: absolute;top: 0;left: 0; width: 100%;height: 100%;}
 }
 
 .underline{

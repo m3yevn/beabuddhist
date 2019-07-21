@@ -1,0 +1,26 @@
+<ion-content style="--background:black;">
+  <ion-list style="background-color:transparent">
+    <ion-item style="--background:transparent" (click)="like();">
+      <ion-icon name="heart-empty" style="color:gray"></ion-icon>
+     <ion-label><h2 style="font-size:3vh;color: white">Like</h2>
+          </ion-label>
+    </ion-item>
+    <ion-item style="--background:transparent" (click)="removeTask();">
+      <ion-icon name="remove-circle-outline" style="color:gray"></ion-icon>
+      <ion-label><h2 style="font-size:3vh;color: white">Remove from this</h2>
+          </ion-label>
+    </ion-item>
+    <ion-item style="--background:transparent" (click)="viewCategory();">
+      <ion-icon name="copy" style="color:gray"></ion-icon>
+      <ion-label>
+        <h2 style="font-size:3vh;color: white">View Category</h2>
+          </ion-label>
+    </ion-item>
+    <ion-item style="--background:transparent" (click)="viewTask();">
+      <ion-icon name="eye" style="color: gray"></ion-icon>
+      <ion-label>
+       <h2 style="font-size:3vh;color:white">View Task</h2>
+      </ion-label>
+    </ion-item>
+</ion-list>
+</ion-content>

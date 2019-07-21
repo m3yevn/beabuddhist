@@ -14,7 +14,7 @@
 <ion-content style="--background:black">
     <ion-grid *ngIf="profile" class="ion-padding-start ion-padding-end">
         <ion-row class="ion-justify-content-center ion-align-items-center">
-              <ion-card style="height:20vh;width:20vh;--background:linear-gradient(to bottom right,#595959,black,black,black,black);border-radius: 50%">
+              <ion-card style="height:20vh;width:20vh;--background:linear-gradient(to bottom right,#595959,rgb(34, 33, 33),rgb(36, 35, 35),black,black);border-radius: 50%">
                          <ion-row style="z-index:-1;height:100%" class="ion-justify-content-center ion-align-items-center"> 
                           <img *ngIf="profile.imgurl;else defaultImg" [src]="profile.imgurl">
                           <ng-template #defaultImg>
@@ -23,10 +23,49 @@
                       </ion-row>
                       <ion-row class="ion-justify-content-center ion-align-items-end" style="position: absolute;bottom:0;width:100%">
                         <div style="background:rgba(8, 8, 8, 0.555);width: 100%;padding:0">
-                        <h5 style="font-size:3vh;color:white;margin:0" class="ion-text-center">Edit</h5>
+                        <h5 style="font-size:3vh;color:gray;margin:0" class="ion-text-center">Edit</h5>
                       </div>
                       </ion-row>
               </ion-card>
           </ion-row>
-    </ion-grid>
+          <ion-row class="ion-justify-content-start ion-align-items-center">
+            <ion-label style="font-size:2.5vh;margin:1vh;color:gray">Name</ion-label>
+          </ion-row>
+          <ion-row class="ion-justify-content-center ion-align-items-center">
+            <ion-input padding style="font-size:2.5vh;--background:rgb(46, 46, 46);color: whitesmoke" [(ngModel)]="profile.name"></ion-input>
+          </ion-row>
+          <ion-row class="ion-justify-content-start ion-align-items-center">
+              <ion-label style="font-size:2.5vh;margin:1vh;color:gray">Email</ion-label>
+            </ion-row>
+            <ion-row class="ion-justify-content-center ion-align-items-center">
+              <ion-input padding style="font-size:2.5vh;--background:rgb(46, 46, 46);color:whitesmoke" disabled [(ngModel)]="profile.email"></ion-input>
+            </ion-row>
+            <ion-row class="ion-justify-content-start ion-align-items-center">
+                <ion-label style="font-size:2.5vh;margin:1vh;color:gray">Status</ion-label>
+              </ion-row>
+              <ion-row class="ion-justify-content-center ion-align-items-center">
+                <ion-input padding style="font-size:2.5vh;--background:rgb(46, 46, 46);color:whitesmoke" [(ngModel)]="profile.status"></ion-input>
+              </ion-row>
+            <ion-row class="ion-justify-content-start ion-align-items-center">
+                <ion-label style="font-size:2.5vh;margin:1vh;color:gray">Gender</ion-label>
+              </ion-row>
+              <ion-row class="ion-justify-content-center ion-align-items-center">
+                  <ion-item style="width:100%;font-size:2.5vh;--background:rgb(46, 46, 46);color: whitesmoke">
+                      <ion-select style="max-width: 100%;width:100%;padding:0;margin:0" text-start [(ngModel)]="profile.gender" (ngModelChange)="selectGender(gender)">
+                          <ion-select-option *ngFor="let gender of genders" [value]="gender.value">{{gender.value}}</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+              </ion-row>
+              <ion-row class="ion-justify-content-start ion-align-items-center">
+                  <ion-label style="font-size:2.5vh;margin:1vh;color:gray">Country</ion-label>
+                </ion-row>
+              <ion-row class="ion-justify-content-center ion-align-items-center">
+                  <ion-item style="width:100%;font-size:2.5vh;--background:rgb(46, 46, 46);color: whitesmoke">
+                      <ion-select style="max-width: 100%;width:100%;padding:0;margin:0" [(ngModel)]="profile.country" (ngModelChange)="selectCountry(country)">
+                        <ion-select-option *ngFor="let country of countries" [value]="country.name">{{country.name}}</ion-select-option>
+                      </ion-select>
+                    </ion-item>
+              </ion-row>
+          
+          </ion-grid>
 </ion-content>

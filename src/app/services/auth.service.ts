@@ -19,25 +19,53 @@ export class AuthService {
    return new Promise<any>((resolve, reject) => {
      firebase.auth().createUserWithEmailAndPassword(value.email, value.password)
      .then(
-       res => resolve(res),
-       err => reject(err))
+       res => resolve(res),err => reject(err))
    })
   }
 
-  doCreateProfile(name){
+  doDeleteAccount(){
+    return new Promise<any>((resolve, reject) => {
+      firebase.auth().currentUser.delete().then( () => {
+        resolve()
+      }).catch( err => {
+        reject(err)
+      })
+   })
+  }
+
+  doCreateProfile(profile){
     return new Promise<any>((resolve, reject) => {
       let currentUser = firebase.auth().currentUser;
 
       this.afs.collection('people').doc(currentUser.uid).collection('profile').doc('personalinfo').set({
-        name: name,
-        imgurl: '',
-        followers: [],
-        following: [],
-        status: ''
+        name: profile.name,imgurl: '',followers: [],following: [],status: "Hello,I'm a new member.",gender: 'Undisclosed',
+        email: profile.email,country: ''
       })
       .then(
-        res => resolve(res),
-        err => reject(err),
+        res => resolve(res),err => reject(err),
+      )
+    })
+   }
+
+   doDeleteProfile(){
+    return new Promise<any>((resolve, reject) => {
+      this.afs.doc<any>('people/' + firebase.auth().currentUser.uid+ '/profile/personalinfo').delete()
+      .then( () => {
+        resolve()
+   })
+  })
+}
+
+   doEditProfile(profile){
+    return new Promise<any>((resolve, reject) => {
+      let currentUser = firebase.auth().currentUser;
+
+      this.afs.collection('people').doc(currentUser.uid).collection('profile').doc('personalinfo').set({
+        name: profile.name,imgurl: profile.imgurl,followers: profile.followers,following: profile.following,status: profile.status,gender: profile.gender,
+        email: profile.email,country: profile.country
+      })
+      .then(
+        res => resolve(res),err => reject(err),
       )
     })
    }
@@ -46,8 +74,7 @@ export class AuthService {
    return new Promise<any>((resolve, reject) => {
      firebase.auth().signInWithEmailAndPassword(value.email, value.password)
      .then(
-       res => resolve(res),
-       err => reject(err))
+       res => resolve(res),err => reject(err))
    })
   }
 

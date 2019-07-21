@@ -7,5 +7,8 @@ export const environment = {
     projectId: "beabuddhist-3ceda",
     storageBucket: "eabuddhist-3ceda.appspot.com",
     messagingSenderId: "840588484607"
+  },
+  country:{
+    apiUrl: "https://restcountries.eu/rest/v2/"
   }
 };

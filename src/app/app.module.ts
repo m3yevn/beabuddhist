@@ -9,8 +9,6 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
-
-
 import { AngularFireModule } from '@angular/fire';
 import { AngularFirestoreModule, FirestoreSettingsToken } from '@angular/fire/firestore';
 import { AngularFireStorageModule } from '@angular/fire/storage';
@@ -23,7 +21,12 @@ import { AvatarPageModule } from './pages/avatar-routine/avatar-routine.module'
 import { ProfileSettingsPageModule } from './pages/profile-settings/profile-settings.module'
 import { EditProfilePageModule } from './pages/edit/edit-profile/edit-profile.module'
 import { ViewRoutineSettingsPageModule } from './pages/view/view-routine-settings/view-routine-settings.module'
-
+import { AddTasksPageModule } from './pages/add/add-tasks/add-tasks.module'
+import { ViewRoutineTaskSettingsPageModule } from './pages/view/view-routine-task-settings/view-routine-task-settings.module';
+import { ViewPackagePageModule } from './pages/view/view-package/view-package.module';
+import { PrivacyPolicyPageModule } from './pages/privacy-policy/privacy-policy.module';
+import { SupportPageModule } from './pages/support/support.module';
+import { AboutPageModule } from './pages/about/about.module';
 
 
 @NgModule({
@@ -33,7 +36,8 @@ import { ViewRoutineSettingsPageModule } from './pages/view/view-routine-setting
     AvatarPageModule,IonicModule.forRoot(),AppRoutingModule,FormsModule,TabsPageModule,ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),AngularFirestoreModule,
     AngularFireAuthModule, AngularFireStorageModule,ProfileSettingsPageModule,EditProfilePageModule,
-    ViewRoutineSettingsPageModule
+    ViewRoutineSettingsPageModule,AddTasksPageModule,ViewRoutineTaskSettingsPageModule,ViewPackagePageModule,
+    PrivacyPolicyPageModule,SupportPageModule,AboutPageModule
   ],
   providers: [
     StatusBar,

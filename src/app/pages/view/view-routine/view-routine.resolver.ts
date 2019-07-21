@@ -21,3 +21,21 @@ export class ViewRoutineResolver implements Resolve<any> {
     })
   }
 }
+
+@Injectable()
+export class TasksResolver implements Resolve<any> {
+
+  constructor(public firebaseService: FirebaseService,) { }
+
+  resolve(route: ActivatedRouteSnapshot) {
+
+    return new Promise((resolve, reject) => {
+      let id = route.paramMap.get('id');
+      this.firebaseService.getRoutineTasks(id).then(routine => {
+        routine.subscribe( data => {
+          resolve(data);
+        })
+      })
+    })
+  }
+}

@@ -2,6 +2,7 @@ import { BrowserRouter, NavLink, Route, Routes, Link } from "react-router-dom";
 import { AuthProvider, useAuth } from "./auth";
 import { PlayerProvider } from "./player";
 import { MiniPlayer } from "./components/MiniPlayer";
+import { NowPlayingSheet } from "./components/NowPlayingSheet";
 import { HomePage } from "./pages/HomePage";
 import { BrowsePage } from "./pages/BrowsePage";
 import { CategoryPage } from "./pages/CategoryPage";
@@ -43,6 +44,7 @@ function Shell() {
         <Route path="/login" element={<LoginPage />} />
       </Routes>
       <MiniPlayer />
+      <NowPlayingSheet />
     </div>
   );
 }

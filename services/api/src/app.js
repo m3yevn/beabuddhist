@@ -1,16 +1,35 @@
 import express from "express";
 import cors from "cors";
 import { configDotenv } from "dotenv";
-import { connectDb } from "./db.js";
+import { connectDb, pingDb } from "./db.js";
 import { requireAuth } from "./middleware/auth.js";
 import * as store from "./services/store.js";
 
 configDotenv();
 
-export async function createApp() {
-  await connectDb();
-  await store.seedCatalogIfEmpty();
+let catalogSeeded = false;
 
+async function ensureDb(_req, res, next) {
+  try {
+    await connectDb();
+    if (!catalogSeeded) {
+      await store.seedCatalogIfEmpty();
+      catalogSeeded = true;
+    }
+    next();
+  } catch (e) {
+    const status = e.code === "NOT_CONFIGURED" ? 503 : 503;
+    res.status(status).json({
+      error: "DATABASE_UNAVAILABLE",
+      message:
+        e.code === "NOT_CONFIGURED"
+          ? "Set MONGODB_STRING, MONGODB_NAME, and JWT_SECRET on the beabuddhist-api Vercel project."
+          : e.message,
+    });
+  }
+}
+
+export async function createApp() {
   const app = express();
   app.use(cors({ origin: true, credentials: true }));
   app.use(express.json());
@@ -20,8 +39,20 @@ export async function createApp() {
     next();
   });
 
-  app.get("/health", (_req, res) => {
-    res.json({ success: true, status: "healthy", service: "beabuddhist-api" });
+  app.get("/health", async (_req, res) => {
+    const db = await pingDb();
+    res.status(db.ok ? 200 : 503).json({
+      success: db.ok,
+      status: db.ok ? "healthy" : "degraded",
+      service: "beabuddhist-api",
+      database: db.ok ? "connected" : db.code,
+      ...(db.error && !db.ok ? { message: db.error } : {}),
+    });
+  });
+
+  app.use((req, res, next) => {
+    if (req.path === "/health") return next();
+    return ensureDb(req, res, next);
   });
 
   app.post("/auth/sign-up", async (req, res) => {

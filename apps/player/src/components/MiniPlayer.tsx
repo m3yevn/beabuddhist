@@ -1,20 +1,18 @@
 import { usePlayer, formatTime } from "../player";
 
 export function MiniPlayer() {
-  const { currentTrack, routineTitle, isPlaying, toggle, next, prev, currentTime, duration, tracks, seek } =
+  const { currentTrack, routineTitle, isPlaying, toggle, next, prev, currentTime, duration, tracks, seek, setQueueOpen } =
     usePlayer();
 
   if (!currentTrack) return null;
 
-  const progress = duration ? (currentTime / duration) * 100 : 0;
-
   return (
-    <div className="mini-player">
+    <div className="mini-player" onClick={() => setQueueOpen(true)} role="button" tabIndex={0} onKeyDown={(e) => e.key === "Enter" && setQueueOpen(true)}>
       <div className="mini-player-info">
         <strong>{currentTrack.title}</strong>
-        <span>{routineTitle}</span>
+        <span>{routineTitle} · tap for queue</span>
       </div>
-      <div className="mini-player-controls">
+      <div className="mini-player-controls" onClick={(e) => e.stopPropagation()}>
         <button type="button" onClick={prev} disabled={tracks.length <= 1} aria-label="Previous">
           ⏮
         </button>
@@ -25,7 +23,7 @@ export function MiniPlayer() {
           ⏭
         </button>
       </div>
-      <div className="mini-player-progress">
+      <div className="mini-player-progress" onClick={(e) => e.stopPropagation()}>
         <span>{formatTime(currentTime)}</span>
         <input
           type="range"
@@ -33,6 +31,7 @@ export function MiniPlayer() {
           max={duration || 100}
           value={currentTime}
           onChange={(e) => seek(Number(e.target.value))}
+          aria-label="Seek"
         />
         <span>{formatTime(duration)}</span>
       </div>

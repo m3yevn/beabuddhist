@@ -1,3 +1,12 @@
+import {
+  getCachedCategories,
+  getCachedPackage,
+  getCachedPackages,
+  setCachedCategories,
+  setCachedPackage,
+  setCachedPackages,
+} from "./catalogCache";
+
 const API_BASE = import.meta.env.VITE_API_URL || "https://beabuddhist-api.vercel.app";
 
 export type User = { id: string; email: string; displayName: string };
@@ -27,10 +36,39 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ email, password }),
     }),
-  categories: () => request<{ categories: Category[] }>("/catalog/categories"),
-  packages: (categoryId: string) =>
-    request<{ packages: Package[] }>(`/catalog/categories/${categoryId}/packages`),
-  package: (id: string) => request<{ package: Package }>(`/catalog/packages/${id}`),
+  async categories() {
+    try {
+      const data = await request<{ categories: Category[] }>("/catalog/categories");
+      setCachedCategories(data.categories);
+      return data;
+    } catch (e) {
+      const cached = getCachedCategories<Category[]>();
+      if (cached) return { categories: cached };
+      throw e;
+    }
+  },
+  async packages(categoryId: string) {
+    try {
+      const data = await request<{ packages: Package[] }>(`/catalog/categories/${categoryId}/packages`);
+      setCachedPackages(categoryId, data.packages);
+      return data;
+    } catch (e) {
+      const cached = getCachedPackages<Package[]>(categoryId);
+      if (cached) return { packages: cached };
+      throw e;
+    }
+  },
+  async package(id: string) {
+    try {
+      const data = await request<{ package: Package }>(`/catalog/packages/${id}`);
+      setCachedPackage(id, data.package);
+      return data;
+    } catch (e) {
+      const cached = getCachedPackage<Package>(id);
+      if (cached) return { package: cached };
+      throw e;
+    }
+  },
   routines: () => request<{ routines: Routine[] }>("/routines"),
   createRoutine: (title: string) =>
     request<{ routine: Routine }>("/routines", { method: "POST", body: JSON.stringify({ title }) }),

@@ -17,8 +17,11 @@ type PlayerContextValue = {
   currentTime: number;
   duration: number;
   currentTrack: PlaybackTrack | null;
+  queueOpen: boolean;
+  setQueueOpen: (open: boolean) => void;
   playRoutine: (title: string, list: PlaybackTrack[]) => void;
   playTrack: (title: string, track: PlaybackTrack) => void;
+  jumpTo: (index: number) => void;
   toggle: () => void;
   next: () => void;
   prev: () => void;
@@ -38,6 +41,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+  const [queueOpen, setQueueOpen] = useState(false);
 
   const playIndex = useCallback((list: PlaybackTrack[], index: number) => {
     const track = list[index];
@@ -69,12 +73,15 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       currentTime,
       duration,
       currentTrack: tracks[currentIndex] ?? null,
+      queueOpen,
+      setQueueOpen,
       playRoutine(title, list) {
         setRoutineTitle(title);
         setTracks(list);
         tracksRef.current = list;
         indexRef.current = 0;
         setCurrentIndex(0);
+        setQueueOpen(true);
         playIndex(list, 0);
       },
       playTrack(title, track) {
@@ -85,6 +92,12 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         indexRef.current = 0;
         setCurrentIndex(0);
         playIndex(list, 0);
+      },
+      jumpTo(index) {
+        if (index < 0 || index >= tracksRef.current.length) return;
+        indexRef.current = index;
+        setCurrentIndex(index);
+        playIndex(tracksRef.current, index);
       },
       toggle() {
         const audio = audioRef.current;
@@ -117,7 +130,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         setCurrentTime(time);
       },
     }),
-    [tracks, routineTitle, currentIndex, isPlaying, currentTime, duration, playIndex]
+    [tracks, routineTitle, currentIndex, isPlaying, currentTime, duration, queueOpen, playIndex]
   );
 
   return <PlayerContext.Provider value={value}>{children}</PlayerContext.Provider>;

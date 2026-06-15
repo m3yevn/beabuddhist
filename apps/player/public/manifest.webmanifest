@@ -1,10 +1,17 @@
 {
   "name": "Be A Buddhist",
   "short_name": "BeABuddhist",
-  "description": "Sacred audio routines for Buddhist practice",
+  "description": "Sacred audio routines and chants for Buddhist practice",
   "start_url": "/app/",
   "display": "standalone",
   "background_color": "#07060a",
-  "theme_color": "#07060a",
-  "icons": []
+  "theme_color": "#d4a84b",
+  "icons": [
+    {
+      "src": "/app/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }

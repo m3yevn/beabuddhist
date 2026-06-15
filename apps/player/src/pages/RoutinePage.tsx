@@ -59,7 +59,7 @@ export function RoutinePage() {
         <Link to="/browse" className="btn-ghost">+ Add from browse</Link>
         <button type="button" className="link-btn danger" onClick={deleteRoutine}>Delete</button>
       </div>
-      <p className="muted small">To add a chant: open a package in Browse, then use “Add to routine” (coming in next patch) — for now add via API or pick packages below.</p>
+      <p className="muted small">Add chants from Discover → open a package → “Add to routine”, or use Quick add below.</p>
       <ul className="track-list">
         {routine.tasks?.map((t) => (
           <li key={t.id} className="track-row static">

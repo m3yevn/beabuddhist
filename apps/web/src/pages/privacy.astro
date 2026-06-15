@@ -1,0 +1,50 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Privacy Policy"
+  description="Be A Buddhist privacy policy — data we collect and how we use it."
+  canonical="https://beabuddhist.vercel.app/privacy"
+>
+  <Header />
+  <main class="docs-page">
+    <div class="container docs-content" style="max-width: 720px; padding: 48px 24px">
+      <h1>Privacy Policy</h1>
+      <p class="docs-lead">Last updated: June 2026 · Be A Buddhist v2</p>
+
+      <section>
+        <h2>What we collect</h2>
+        <ul style="color: var(--muted); margin-left: 20px">
+          <li>Email and display name when you create an account</li>
+          <li>Prayer routines and playlist data you save</li>
+          <li>Basic usage logs (Vercel analytics, if enabled)</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2>What we do not sell</h2>
+        <p>We do not sell your personal data. Audio playback is for your practice only.</p>
+      </section>
+
+      <section>
+        <h2>Third parties</h2>
+        <p>
+          Hosting: Vercel. Database: MongoDB Atlas. Future AI features may call Hugging Face or
+          self-hosted open models — only when you opt in.
+        </p>
+      </section>
+
+      <section>
+        <h2>Contact</h2>
+        <p>
+          <a href="https://kevinmoemyintmyat.vercel.app">Kevin Moe Myint Myat</a> —
+          m3.luvusomuch@gmail.com
+        </p>
+      </section>
+    </div>
+  </main>
+  <Footer />
+</Layout>

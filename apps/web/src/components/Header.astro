@@ -8,8 +8,9 @@ const path = Astro.url.pathname;
       <span class="logo-mark">🙏</span>
       <span class="logo-text">Be A <strong>Buddhist</strong></span>
     </a>
-    <nav class="nav">
-      <a href="/docs" aria-current={path.startsWith("/docs") ? "page" : undefined}>Docs</a>
+        <nav class="nav">
+          <a href="/app/">App</a>
+          <a href="/docs" aria-current={path.startsWith("/docs") ? "page" : undefined}>Docs</a>
       <a href="/docs/ai">Free AI</a>
       <a href="https://github.com/m3yevn/beabuddhist" rel="noopener">GitHub</a>
       <a

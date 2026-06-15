@@ -1,6 +1,52 @@
 {
-  "installCommand": "cd apps/web && npm install",
-  "buildCommand": "cd apps/web && npm run build",
-  "outputDirectory": "apps/web/dist",
-  "framework": "astro"
+  "version": 2,
+  "installCommand": "npm install --prefix services/api && npm install --prefix apps/player && npm install --prefix apps/web",
+  "buildCommand": "npm run build --prefix apps/player && npm run build --prefix apps/web",
+  "builds": [
+    {
+      "src": "services/api/src/vercel.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "apps/web/package.json",
+      "use": "@vercel/static-build",
+      "config": {
+        "distDir": "dist"
+      }
+    }
+  ],
+  "routes": [
+    {
+      "src": "/api/(.*)",
+      "dest": "services/api/src/vercel.js"
+    },
+    {
+      "src": "/app",
+      "dest": "/apps/web/dist/app/index.html"
+    },
+    {
+      "src": "/app/(.*)",
+      "dest": "/apps/web/dist/app/$1"
+    },
+    {
+      "src": "/",
+      "dest": "/apps/web/dist/index.html"
+    },
+    {
+      "src": "/docs",
+      "dest": "/apps/web/dist/docs/index.html"
+    },
+    {
+      "src": "/docs/ai",
+      "dest": "/apps/web/dist/docs/ai/index.html"
+    },
+    {
+      "src": "/privacy",
+      "dest": "/apps/web/dist/privacy/index.html"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/apps/web/dist/$1"
+    }
+  ]
 }

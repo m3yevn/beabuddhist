@@ -1,0 +1,101 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout
+  title="Documentation"
+  description="Be A Buddhist v2 docs — roadmap, architecture, routines, and free open-source AI stack."
+  canonical="https://beabuddhist.vercel.app/docs"
+>
+  <Header />
+  <main class="docs-page">
+    <div class="container docs-layout">
+      <aside class="docs-sidebar">
+        <p class="docs-sidebar-title">Documentation</p>
+        <nav class="docs-toc">
+          <a href="/docs">Overview</a>
+          <a href="/docs#roadmap">Roadmap</a>
+          <a href="/docs#architecture">Architecture</a>
+          <a href="/docs#routines">Routines</a>
+          <a href="/docs/ai">Free AI stack</a>
+        </nav>
+      </aside>
+
+      <article class="docs-content">
+        <h1>Documentation</h1>
+        <p class="docs-lead">
+          Be A Buddhist v2 — sacred audio platform. Prayer routines, Spotify-style player,
+          and generative ambience using only free open-source AI.
+        </p>
+
+        <section id="roadmap">
+          <h2>Roadmap</h2>
+          <ul class="roadmap">
+            <li class="done"><strong>Phase 0</strong> — Landing + docs (this site)</li>
+            <li class="active"><strong>Phase 1</strong> — Web PWA: auth, browse, routines, playback</li>
+            <li><strong>Phase 2</strong> — Player polish: queue, offline, discover, search</li>
+            <li><strong>Phase 3</strong> — Free AI soundscapes (MusicGen, Bark, Piper)</li>
+            <li><strong>Phase 4</strong> — Capacitor → Play Store v2</li>
+          </ul>
+        </section>
+
+        <section id="architecture">
+          <h2>Architecture</h2>
+          <pre class="code-block">beabuddhist/
+├── apps/web/          ← Astro landing + docs (you are here)
+├── apps/player/       ← Phase 1: React PWA player
+├── services/api/      ← express-instant or Hono API
+└── legacy/            ← Ionic 4 app (v1, reference)</pre>
+          <p>
+            Monorepo lives at
+            <a href="https://github.com/m3yevn/beabuddhist">github.com/m3yevn/beabuddhist</a>.
+            Full spec in <code>REBIRTH.md</code>.
+          </p>
+        </section>
+
+        <section id="routines">
+          <h2>Routines</h2>
+          <p>
+            A <strong>routine</strong> is an ordered playlist of chants/mantras for a practice session —
+            morning metta, evening reflection, precept recitation, etc.
+          </p>
+          <h3>v1 features (preserved)</h3>
+          <ul style="color: var(--muted); margin-left: 20px; margin-bottom: 16px">
+            <li>Create, edit, delete routines</li>
+            <li>Add tasks from browse categories</li>
+            <li>Sequential playback with skip</li>
+            <li>Avatar + public/private routines</li>
+          </ul>
+          <h3>v2 additions</h3>
+          <ul style="color: var(--muted); margin-left: 20px">
+            <li>Queue and now-playing UI</li>
+            <li>Offline download per routine</li>
+            <li>AI-generated ambient bed under a routine</li>
+            <li>Share routine links on web</li>
+          </ul>
+        </section>
+
+        <section>
+          <h2>Free AI</h2>
+          <p>
+            No paid Suno API. v2 uses open-source models you can self-host or run on
+            <a href="https://huggingface.co/inference-api">Hugging Face free inference</a>.
+          </p>
+          <a href="/docs/ai" class="btn btn-primary">View free AI stack →</a>
+        </section>
+
+        <section>
+          <h2>v1 Android app</h2>
+          <p>
+            Still available on
+            <a href="https://play.google.com/store/apps/details?id=com.beabuddhist.app">Google Play</a>
+            (Ionic 4). v2 web app will supersede it once Phase 4 ships.
+          </p>
+        </section>
+      </article>
+    </div>
+  </main>
+  <Footer />
+</Layout>

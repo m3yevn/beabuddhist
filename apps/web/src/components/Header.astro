@@ -1,0 +1,25 @@
+---
+const path = Astro.url.pathname;
+---
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="/" class="logo">
+      <span class="logo-mark">🙏</span>
+      <span class="logo-text">Be A <strong>Buddhist</strong></span>
+    </a>
+    <nav class="nav">
+      <a href="/docs" aria-current={path.startsWith("/docs") ? "page" : undefined}>Docs</a>
+      <a href="/docs/ai">Free AI</a>
+      <a href="https://github.com/m3yevn/beabuddhist" rel="noopener">GitHub</a>
+      <a
+        href="https://play.google.com/store/apps/details?id=com.beabuddhist.app"
+        rel="noopener"
+        class="btn btn-primary"
+        style="padding: 8px 16px; font-size: 0.85rem"
+      >
+        Play Store
+      </a>
+    </nav>
+  </div>
+</header>

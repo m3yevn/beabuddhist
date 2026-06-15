@@ -1,0 +1,110 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Be A Buddhist"
+  description="Build prayer routines, discover sacred audio, and generate meditation soundscapes — the mindful alternative to endless scrolling."
+  canonical="https://beabuddhist.vercel.app/"
+>
+  <Header />
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <div class="badge-row">
+            <span class="badge">v2 rebirth</span>
+            <span class="badge">routines + player</span>
+            <span class="badge">free OSS AI</span>
+          </div>
+          <h1>Your practice.<br />One routine.<br /><span style="color: var(--accent)">Infinite peace.</span></h1>
+          <p class="hero-lead">
+            Spotify-grade player UX for chants and mantras. Build prayer routines.
+            Generate ambient soundscapes with <strong>free, open-source AI</strong> — no subscription required.
+          </p>
+          <div class="hero-actions">
+            <a href="/docs" class="btn btn-primary">Read the docs</a>
+            <a
+              href="https://play.google.com/store/apps/details?id=com.beabuddhist.app"
+              class="btn btn-ghost"
+              rel="noopener"
+            >
+              Android app (v1)
+            </a>
+          </div>
+          <p class="badge-row">
+            <span class="badge">Web PWA coming Phase 1</span>
+          </p>
+        </div>
+
+        <div class="player-mock" aria-hidden="true">
+          <div class="player-cover">☸️</div>
+          <div class="player-track">Morning Metta Routine</div>
+          <div class="player-artist">5 chants · 24 min</div>
+          <div class="progress"><div class="progress-bar"></div></div>
+          <div class="player-controls">
+            <span>⏮</span>
+            <span class="play-btn">▶</span>
+            <span>⏭</span>
+          </div>
+          <div class="routine-list">
+            <div class="routine-item active"><span class="routine-num">1</span> Karaniya Metta Sutta</div>
+            <div class="routine-item"><span class="routine-num">2</span> Taking Refuge</div>
+            <div class="routine-item"><span class="routine-num">3</span> Five Precepts</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Spotify clarity. Suno ambience. Buddhist heart.</h2>
+        <p class="section-lead">
+          Not another generic music app — a sacred audio platform built around <strong>routines</strong>,
+          the feature that made v1 work on the Play Store.
+        </p>
+        <div class="feature-grid">
+          <article class="feature-card">
+            <h3>🎧 Player</h3>
+            <p>Now-playing bar, queue, seek, repeat routine. Dark immersive UI designed for long sits.</p>
+          </article>
+          <article class="feature-card">
+            <h3>📿 Routines</h3>
+            <p>Name your practice, order chants and mantras, play hands-free from start to finish.</p>
+          </article>
+          <article class="feature-card">
+            <h3>🔍 Discover</h3>
+            <p>Browse by tradition — Theravada, mindfulness, Pali chanting, metta, and more.</p>
+          </article>
+          <article class="feature-card">
+            <h3>✨ Free AI</h3>
+            <p>
+              Ambient sessions via <a href="/docs/ai">MusicGen, Bark, Piper</a> — self-hosted or Hugging Face free tier. $0.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>v1 → v2</h2>
+        <p class="section-lead">Live on Play Store since 2020. Rebuilding for web, PWA, and modern AI.</p>
+        <table class="compare-table">
+          <thead>
+            <tr><th></th><th>v1 (live)</th><th>v2 (building)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Platform</td><td>Android only</td><td>Web PWA + Capacitor</td></tr>
+            <tr><td>Stack</td><td>Ionic 4 / Angular 7</td><td>Astro + React player</td></tr>
+            <tr><td>AI audio</td><td>—</td><td>Free OSS models</td></tr>
+            <tr><td>Offline</td><td>Limited</td><td>Service worker cache</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <Footer />
+</Layout>

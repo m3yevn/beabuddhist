@@ -1,0 +1,147 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import Header from "../../components/Header.astro";
+import Footer from "../../components/Footer.astro";
+---
+
+<Layout
+  title="Free AI Stack"
+  description="Free open-source AI for Buddhist ambient audio — MusicGen, Bark, Piper, Hugging Face, self-hosted. No paid APIs."
+  canonical="https://beabuddhist.vercel.app/docs/ai"
+>
+  <Header />
+  <main class="docs-page">
+    <div class="container docs-layout">
+      <aside class="docs-sidebar">
+        <p class="docs-sidebar-title">Free AI</p>
+        <nav class="docs-toc">
+          <a href="/docs">← Docs</a>
+          <a href="#musicgen">MusicGen</a>
+          <a href="#bark">Bark</a>
+          <a href="#piper">Piper TTS</a>
+          <a href="#huggingface">Hugging Face</a>
+          <a href="#strategy">v2 strategy</a>
+        </nav>
+      </aside>
+
+      <article class="docs-content">
+        <h1>Free open-source AI</h1>
+        <p class="docs-lead">
+          Be A Buddhist v2 will use <strong>$0 AI</strong> — no Suno subscription, no OpenAI bills.
+          Self-host on your machine or use Hugging Face's free inference tier for demos.
+        </p>
+
+        <section id="musicgen">
+          <div class="ai-card">
+            <span class="tag">Ambient · MIT</span>
+            <h3>Meta MusicGen</h3>
+            <p>
+              Text-to-music generation. Prompt: <em>"soft temple bells, 20 minute meditation ambient, no drums"</em>
+              → backing track for a routine. Part of
+              <a href="https://github.com/facebookresearch/audiocraft">AudioCraft</a> (Meta, MIT license).
+            </p>
+            <pre class="code-block"># Self-host (GPU recommended)
+pip install audiocraft
+python -m audiocraft.demo musicgen --prompt "temple bells meditation"</pre>
+            <p>
+              <a href="https://huggingface.co/facebook/musicgen-small">musicgen-small</a> on Hugging Face —
+              free serverless inference (rate-limited, fine for personal use).
+            </p>
+          </div>
+        </section>
+
+        <section id="bark">
+          <div class="ai-card">
+            <span class="tag">SFX · TTS · MIT</span>
+            <h3>Suno Bark (open source)</h3>
+            <p>
+              Text-to-audio: speech, chanting-style vocals, sound effects.
+              <a href="https://github.com/suno-ai/bark">github.com/suno-ai/bark</a> — MIT license.
+              Good for short guided intros or bell sounds from text prompts.
+            </p>
+            <pre class="code-block">pip install git+https://github.com/suno-ai/bark.git
+# Generate from prompt string</pre>
+          </div>
+        </section>
+
+        <section id="piper">
+          <div class="ai-card">
+            <span class="tag">Guided voice · MIT</span>
+            <h3>Piper TTS</h3>
+            <p>
+              Fast, local text-to-speech. Run offline on phone or server — perfect for
+              "begin your metta practice" intros without cloud costs.
+              <a href="https://github.com/rhasspy/piper">github.com/rhasspy/piper</a>
+            </p>
+            <pre class="code-block"># ONNX models, runs on CPU
+echo "Begin your metta practice" | piper --model en_US-lessac-medium</pre>
+          </div>
+        </section>
+
+        <section id="huggingface">
+          <div class="ai-card">
+            <span class="tag">Free tier · API</span>
+            <h3>Hugging Face Inference API</h3>
+            <p>
+              Free tier for open models — MusicGen, Bark, and others.
+              <a href="https://huggingface.co/inference-api">huggingface.co/inference-api</a>
+              Rate limits apply; self-host when you outgrow them.
+            </p>
+            <pre class="code-block"><code set:html={`POST https://api-inference.huggingface.co/models/facebook/musicgen-small
+Authorization: Bearer HF_TOKEN  # free account`} /></pre>
+          </div>
+        </section>
+
+        <section id="stable">
+          <div class="ai-card">
+            <span class="tag">Ambient · Open weights</span>
+            <h3>Stable Audio Open</h3>
+            <p>
+              Stability AI's open model for short audio clips (≤47s).
+              <a href="https://huggingface.co/stabilityai/stable-audio-open-1.0">stable-audio-open-1.0</a>
+              — useful for transition stingers and short ambient loops.
+            </p>
+          </div>
+        </section>
+
+        <section id="strategy">
+          <h2>v2 integration strategy</h2>
+          <table class="compare-table">
+            <thead>
+              <tr><th>Use case</th><th>Model</th><th>Cost</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Routine ambient bed</td><td>MusicGen small</td><td>Free (HF or self-host)</td></tr>
+              <tr><td>Guided intro voice</td><td>Piper TTS</td><td>Free, offline</td></tr>
+              <tr><td>Bells / nature SFX</td><td>Bark or Web Audio</td><td>Free</td></tr>
+              <tr><td>Extend chant loop</td><td>AudioCraft MusicGen</td><td>Free</td></tr>
+              <tr><td>Production scale</td><td>Self-host on GPU VPS</td><td>~$5–20/mo optional</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Abstraction layer</h3>
+          <p>Phase 3 adds an <code>AudioGenProvider</code> interface:</p>
+          <pre class="code-block"><code set:html={`interface AudioGenProvider {
+  generateAmbient(prompt: string, durationSec: number): Promise&lt;Blob&gt;;
+  generateVoice(text: string): Promise&lt;Blob&gt;;
+}
+
+// MusicGenProvider | PiperProvider | ProceduralProvider (Web Audio)`} /></pre>
+          <p>
+            <strong>ProceduralProvider</strong> uses Web Audio API oscillators + noise — zero API,
+            always works offline. AI is optional enhancement, not a hard dependency.
+          </p>
+        </section>
+
+        <section>
+          <h2>Ethics & labeling</h2>
+          <p>
+            AI-generated audio is always labeled in the UI. Monastery-reviewed catalog stays separate
+            from generated content. Users can practice with recorded dharma only — no AI required.
+          </p>
+        </section>
+      </article>
+    </div>
+  </main>
+  <Footer />
+</Layout>

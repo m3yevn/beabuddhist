@@ -7,7 +7,7 @@ import {
   setCachedPackages,
 } from "./catalogCache";
 
-const API_BASE = import.meta.env.VITE_API_URL || "https://beabuddhist-api.vercel.app";
+const API_BASE = import.meta.env.VITE_API_URL || "https://api-brown-iota.vercel.app";
 
 export type User = { id: string; email: string; displayName: string };
 

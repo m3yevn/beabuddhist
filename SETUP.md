@@ -27,7 +27,7 @@ Unblocks sign-up, routines, and catalog on [beabuddhist.vercel.app/app](https://
 ## 3. Verify
 
 ```bash
-curl https://beabuddhist-api.vercel.app/health
+curl https://api-brown-iota.vercel.app/health
 ```
 
 Expected when configured:

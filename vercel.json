@@ -1,14 +1,8 @@
 {
-  "installCommand": "npm install --prefix services/api && npm install --prefix apps/player && npm install --prefix apps/web",
+  "installCommand": "npm install --prefix apps/player && npm install --prefix apps/web",
   "buildCommand": "npm run build --prefix apps/player && npm run build --prefix apps/web",
   "outputDirectory": "apps/web/dist",
-  "functions": {
-    "api/index.js": {
-      "includeFiles": "services/api/**"
-    }
-  },
   "rewrites": [
-    { "source": "/api/(.*)", "destination": "/api" },
     { "source": "/app", "destination": "/app/index.html" },
     { "source": "/app/((?!assets/).*)", "destination": "/app/index.html" }
   ]

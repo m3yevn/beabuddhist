@@ -13,6 +13,7 @@ Sacred audio PWA — chanting, meditation, dharma, ambient.
 | **Legal** | `/privacy`, `/terms`, footer contact links |
 | **Audits** | `BEABUDDHIST_UX_AUDIT.md`, `CATALOG_AUDIT.md`, `AI_PIPELINE_AUDIT.md` |
 | **Licensed audio plan** | `LICENSED_AUDIO.md` |
+| **API Vercel bundle** | `catalog.seed.mjs` in `services/api` — reseed confirmed v2/8 categories |
 
 ## Next
 

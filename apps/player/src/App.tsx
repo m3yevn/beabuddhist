@@ -3,8 +3,11 @@ import { AuthProvider, useAuth } from "./auth";
 import { PlayerProvider } from "./player";
 import { MiniPlayer } from "./components/MiniPlayer";
 import { NowPlayingSheet } from "./components/NowPlayingSheet";
+import { ApiBanner } from "./components/ApiBanner";
 import { HomePage } from "./pages/HomePage";
 import { BrowsePage } from "./pages/BrowsePage";
+import { SearchPage } from "./pages/SearchPage";
+import { LibraryPage } from "./pages/LibraryPage";
 import { CategoryPage } from "./pages/CategoryPage";
 import { PackagePage } from "./pages/PackagePage";
 import { RoutinePage } from "./pages/RoutinePage";
@@ -27,6 +30,7 @@ function Shell() {
           )}
         </div>
       </header>
+      <ApiBanner />
       <nav className="tab-nav">
         <NavLink to="/" end className={({ isActive }) => (isActive ? "active" : "")}>
           Home
@@ -34,10 +38,18 @@ function Shell() {
         <NavLink to="/browse" className={({ isActive }) => (isActive ? "active" : "")}>
           Discover
         </NavLink>
+        <NavLink to="/search" className={({ isActive }) => (isActive ? "active" : "")}>
+          Search
+        </NavLink>
+        <NavLink to="/library" className={({ isActive }) => (isActive ? "active" : "")}>
+          Library
+        </NavLink>
       </nav>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/browse" element={<BrowsePage />} />
+        <Route path="/search" element={<SearchPage />} />
+        <Route path="/library" element={<LibraryPage />} />
         <Route path="/browse/:categoryId" element={<CategoryPage />} />
         <Route path="/package/:packageId" element={<PackagePage />} />
         <Route path="/routine/:routineId" element={<RoutinePage />} />

@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { api, type Category } from "../api";
+import { getCategoriesList, prefetchCatalog } from "../catalogIndex";
 
 export function BrowsePage() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState(getCategoriesList());
 
   useEffect(() => {
-    api.categories().then((r) => setCategories(r.categories));
+    prefetchCatalog().then(() => setCategories(getCategoriesList()));
   }, []);
 
   return (

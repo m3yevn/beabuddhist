@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import type { PlaybackTrack } from "./api";
+import { addRecentPlay } from "./recentPlays";
 
 type PlayerContextValue = {
   tracks: PlaybackTrack[];
@@ -61,7 +62,11 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         setIsPlaying(false);
       }
     };
-    audio.play().then(() => setIsPlaying(true)).catch(() => setIsPlaying(false));
+    audio.play().then(() => {
+      setIsPlaying(true);
+      const t = list[index];
+      if (t) addRecentPlay(t);
+    }).catch(() => setIsPlaying(false));
   }, []);
 
   const value = useMemo<PlayerContextValue>(

@@ -6,6 +6,7 @@ import {
   setCachedPackage,
   setCachedPackages,
 } from "./catalogCache";
+import { seedCategories, seedPackages } from "./seedCatalog";
 
 const API_BASE = import.meta.env.VITE_API_URL || "https://api-brown-iota.vercel.app";
 
@@ -41,21 +42,25 @@ export const api = {
       const data = await request<{ categories: Category[] }>("/catalog/categories");
       setCachedCategories(data.categories);
       return data;
-    } catch (e) {
+    } catch {
       const cached = getCachedCategories<Category[]>();
       if (cached) return { categories: cached };
-      throw e;
+      setCachedCategories(seedCategories);
+      return { categories: seedCategories };
     }
   },
   async packages(categoryId: string) {
     try {
       const data = await request<{ packages: Package[] }>(`/catalog/categories/${categoryId}/packages`);
       setCachedPackages(categoryId, data.packages);
+      for (const p of data.packages) setCachedPackage(p.id, p);
       return data;
-    } catch (e) {
+    } catch {
       const cached = getCachedPackages<Package[]>(categoryId);
       if (cached) return { packages: cached };
-      throw e;
+      const seeded = seedPackages.filter((p) => p.categoryId === categoryId);
+      setCachedPackages(categoryId, seeded);
+      return { packages: seeded };
     }
   },
   async package(id: string) {
@@ -63,10 +68,12 @@ export const api = {
       const data = await request<{ package: Package }>(`/catalog/packages/${id}`);
       setCachedPackage(id, data.package);
       return data;
-    } catch (e) {
+    } catch {
       const cached = getCachedPackage<Package>(id);
       if (cached) return { package: cached };
-      throw e;
+      const seeded = seedPackages.find((p) => p.id === id);
+      if (seeded) return { package: seeded };
+      throw new Error("Package not found");
     }
   },
   routines: () => request<{ routines: Routine[] }>("/routines"),

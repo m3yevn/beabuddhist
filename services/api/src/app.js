@@ -4,6 +4,7 @@ import { configDotenv } from "dotenv";
 import { connectDb, pingDb } from "./db.js";
 import { requireAuth } from "./middleware/auth.js";
 import * as store from "./services/store.js";
+import { categories as seedCategories, packages as seedPackages } from "./data/catalog.js";
 
 configDotenv();
 
@@ -18,8 +19,7 @@ async function ensureDb(_req, res, next) {
     }
     next();
   } catch (e) {
-    const status = e.code === "NOT_CONFIGURED" ? 503 : 503;
-    res.status(status).json({
+    res.status(503).json({
       error: "DATABASE_UNAVAILABLE",
       message:
         e.code === "NOT_CONFIGURED"
@@ -27,6 +27,57 @@ async function ensureDb(_req, res, next) {
           : e.message,
     });
   }
+}
+
+async function listCategories() {
+  try {
+    if (process.env.MONGODB_STRING) {
+      await connectDb();
+      if (!catalogSeeded) {
+        await store.seedCatalogIfEmpty();
+        catalogSeeded = true;
+      }
+      const rows = await store.listCategories();
+      if (rows.length) return rows;
+    }
+  } catch {
+    /* fall through to static seed */
+  }
+  return seedCategories;
+}
+
+async function listPackages(categoryId) {
+  try {
+    if (process.env.MONGODB_STRING) {
+      await connectDb();
+      if (!catalogSeeded) {
+        await store.seedCatalogIfEmpty();
+        catalogSeeded = true;
+      }
+      const rows = await store.listPackages(categoryId);
+      if (rows.length) return rows;
+    }
+  } catch {
+    /* fall through */
+  }
+  return seedPackages.filter((p) => p.categoryId === categoryId);
+}
+
+async function getPackage(packageId) {
+  try {
+    if (process.env.MONGODB_STRING) {
+      await connectDb();
+      if (!catalogSeeded) {
+        await store.seedCatalogIfEmpty();
+        catalogSeeded = true;
+      }
+      const pkg = await store.getPackage(packageId);
+      if (pkg) return pkg;
+    }
+  } catch {
+    /* fall through */
+  }
+  return seedPackages.find((p) => p.id === packageId) ?? null;
 }
 
 export async function createApp() {
@@ -50,12 +101,28 @@ export async function createApp() {
     });
   });
 
-  app.use((req, res, next) => {
-    if (req.path === "/health") return next();
-    return ensureDb(req, res, next);
+  // Public catalog — works without MongoDB
+  app.get("/catalog/categories", async (_req, res) => {
+    const categories = await listCategories();
+    res.json({ success: true, categories });
   });
 
-  app.post("/auth/sign-up", async (req, res) => {
+  app.get("/catalog/categories/:categoryId/packages", async (req, res) => {
+    const packages = await listPackages(req.params.categoryId);
+    res.json({ success: true, packages });
+  });
+
+  app.get("/catalog/packages/:packageId", async (req, res) => {
+    const pkg = await getPackage(req.params.packageId);
+    if (!pkg) return res.status(404).json({ error: "NOT_FOUND", message: "Package not found." });
+    res.json({ success: true, package: pkg });
+  });
+
+  // Auth + routines require MongoDB
+  const dbRoutes = express.Router();
+  dbRoutes.use(ensureDb);
+
+  dbRoutes.post("/auth/sign-up", async (req, res) => {
     try {
       const { email, password, displayName } = req.body || {};
       if (!email || !password) {
@@ -68,7 +135,7 @@ export async function createApp() {
     }
   });
 
-  app.post("/auth/sign-in", async (req, res) => {
+  dbRoutes.post("/auth/sign-in", async (req, res) => {
     try {
       const { email, password } = req.body || {};
       if (!email || !password) {
@@ -81,23 +148,7 @@ export async function createApp() {
     }
   });
 
-  app.get("/catalog/categories", async (_req, res) => {
-    const categories = await store.listCategories();
-    res.json({ success: true, categories });
-  });
-
-  app.get("/catalog/categories/:categoryId/packages", async (req, res) => {
-    const packages = await store.listPackages(req.params.categoryId);
-    res.json({ success: true, packages });
-  });
-
-  app.get("/catalog/packages/:packageId", async (req, res) => {
-    const pkg = await store.getPackage(req.params.packageId);
-    if (!pkg) return res.status(404).json({ error: "NOT_FOUND", message: "Package not found." });
-    res.json({ success: true, package: pkg });
-  });
-
-  app.get("/routines", requireAuth, async (req, res) => {
+  dbRoutes.get("/routines", requireAuth, async (req, res) => {
     const routines = await store.listRoutines(req.user.sub);
     res.json({
       success: true,
@@ -105,7 +156,7 @@ export async function createApp() {
     });
   });
 
-  app.post("/routines", requireAuth, async (req, res) => {
+  dbRoutes.post("/routines", requireAuth, async (req, res) => {
     const { title } = req.body || {};
     if (!title?.trim()) {
       return res.status(400).json({ error: "VALIDATION", message: "title required." });
@@ -114,26 +165,26 @@ export async function createApp() {
     res.status(201).json({ success: true, routine });
   });
 
-  app.get("/routines/:id", requireAuth, async (req, res) => {
+  dbRoutes.get("/routines/:id", requireAuth, async (req, res) => {
     const routine = await store.getRoutine(req.user.sub, req.params.id);
     if (!routine) return res.status(404).json({ error: "NOT_FOUND", message: "Routine not found." });
     res.json({ success: true, routine });
   });
 
-  app.put("/routines/:id", requireAuth, async (req, res) => {
+  dbRoutes.put("/routines/:id", requireAuth, async (req, res) => {
     const { title } = req.body || {};
     const routine = await store.updateRoutine(req.user.sub, req.params.id, { title });
     if (!routine) return res.status(404).json({ error: "NOT_FOUND", message: "Routine not found." });
     res.json({ success: true, routine: { ...routine, id: routine._id.toString() } });
   });
 
-  app.delete("/routines/:id", requireAuth, async (req, res) => {
+  dbRoutes.delete("/routines/:id", requireAuth, async (req, res) => {
     const ok = await store.deleteRoutine(req.user.sub, req.params.id);
     if (!ok) return res.status(404).json({ error: "NOT_FOUND", message: "Routine not found." });
     res.json({ success: true });
   });
 
-  app.post("/routines/:id/tasks", requireAuth, async (req, res) => {
+  dbRoutes.post("/routines/:id/tasks", requireAuth, async (req, res) => {
     try {
       const { packageId, trackId } = req.body || {};
       if (!packageId) {
@@ -146,17 +197,19 @@ export async function createApp() {
     }
   });
 
-  app.delete("/routines/:id/tasks/:taskId", requireAuth, async (req, res) => {
+  dbRoutes.delete("/routines/:id/tasks/:taskId", requireAuth, async (req, res) => {
     const routine = await store.removeTask(req.user.sub, req.params.id, req.params.taskId);
     if (!routine) return res.status(404).json({ error: "NOT_FOUND" });
     res.json({ success: true, routine });
   });
 
-  app.get("/routines/:id/playback", requireAuth, async (req, res) => {
+  dbRoutes.get("/routines/:id/playback", requireAuth, async (req, res) => {
     const playback = await store.resolvePlayback(req.user.sub, req.params.id);
     if (!playback) return res.status(404).json({ error: "NOT_FOUND" });
     res.json({ success: true, playback });
   });
+
+  app.use(dbRoutes);
 
   app.use((err, _req, res, _next) => {
     console.error(err);

@@ -8,7 +8,7 @@ import {
 } from "./catalogCache";
 import { seedCategories, seedPackages } from "./seedCatalog";
 
-const API_BASE = import.meta.env.VITE_API_URL || "https://api-brown-iota.vercel.app";
+const API_BASE = import.meta.env.VITE_API_URL || "https://beabuddhist-api.vercel.app";
 
 export type User = { id: string; email: string; displayName: string };
 

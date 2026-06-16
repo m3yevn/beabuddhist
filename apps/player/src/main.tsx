@@ -4,9 +4,12 @@ import App from "./App";
 import "./styles.css";
 import { prefetchCatalog } from "./catalogIndex";
 
-prefetchCatalog();
+prefetchCatalog().catch(() => {});
 
 if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.getRegistrations().then((regs) => {
+    regs.forEach((r) => r.update());
+  });
   navigator.serviceWorker.register("/app/sw.js").catch(() => {});
 }
 

@@ -1,12 +1,12 @@
-const CACHE = "bab-shell-v1";
+const CACHE = "bab-shell-v2";
 
 self.addEventListener("install", (event) => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE).then((cache) =>
-      cache.addAll(["/app/", "/app/index.html", "/app/manifest.webmanifest", "/app/icon.svg"])
+      cache.addAll(["/app/manifest.webmanifest", "/app/icon.svg"])
     )
   );
-  self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
@@ -18,19 +18,14 @@ self.addEventListener("activate", (event) => {
   self.clients.claim();
 });
 
+/** Network-first for app shell — avoids serving stale hashed JS bundles */
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin || !url.pathname.startsWith("/app")) return;
 
   event.respondWith(
-    fetch(event.request)
-      .then((res) => {
-        if (res.ok && event.request.method === "GET") {
-          const copy = res.clone();
-          caches.open(CACHE).then((c) => c.put(event.request, copy));
-        }
-        return res;
-      })
-      .catch(() => caches.match(event.request).then((r) => r || caches.match("/app/index.html")))
+    fetch(event.request).catch(() =>
+      caches.match(event.request).then((cached) => cached || caches.match("/app/index.html"))
+    )
   );
 });

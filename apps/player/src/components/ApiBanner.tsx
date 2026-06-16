@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-const API_BASE = import.meta.env.VITE_API_URL || "https://api-brown-iota.vercel.app";
+const API_BASE = import.meta.env.VITE_API_URL || "https://beabuddhist-api.vercel.app";
 
 export function ApiBanner() {
   const [msg, setMsg] = useState<string | null>(null);
@@ -10,7 +10,7 @@ export function ApiBanner() {
       .then((r) => r.json())
       .then((d) => {
         if (d.database === "NOT_CONFIGURED") {
-          setMsg("Account features need MongoDB on beabuddhist-api — browse & play still work offline.");
+          setMsg("Sign-in & routines need MongoDB on beabuddhist-api — browse & play work without it.");
         } else if (!d.success) {
           setMsg("API connection issue — using offline catalog.");
         }

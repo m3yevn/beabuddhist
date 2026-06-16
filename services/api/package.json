@@ -5,6 +5,8 @@
   "private": true,
   "engines": { "node": ">=20" },
   "scripts": {
+    "prestart": "node scripts/sync-catalog.mjs",
+    "predev": "node scripts/sync-catalog.mjs",
     "start": "node src/server.js",
     "dev": "node --watch src/server.js",
     "seed": "node src/seed.js"

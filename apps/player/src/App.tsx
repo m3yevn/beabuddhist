@@ -12,9 +12,11 @@ import { CategoryPage } from "./pages/CategoryPage";
 import { PackagePage } from "./pages/PackagePage";
 import { RoutinePage } from "./pages/RoutinePage";
 import { LoginPage } from "./pages/LoginPage";
+import { ProfilePage } from "./pages/ProfilePage";
+import { UserProfilePage } from "./pages/UserProfilePage";
 
 function Shell() {
-  const { user, signOut } = useAuth();
+  const { user } = useAuth();
 
   return (
     <div className="app-shell">
@@ -22,9 +24,9 @@ function Shell() {
         <Link to="/" className="brand">🙏 Be A Buddhist</Link>
         <div>
           {user ? (
-            <button type="button" className="link-btn" onClick={signOut}>
-              {user.displayName} · Sign out
-            </button>
+            <NavLink to="/profile" className="profile-link">
+              {user.avatar || "🙏"} {user.displayName}
+            </NavLink>
           ) : (
             <NavLink to="/login">Sign in</NavLink>
           )}
@@ -44,12 +46,17 @@ function Shell() {
         <NavLink to="/library" className={({ isActive }) => (isActive ? "active" : "")}>
           Library
         </NavLink>
+        <NavLink to="/profile" className={({ isActive }) => (isActive ? "active" : "")}>
+          Profile
+        </NavLink>
       </nav>
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/browse" element={<BrowsePage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/library" element={<LibraryPage />} />
+        <Route path="/profile" element={<ProfilePage />} />
+        <Route path="/profile/:userId" element={<UserProfilePage />} />
         <Route path="/browse/:categoryId" element={<CategoryPage />} />
         <Route path="/package/:packageId" element={<PackagePage />} />
         <Route path="/routine/:routineId" element={<RoutinePage />} />

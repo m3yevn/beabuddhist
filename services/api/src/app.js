@@ -209,6 +209,55 @@ export async function createApp() {
     res.json({ success: true, playback });
   });
 
+  dbRoutes.get("/users/me", requireAuth, async (req, res) => {
+    const profile = await store.getMyProfile(req.user.sub);
+    if (!profile) return res.status(404).json({ error: "NOT_FOUND" });
+    res.json({ success: true, profile });
+  });
+
+  dbRoutes.patch("/users/me", requireAuth, async (req, res) => {
+    const profile = await store.updateProfile(req.user.sub, req.body || {});
+    if (!profile) return res.status(404).json({ error: "NOT_FOUND" });
+    res.json({ success: true, profile });
+  });
+
+  dbRoutes.get("/users/search", requireAuth, async (req, res) => {
+    const q = String(req.query.q || "");
+    const users = await store.searchUsers(q, req.user.sub);
+    res.json({ success: true, users });
+  });
+
+  dbRoutes.get("/users/:id", requireAuth, async (req, res) => {
+    const profile = await store.getUserProfile(req.user.sub, req.params.id);
+    if (!profile) return res.status(404).json({ error: "NOT_FOUND", message: "User not found." });
+    res.json({ success: true, profile });
+  });
+
+  dbRoutes.post("/users/:id/follow", requireAuth, async (req, res) => {
+    try {
+      const profile = await store.followUser(req.user.sub, req.params.id);
+      res.json({ success: true, profile });
+    } catch (e) {
+      res.status(e.status || 500).json({ error: "ERROR", message: e.message });
+    }
+  });
+
+  dbRoutes.delete("/users/:id/follow", requireAuth, async (req, res) => {
+    const profile = await store.unfollowUser(req.user.sub, req.params.id);
+    if (!profile) return res.status(404).json({ error: "NOT_FOUND" });
+    res.json({ success: true, profile });
+  });
+
+  dbRoutes.get("/users/:id/followers", requireAuth, async (req, res) => {
+    const users = await store.listFollowers(req.params.id);
+    res.json({ success: true, users });
+  });
+
+  dbRoutes.get("/users/:id/following", requireAuth, async (req, res) => {
+    const users = await store.listFollowing(req.params.id);
+    res.json({ success: true, users });
+  });
+
   app.use(dbRoutes);
 
   app.use((err, _req, res, _next) => {

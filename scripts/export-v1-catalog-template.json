@@ -1,0 +1,24 @@
+{
+  "categories": [
+    { "id": "metta", "title": "Metta & Loving-Kindness", "order": 1 },
+    { "id": "mindfulness", "title": "Mindfulness", "order": 2 },
+    { "id": "chants", "title": "Pali Chants", "order": 3 }
+  ],
+  "packages": [
+    {
+      "id": "morning-metta",
+      "categoryId": "metta",
+      "title": "Morning Metta",
+      "description": "Start the day with loving-kindness.",
+      "coverEmoji": "🌅",
+      "tracks": [
+        {
+          "id": "track-1",
+          "title": "Metta Chant",
+          "audioUrl": "https://example.com/audio/metta.mp3",
+          "durationSec": 180
+        }
+      ]
+    }
+  ]
+}

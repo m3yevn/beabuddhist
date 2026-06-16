@@ -22,14 +22,18 @@ export async function signUp(email, password, displayName) {
     throw err;
   }
   const passwordHash = await bcrypt.hash(password, 10);
+  const name = displayName || normalized.split("@")[0];
   const { insertedId } = await db.collection("users").insertOne({
     email: normalized,
     passwordHash,
-    displayName: displayName || normalized.split("@")[0],
+    displayName: name,
+    bio: "",
+    avatar: "",
+    country: "",
     createdAt: new Date(),
   });
   const token = signToken(insertedId.toString(), normalized);
-  return { token, user: { id: insertedId.toString(), email: normalized, displayName: displayName || normalized.split("@")[0] } };
+  return { token, user: toPublicUser({ _id: insertedId, email: normalized, displayName: name, bio: "", avatar: "", country: "" }) };
 }
 
 export async function signIn(email, password) {
@@ -50,8 +54,148 @@ export async function signIn(email, password) {
   const token = signToken(user._id.toString(), user.email);
   return {
     token,
-    user: { id: user._id.toString(), email: user.email, displayName: user.displayName },
+    user: toPublicUser(user),
   };
+}
+
+function toPublicUser(user) {
+  return {
+    id: user._id.toString(),
+    email: user.email,
+    displayName: user.displayName || user.email.split("@")[0],
+    bio: user.bio || "",
+    avatar: user.avatar || "",
+    country: user.country || "",
+  };
+}
+
+async function followCounts(userId) {
+  const db = getDb();
+  const [followers, following] = await Promise.all([
+    db.collection("follows").countDocuments({ followingId: userId }),
+    db.collection("follows").countDocuments({ followerId: userId }),
+  ]);
+  return { followers, following };
+}
+
+export async function getMyProfile(userId) {
+  const user = await getDb().collection("users").findOne({ _id: new ObjectId(userId) });
+  if (!user) return null;
+  const counts = await followCounts(userId);
+  return { ...toPublicUser(user), ...counts };
+}
+
+export async function getUserProfile(viewerId, targetId) {
+  const user = await getDb().collection("users").findOne({ _id: new ObjectId(targetId) });
+  if (!user) return null;
+  const counts = await followCounts(targetId);
+  let isFollowing = false;
+  if (viewerId && viewerId !== targetId) {
+    const edge = await getDb().collection("follows").findOne({ followerId: viewerId, followingId: targetId });
+    isFollowing = Boolean(edge);
+  }
+  const { email: _e, passwordHash: _p, ..._rest } = user;
+  return {
+    ...toPublicUser(user),
+    ...counts,
+    isFollowing,
+    isSelf: viewerId === targetId,
+  };
+}
+
+export async function updateProfile(userId, { displayName, bio, avatar, country }) {
+  const updates = { updatedAt: new Date() };
+  if (displayName !== undefined) updates.displayName = String(displayName).trim().slice(0, 80);
+  if (bio !== undefined) updates.bio = String(bio).trim().slice(0, 500);
+  if (avatar !== undefined) updates.avatar = String(avatar).trim().slice(0, 500);
+  if (country !== undefined) updates.country = String(country).trim().slice(0, 80);
+
+  const result = await getDb().collection("users").findOneAndUpdate(
+    { _id: new ObjectId(userId) },
+    { $set: updates },
+    { returnDocument: "after" }
+  );
+  if (!result) return null;
+  const counts = await followCounts(userId);
+  return { ...toPublicUser(result), ...counts };
+}
+
+export async function searchUsers(query, excludeUserId, limit = 20) {
+  const q = query.trim();
+  if (q.length < 2) return [];
+  const regex = new RegExp(q.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"), "i");
+  const filter = {
+    $or: [{ displayName: regex }, { email: regex }],
+    ...(excludeUserId ? { _id: { $ne: new ObjectId(excludeUserId) } } : {}),
+  };
+  const rows = await getDb()
+    .collection("users")
+    .find(filter, { projection: { passwordHash: 0 } })
+    .limit(limit)
+    .toArray();
+  return Promise.all(
+    rows.map(async (u) => {
+      const counts = await followCounts(u._id.toString());
+      return { ...toPublicUser(u), ...counts };
+    })
+  );
+}
+
+export async function followUser(followerId, followingId) {
+  if (followerId === followingId) {
+    const err = new Error("Cannot follow yourself.");
+    err.status = 400;
+    throw err;
+  }
+  const target = await getDb().collection("users").findOne({ _id: new ObjectId(followingId) });
+  if (!target) {
+    const err = new Error("User not found.");
+    err.status = 404;
+    throw err;
+  }
+  await getDb().collection("follows").updateOne(
+    { followerId, followingId },
+    { $setOnInsert: { followerId, followingId, createdAt: new Date() } },
+    { upsert: true }
+  );
+  return getUserProfile(followerId, followingId);
+}
+
+export async function unfollowUser(followerId, followingId) {
+  await getDb().collection("follows").deleteOne({ followerId, followingId });
+  return getUserProfile(followerId, followingId);
+}
+
+export async function listFollowers(userId, limit = 50) {
+  const edges = await getDb()
+    .collection("follows")
+    .find({ followingId: userId })
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .toArray();
+  const users = await Promise.all(
+    edges.map(async (e) => {
+      const u = await getDb().collection("users").findOne({ _id: new ObjectId(e.followerId) });
+      return u ? toPublicUser(u) : null;
+    })
+  );
+  return users.filter(Boolean);
+}
+
+export async function listFollowing(userId, limit = 50) {
+  const edges = await getDb()
+    .collection("follows")
+    .find({ followerId: userId })
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .toArray();
+  const users = await Promise.all(
+    edges.map(async (e) => {
+      const u = await getDb().collection("users").findOne({ _id: new ObjectId(e.followingId) });
+      return u ? toPublicUser(u) : null;
+    })
+  );
+  return users.filter(Boolean);
 }
 
 export async function listCategories() {

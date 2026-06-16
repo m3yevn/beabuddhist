@@ -15,8 +15,9 @@ import { readFileSync } from "fs";
 import { MongoClient } from "mongodb";
 
 const inputFlag = process.argv.indexOf("--input");
+const dryRun = process.argv.includes("--dry-run");
 if (inputFlag === -1 || !process.argv[inputFlag + 1]) {
-  console.error("Usage: node scripts/migrate-v1-catalog.js --input ./export.json");
+  console.error("Usage: node scripts/migrate-v1-catalog.js --input ./export.json [--dry-run]");
   process.exit(1);
 }
 
@@ -28,6 +29,12 @@ if (!uri) {
 }
 
 const raw = JSON.parse(readFileSync(process.argv[inputFlag + 1], "utf8"));
+
+if (dryRun) {
+  console.log(`Would insert ${raw.categories?.length || 0} categories, ${raw.packages?.length || 0} packages`);
+  process.exit(0);
+}
+
 const client = new MongoClient(uri);
 
 try {

@@ -25,9 +25,9 @@ beabuddhist/
 
 - [x] Phase 0 — Landing + docs + free AI stack page
 - [x] Phase 1 — Web PWA: auth, browse, routines, playback
-- [ ] Phase 2 — Queue polish, offline, search
+- [x] Phase 2 — Queue, offline, search, library, profile + follow
 - [ ] Phase 3 — Free AI soundscapes (MusicGen, Piper)
-- [ ] Phase 4 — Capacitor → **update** `com.beabuddhist.app` on Play Store
+- [ ] Phase 4 (optional) — Capacitor → Play Store v2
 
 See [PUBLISHING.md](./PUBLISHING.md) for Play Store strategy with your existing developer account.
 
@@ -61,13 +61,27 @@ npm install --prefix apps/web && npm run build --prefix apps/web
 
 ## Vercel env vars
 
-Set on project `beabuddhist`:
+Set on project **`beabuddhist-api`** (separate from the web project):
 
 | Variable | Description |
 |----------|-------------|
 | `MONGODB_STRING` | MongoDB Atlas connection string |
 | `MONGODB_NAME` | `beabuddhist` |
 | `JWT_SECRET` | Random secret for auth tokens |
+
+See [SETUP.md](./SETUP.md). Catalog works without MongoDB; auth, routines, and profiles require it.
+
+## v1 catalog migration
+
+```bash
+# Dry run
+node scripts/migrate-v1-catalog.js --input ./export.json --dry-run
+
+# After MongoDB is configured
+MONGODB_STRING=... MONGODB_NAME=beabuddhist node scripts/migrate-v1-catalog.js --input ./export.json
+```
+
+Template: [scripts/export-v1-catalog-template.json](./scripts/export-v1-catalog-template.json)
 
 ## v1 legacy (Ionic 4)
 

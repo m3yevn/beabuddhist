@@ -1,11 +1,12 @@
 import { createContext, useContext, useMemo, useState, type ReactNode } from "react";
-import { api, type User } from "./api";
+import { api, type Profile, type User } from "./api";
 
 type AuthContextValue = {
   user: User | null;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, displayName?: string) => Promise<void>;
   signOut: () => void;
+  refreshProfile: (profile: Profile) => void;
 };
 
 const AuthContext = createContext<AuthContextValue | null>(null);
@@ -37,6 +38,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         localStorage.removeItem("bab_token");
         localStorage.removeItem("bab_user");
         setUser(null);
+      },
+      refreshProfile(profile) {
+        const next: User = {
+          id: profile.id,
+          email: profile.email,
+          displayName: profile.displayName,
+          bio: profile.bio,
+          avatar: profile.avatar,
+          country: profile.country,
+        };
+        localStorage.setItem("bab_user", JSON.stringify(next));
+        setUser(next);
       },
     }),
     [user]

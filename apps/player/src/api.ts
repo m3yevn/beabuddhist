@@ -10,7 +10,21 @@ import { seedCategories, seedPackages } from "./seedCatalog";
 
 const API_BASE = import.meta.env.VITE_API_URL || "https://beabuddhist-api.vercel.app";
 
-export type User = { id: string; email: string; displayName: string };
+export type User = {
+  id: string;
+  email: string;
+  displayName: string;
+  bio?: string;
+  avatar?: string;
+  country?: string;
+};
+
+export type Profile = User & {
+  followers?: number;
+  following?: number;
+  isFollowing?: boolean;
+  isSelf?: boolean;
+};
 
 async function request<T>(path: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem("bab_token");
@@ -90,6 +104,18 @@ export const api = {
     request<{ routine: Routine }>(`/routines/${routineId}/tasks/${taskId}`, { method: "DELETE" }),
   playback: (routineId: string) =>
     request<{ playback: Playback }>(`/routines/${routineId}/playback`),
+  me: () => request<{ profile: Profile }>("/users/me"),
+  updateProfile: (body: Partial<Pick<Profile, "displayName" | "bio" | "avatar" | "country">>) =>
+    request<{ profile: Profile }>("/users/me", { method: "PATCH", body: JSON.stringify(body) }),
+  user: (id: string) => request<{ profile: Profile }>(`/users/${id}`),
+  searchUsers: (q: string) =>
+    request<{ users: Profile[] }>(`/users/search?q=${encodeURIComponent(q)}`),
+  follow: (id: string) =>
+    request<{ profile: Profile }>(`/users/${id}/follow`, { method: "POST" }),
+  unfollow: (id: string) =>
+    request<{ profile: Profile }>(`/users/${id}/follow`, { method: "DELETE" }),
+  followers: (id: string) => request<{ users: Profile[] }>(`/users/${id}/followers`),
+  following: (id: string) => request<{ users: Profile[] }>(`/users/${id}/following`),
 };
 
 export type Category = { id: string; title: string; order: number };

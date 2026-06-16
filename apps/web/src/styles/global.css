@@ -1,14 +1,14 @@
 :root {
-  --bg: #07060a;
-  --bg-elevated: #12101a;
-  --bg-card: #1a1724;
-  --text: #f4f0e8;
-  --muted: #9b93a8;
-  --accent: #d4a84b;
-  --accent-soft: #e8c97a;
-  --lotus: #9b59b6;
-  --border: #2a2535;
-  --player: #1db954;
+  --bg: #faf8f4;
+  --bg-elevated: #f5f0e8;
+  --bg-card: #ffffff;
+  --text: #2c2416;
+  --muted: #6b5e4a;
+  --accent: #c4922a;
+  --accent-soft: #e8d4a8;
+  --lotus: #5a7a5a;
+  --border: #e8e0d4;
+  --player: #c4922a;
   --mono: "JetBrains Mono", ui-monospace, monospace;
   --sans: "Inter", system-ui, sans-serif;
 }
@@ -35,7 +35,7 @@ a:hover { text-decoration: underline; }
   position: sticky;
   top: 0;
   z-index: 100;
-  background: rgba(7, 6, 10, 0.88);
+  background: rgba(250, 248, 244, 0.92);
   backdrop-filter: blur(14px);
   border-bottom: 1px solid var(--border);
 }

@@ -3,13 +3,27 @@ import { ObjectId } from "mongodb";
 import { getDb } from "../db.js";
 import { signToken } from "../middleware/auth.js";
 import { categories, packages } from "../data/catalog.js";
+import { CATALOG_VERSION, validateCatalog } from "../lib/contentGovernance.js";
 
 export async function seedCatalogIfEmpty() {
   const db = getDb();
-  const count = await db.collection("categories").countDocuments();
-  if (count > 0) return;
+  const meta = await db.collection("meta").findOne({ _id: "catalog" });
+  if (meta?.version === CATALOG_VERSION) return;
+
+  const validation = validateCatalog(packages);
+  if (!validation.ok) {
+    console.warn("[catalog] validation warnings:", validation.results.filter((r) => !r.ok));
+  }
+
+  await db.collection("categories").deleteMany({});
+  await db.collection("packages").deleteMany({});
   await db.collection("categories").insertMany(categories);
   await db.collection("packages").insertMany(packages);
+  await db.collection("meta").updateOne(
+    { _id: "catalog" },
+    { $set: { version: CATALOG_VERSION, seededAt: new Date(), trackCount: packages.reduce((n, p) => n + p.tracks.length, 0) } },
+    { upsert: true }
+  );
 }
 
 export async function signUp(email, password, displayName) {

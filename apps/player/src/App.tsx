@@ -5,7 +5,7 @@ import { MiniPlayer } from "./components/MiniPlayer";
 import { NowPlayingSheet } from "./components/NowPlayingSheet";
 import { ApiBanner } from "./components/ApiBanner";
 import { HomePage } from "./pages/HomePage";
-import { BrowsePage } from "./pages/BrowsePage";
+import { BrowsePage, TopicBrowsePage } from "./pages/BrowsePage";
 import { SearchPage } from "./pages/SearchPage";
 import { LibraryPage } from "./pages/LibraryPage";
 import { CategoryPage } from "./pages/CategoryPage";
@@ -14,6 +14,13 @@ import { RoutinePage } from "./pages/RoutinePage";
 import { LoginPage } from "./pages/LoginPage";
 import { ProfilePage } from "./pages/ProfilePage";
 import { UserProfilePage } from "./pages/UserProfilePage";
+
+import { useParams } from "react-router-dom";
+
+function TopicBrowseRoute() {
+  const { topicId } = useParams();
+  return <TopicBrowsePage topicId={topicId || ""} />;
+}
 
 function Shell() {
   const { user } = useAuth();
@@ -52,6 +59,7 @@ function Shell() {
       </nav>
       <Routes>
         <Route path="/" element={<HomePage />} />
+        <Route path="/browse/topic/:topicId" element={<TopicBrowseRoute />} />
         <Route path="/browse" element={<BrowsePage />} />
         <Route path="/search" element={<SearchPage />} />
         <Route path="/library" element={<LibraryPage />} />
@@ -62,6 +70,12 @@ function Shell() {
         <Route path="/routine/:routineId" element={<RoutinePage />} />
         <Route path="/login" element={<LoginPage />} />
       </Routes>
+      <footer className="app-footer">
+        <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy</a>
+        <a href="/terms" target="_blank" rel="noopener noreferrer">Terms</a>
+        <a href="mailto:hello@beabuddhist.app">Contact</a>
+        <span className="muted small">Demo catalog · calm placeholder audio</span>
+      </footer>
       <MiniPlayer />
       <NowPlayingSheet />
     </div>

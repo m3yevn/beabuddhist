@@ -5,6 +5,8 @@ import { connectDb, pingDb } from "./db.js";
 import { requireAuth } from "./middleware/auth.js";
 import * as store from "./services/store.js";
 import { categories as seedCategories, packages as seedPackages } from "./data/catalog.js";
+import { CATALOG_VERSION } from "./lib/contentGovernance.js";
+import { getAiPipelineStatus, validateAiDraft } from "./lib/audioGenProvider.js";
 
 configDotenv();
 
@@ -116,6 +118,48 @@ export async function createApp() {
     const pkg = await getPackage(req.params.packageId);
     if (!pkg) return res.status(404).json({ error: "NOT_FOUND", message: "Package not found." });
     res.json({ success: true, package: pkg });
+  });
+
+  app.get("/catalog/meta", async (_req, res) => {
+    const meta = {
+      expectedVersion: CATALOG_VERSION,
+      categoriesInCode: seedCategories.length,
+      packagesInCode: seedPackages.length,
+      tracksInCode: seedPackages.reduce((n, p) => n + (p.tracks?.length || 0), 0),
+    };
+    try {
+      if (process.env.MONGODB_STRING) {
+        await connectDb();
+        if (!catalogSeeded) {
+          await store.seedCatalogIfEmpty();
+          catalogSeeded = true;
+        }
+        const { getDb } = await import("./db.js");
+        const row = await getDb().collection("meta").findOne({ _id: "catalog" });
+        const categoryCount = await getDb().collection("categories").countDocuments();
+        meta.version = row?.version ?? null;
+        meta.seededAt = row?.seededAt ?? null;
+        meta.categoryCount = categoryCount;
+        meta.trackCount = row?.trackCount ?? null;
+        meta.reseeded = row?.version === CATALOG_VERSION;
+      }
+    } catch (e) {
+      meta.databaseError = e.message;
+    }
+    res.json({ success: true, meta });
+  });
+
+  app.get("/ai/status", (_req, res) => {
+    res.json({ success: true, ...getAiPipelineStatus() });
+  });
+
+  app.post("/ai/validate-draft", (req, res) => {
+    const draft = req.body?.package || req.body;
+    if (!draft?.title) {
+      return res.status(400).json({ error: "VALIDATION", message: "package draft required." });
+    }
+    const result = validateAiDraft(draft);
+    res.json({ success: true, ...result });
   });
 
   // Auth + routines require MongoDB

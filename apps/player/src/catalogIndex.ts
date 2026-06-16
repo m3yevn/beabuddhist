@@ -75,7 +75,10 @@ export function searchCatalog(query: string): SearchHit[] {
     const pkgMatch =
       pkg.title.toLowerCase().includes(q) ||
       pkg.description?.toLowerCase().includes(q) ||
-      pkg.categoryId.toLowerCase().includes(q);
+      pkg.categoryId.toLowerCase().includes(q) ||
+      pkg.genre?.toLowerCase().includes(q) ||
+      pkg.tradition?.toLowerCase().includes(q) ||
+      pkg.topics?.some((t) => t.toLowerCase().includes(q));
 
     if (pkgMatch) {
       hits.push({

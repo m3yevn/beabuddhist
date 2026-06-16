@@ -118,8 +118,16 @@ export const api = {
   following: (id: string) => request<{ users: Profile[] }>(`/users/${id}/following`),
 };
 
-export type Category = { id: string; title: string; order: number };
-export type Track = { id: string; title: string; audioUrl: string; durationSec: number };
+export type Category = { id: string; title: string; order: number; emoji?: string; topic?: string };
+export type Track = {
+  id: string;
+  title: string;
+  audioUrl: string;
+  durationSec: number;
+  genre?: string;
+  mood?: string;
+  isPlaceholderAudio?: boolean;
+};
 export type Package = {
   id: string;
   categoryId: string;
@@ -127,6 +135,13 @@ export type Package = {
   description: string;
   coverEmoji: string;
   tracks: Track[];
+  creatorId?: string;
+  contentType?: string;
+  genre?: string;
+  tradition?: string;
+  topics?: string[];
+  isFeatured?: boolean;
+  isNew?: boolean;
 };
 export type RoutineTask = {
   id: string;

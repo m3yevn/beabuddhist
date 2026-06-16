@@ -5,7 +5,7 @@ You already have a **Google Play Developer account** and a live app:
 - **Package:** `com.beabuddhist.app`
 - **Listing:** [Play Store](https://play.google.com/store/apps/details?id=com.beabuddhist.app)
 
-v2 strategy: **update the existing listing** with a Capacitor-wrapped PWA (Phase 4), not a new package ID.
+v2 strategy: **Web-first PWA** at [beabuddhist.vercel.app/app](https://beabuddhist.vercel.app/app/) — install via Add to Home Screen. Play Store update is **optional** (Phase 4), not required for v2 launch.
 
 ---
 

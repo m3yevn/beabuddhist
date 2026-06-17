@@ -6,7 +6,7 @@ import { requireAuth } from "./middleware/auth.js";
 import * as store from "./services/store.js";
 import { categories as seedCategories, packages as seedPackages } from "./data/catalog.js";
 import { CATALOG_VERSION } from "./lib/contentGovernance.js";
-import { getAiPipelineStatus, validateAiDraft } from "./lib/audioGenProvider.js";
+import { getAiPipelineStatus, validateAiDraft, generateProceduralAmbient } from "./lib/audioGenProvider.js";
 
 configDotenv();
 
@@ -160,6 +160,15 @@ export async function createApp() {
     }
     const result = validateAiDraft(draft);
     res.json({ success: true, ...result });
+  });
+
+  app.post("/ai/generate-ambient", (req, res) => {
+    const { title, contentType, mood, durationSec } = req.body || {};
+    const result = generateProceduralAmbient({ title, contentType, mood, durationSec });
+    if (!result.ok) {
+      return res.status(422).json({ success: false, error: "GOVERNANCE", ...result });
+    }
+    res.json({ success: true, ...result, note: "Draft only — not stored. Client renders via Web Audio." });
   });
 
   // Auth + routines require MongoDB

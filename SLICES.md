@@ -14,6 +14,7 @@ Sacred audio PWA — chanting, meditation, dharma, ambient.
 | **Audits** | `BEABUDDHIST_UX_AUDIT.md`, `CATALOG_AUDIT.md`, `AI_PIPELINE_AUDIT.md` |
 | **Licensed audio plan** | `LICENSED_AUDIO.md` · `data/licensed/` manifests · `validate:catalog` |
 | **Account deletion** | `DELETE /users/me` + profile UI |
+| **Phase 3 procedural** | `POST /ai/generate-ambient` governance draft |
 | **API Vercel bundle** | `catalog.seed.mjs` in `services/api` — reseed confirmed v2/8 categories |
 
 ## Next
@@ -21,7 +22,7 @@ Sacred audio PWA — chanting, meditation, dharma, ambient.
 | # | Slice | Scope |
 |---|-------|-------|
 | 1 | **Licensed audio** | Upload recordings per `data/licensed/` — replace Pixabay |
-| 2 | **Phase 3 AI generate** | Wire MusicGen/Bark behind `audioGenProvider.js` |
+| 2 | **Phase 3 AI generate** | Procedural ambient spec live · MusicGen/Bark next |
 | 3 | **Capacitor** | Play Store wrapper (see `PUBLISHING.md`) |
 
 ## Live

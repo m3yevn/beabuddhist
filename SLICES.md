@@ -12,17 +12,17 @@ Sacred audio PWA — chanting, meditation, dharma, ambient.
 | **Experience rebirth (2)** | Catalog v2 deploy · landing alignment · AI governance hooks |
 | **Legal** | `/privacy`, `/terms`, footer contact links |
 | **Audits** | `BEABUDDHIST_UX_AUDIT.md`, `CATALOG_AUDIT.md`, `AI_PIPELINE_AUDIT.md` |
-| **Licensed audio plan** | `LICENSED_AUDIO.md` |
+| **Licensed audio plan** | `LICENSED_AUDIO.md` · `data/licensed/` manifests · `validate:catalog` |
+| **Account deletion** | `DELETE /users/me` + profile UI |
 | **API Vercel bundle** | `catalog.seed.mjs` in `services/api` — reseed confirmed v2/8 categories |
 
 ## Next
 
 | # | Slice | Scope |
 |---|-------|-------|
-| 1 | **Licensed audio** | Replace Pixabay placeholders per `LICENSED_AUDIO.md` |
+| 1 | **Licensed audio** | Upload recordings per `data/licensed/` — replace Pixabay |
 | 2 | **Phase 3 AI generate** | Wire MusicGen/Bark behind `audioGenProvider.js` |
-| 3 | **Account deletion** | GDPR delete flow |
-| 4 | **Capacitor** | Play Store wrapper (see `PUBLISHING.md`) |
+| 3 | **Capacitor** | Play Store wrapper (see `PUBLISHING.md`) |
 
 ## Live
 

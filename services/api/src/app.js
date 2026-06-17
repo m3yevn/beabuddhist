@@ -265,6 +265,12 @@ export async function createApp() {
     res.json({ success: true, profile });
   });
 
+  dbRoutes.delete("/users/me", requireAuth, async (req, res) => {
+    const ok = await store.deleteAccount(req.user.sub);
+    if (!ok) return res.status(404).json({ error: "NOT_FOUND", message: "Account not found." });
+    res.json({ success: true, deleted: true });
+  });
+
   dbRoutes.get("/users/search", requireAuth, async (req, res) => {
     const q = String(req.query.q || "");
     const users = await store.searchUsers(q, req.user.sub);

@@ -107,6 +107,7 @@ export const api = {
   me: () => request<{ profile: Profile }>("/users/me"),
   updateProfile: (body: Partial<Pick<Profile, "displayName" | "bio" | "avatar" | "country">>) =>
     request<{ profile: Profile }>("/users/me", { method: "PATCH", body: JSON.stringify(body) }),
+  deleteAccount: () => request<{ success: boolean; deleted: boolean }>("/users/me", { method: "DELETE" }),
   user: (id: string) => request<{ profile: Profile }>(`/users/${id}`),
   searchUsers: (q: string) =>
     request<{ users: Profile[] }>(`/users/search?q=${encodeURIComponent(q)}`),

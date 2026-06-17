@@ -10,6 +10,7 @@ export function ProfilePage() {
   const [form, setForm] = useState({ displayName: "", bio: "", country: "", avatar: "" });
   const [error, setError] = useState("");
   const [saving, setSaving] = useState(false);
+  const [deleting, setDeleting] = useState(false);
 
   useEffect(() => {
     if (!user) return;
@@ -41,6 +42,20 @@ export function ProfilePage() {
       setError(e instanceof Error ? e.message : "Save failed");
     } finally {
       setSaving(false);
+    }
+  }
+
+  async function deleteAccount() {
+    if (!confirm("Delete your account permanently? Routines and profile data will be removed.")) return;
+    setDeleting(true);
+    setError("");
+    try {
+      await api.deleteAccount();
+      signOut();
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Delete failed");
+    } finally {
+      setDeleting(false);
     }
   }
 
@@ -122,6 +137,15 @@ export function ProfilePage() {
       </p>
       <button type="button" className="link-btn" style={{ marginTop: 16 }} onClick={signOut}>
         Sign out
+      </button>
+      <button
+        type="button"
+        className="link-btn danger"
+        style={{ marginTop: 12 }}
+        disabled={deleting}
+        onClick={deleteAccount}
+      >
+        {deleting ? "Deleting…" : "Delete account"}
       </button>
     </div>
   );

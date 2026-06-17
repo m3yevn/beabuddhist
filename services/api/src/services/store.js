@@ -272,6 +272,20 @@ export async function deleteRoutine(userId, routineId) {
   return result.deletedCount > 0;
 }
 
+export async function deleteAccount(userId) {
+  const db = getDb();
+  const oid = new ObjectId(userId);
+  const user = await db.collection("users").findOne({ _id: oid });
+  if (!user) return false;
+
+  await Promise.all([
+    db.collection("routines").deleteMany({ userId }),
+    db.collection("follows").deleteMany({ $or: [{ followerId: userId }, { followingId: userId }] }),
+    db.collection("users").deleteOne({ _id: oid }),
+  ]);
+  return true;
+}
+
 export async function addTask(userId, routineId, { packageId, trackId }) {
   const pkg = await getPackage(packageId);
   if (!pkg) {

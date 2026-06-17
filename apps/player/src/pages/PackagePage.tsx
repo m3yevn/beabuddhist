@@ -75,6 +75,7 @@ export function PackagePage() {
                   {formatTime(t.durationSec)}
                   {t.genre ? ` · ${t.genre}` : ""}
                   {t.mood ? ` · ${t.mood}` : ""}
+                  {t.isPlaceholderAudio ? " · demo audio" : ""}
                 </span>
               </span>
             </button>

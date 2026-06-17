@@ -5,6 +5,7 @@
   "description": "Be A Buddhist v2 monorepo — see apps/, services/, v1.package.json for legacy Ionic app",
   "scripts": {
     "build": "npm run build --prefix apps/player && npm run build --prefix apps/web",
+    "validate:catalog": "npm run validate:catalog --prefix services/api",
     "dev:api": "npm run dev --prefix services/api",
     "dev:player": "npm run dev --prefix apps/player",
     "dev:web": "npm run dev --prefix apps/web"

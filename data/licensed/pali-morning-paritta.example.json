@@ -1,0 +1,11 @@
+{
+  "trackId": "metta-paritta",
+  "packageId": "pali-morning-paritta",
+  "source": "Venerable Ananda / temple recording 2024",
+  "license": "CC-BY-NC-4.0",
+  "audioUrl": "https://cdn.beabuddhist.app/audio/pali-morning-paritta/metta-paritta.mp3",
+  "isPlaceholderAudio": false,
+  "recordedAt": "2024-11-01",
+  "reviewedBy": "content-governance",
+  "notes": "Copy to active manifest and update data/catalog.mjs when audio is uploaded."
+}

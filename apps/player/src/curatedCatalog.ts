@@ -48,9 +48,9 @@ export function getCollectionPackages(collectionId: string): Package[] {
 
 export const browseTopics = [
   { id: "chanting", label: "Chanting", emoji: "📿" },
-  { id: "meditation", label: "Meditation", emoji: "🧘" },
+  { id: "meditation", label: "Practice", emoji: "🧘" },
   { id: "dharma", label: "Study", emoji: "📖" },
-  { id: "instrumental", label: "Ambient", emoji: "🔔" },
+  { id: "instrumental", label: "Long chants", emoji: "🔔" },
   { id: "learning", label: "Learning", emoji: "🎓" },
 ];
 

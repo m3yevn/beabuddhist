@@ -74,7 +74,7 @@ function Shell() {
         <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy</a>
         <a href="/terms" target="_blank" rel="noopener noreferrer">Terms</a>
         <a href="mailto:hello@beabuddhist.app">Contact</a>
-        <span className="muted small">Demo catalog · calm placeholder audio</span>
+        <span className="muted small">Free public-domain and Creative Commons recordings</span>
       </footer>
       <MiniPlayer />
       <NowPlayingSheet />

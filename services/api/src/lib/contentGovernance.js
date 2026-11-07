@@ -3,7 +3,7 @@
  * before catalog publish or AI generation output is stored.
  */
 
-export const CATALOG_VERSION = 2;
+export const CATALOG_VERSION = 3;
 
 /** Genres that must never appear on chant, dharma, or meditation content */
 export const FORBIDDEN_GENRES = new Set([

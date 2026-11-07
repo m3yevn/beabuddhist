@@ -1,7 +1,7 @@
 import { usePlayer, formatTime } from "../player";
 
 export function MiniPlayer() {
-  const { currentTrack, routineTitle, isPlaying, toggle, next, prev, currentTime, duration, tracks, seek, setQueueOpen } =
+  const { currentTrack, routineTitle, isPlaying, toggle, next, prev, currentTime, duration, tracks, seek, setQueueOpen, playbackError } =
     usePlayer();
 
   if (!currentTrack) return null;
@@ -10,7 +10,7 @@ export function MiniPlayer() {
     <div className="mini-player" onClick={() => setQueueOpen(true)} role="button" tabIndex={0} onKeyDown={(e) => e.key === "Enter" && setQueueOpen(true)}>
       <div className="mini-player-info">
         <strong>{currentTrack.title}</strong>
-        <span>{routineTitle} · tap for queue</span>
+        <span>{playbackError || `${routineTitle} · tap for queue`}</span>
       </div>
       <div className="mini-player-controls" onClick={(e) => e.stopPropagation()}>
         <button type="button" onClick={prev} disabled={tracks.length <= 1} aria-label="Previous">

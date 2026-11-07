@@ -34,13 +34,23 @@ export function RoutinePage() {
   }
 
   async function play() {
-    if (!routineId) return;
-    const { playback } = await api.playback(routineId);
-    if (!playback.tracks.length) {
+    if (!routineId || !routine) return;
+    if (!routine.tasks?.length) {
       setMsg("Add chants from Browse first.");
       return;
     }
-    playRoutine(playback.title, playback.tracks);
+    playRoutine(
+      routine.title,
+      routine.tasks.map((t, i) => ({
+        index: i,
+        taskId: t.trackId || t.id,
+        trackId: t.trackId,
+        title: t.title,
+        packageTitle: t.packageTitle,
+        audioUrl: t.audioUrl,
+        durationSec: t.durationSec || 0,
+      }))
+    );
   }
 
   async function deleteRoutine() {

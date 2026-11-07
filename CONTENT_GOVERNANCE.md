@@ -63,7 +63,7 @@ recommendationScore(pkg)   // surfacing priority
 ## UI disclosure
 
 - Package pages show integrity notice when any track has `isPlaceholderAudio`
-- Footer: “Demo catalog · calm placeholder audio”
+- Footer: “Free public-domain and Creative Commons recordings”
 - Future: `aiGenerated` badge on AI soundscapes
 
 ---

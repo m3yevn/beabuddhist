@@ -16,6 +16,7 @@ export function NowPlayingSheet() {
     duration,
     seek,
     jumpTo,
+    playbackError,
   } = usePlayer();
 
   if (!queueOpen || !currentTrack) return null;
@@ -36,6 +37,7 @@ export function NowPlayingSheet() {
         <p className="sheet-label">{routineTitle}</p>
         <h2 className="sheet-title">{currentTrack.title}</h2>
         <p className="muted small">{currentTrack.packageTitle}</p>
+        {playbackError && <p className="playback-error">{playbackError}</p>}
 
         <div className="sheet-progress">
           <div className="sheet-progress-bar" style={{ width: `${progress}%` }} />

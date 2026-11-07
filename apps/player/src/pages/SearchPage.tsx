@@ -43,7 +43,7 @@ export function SearchPage() {
         autoFocus
       />
       {!query.trim() && (
-        <p className="muted">Try “metta”, “breath”, or search for practitioners by name.</p>
+        <p className="muted">Try “metta”, “heart sutra”, or “ratana”.</p>
       )}
 
       {user && people.length > 0 && (

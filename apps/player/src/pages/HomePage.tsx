@@ -41,13 +41,32 @@ export function HomePage() {
   }
 
   async function play(id: string) {
+    const local = routines.find((r) => (r.id || r._id) === id);
+    if (local?.tasks?.length) {
+      playRoutine(
+        local.title,
+        local.tasks.map((t, i) => ({
+          index: i,
+          taskId: t.trackId || t.id,
+          trackId: t.trackId,
+          title: t.title,
+          packageTitle: t.packageTitle,
+          audioUrl: t.audioUrl,
+          durationSec: t.durationSec || 0,
+        }))
+      );
+      return;
+    }
     try {
       const { playback } = await api.playback(id);
       if (!playback.tracks.length) {
         setError("Add tracks to this routine first.");
         return;
       }
-      playRoutine(playback.title, playback.tracks);
+      playRoutine(
+        playback.title,
+        playback.tracks.map((t) => ({ ...t, taskId: t.trackId || t.taskId }))
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Cannot play");
     }
@@ -64,7 +83,7 @@ export function HomePage() {
       <section className="home-hero">
         <p className="home-greeting">Welcome — may your practice be peaceful.</p>
         <h1>Discover</h1>
-        <p className="muted">Chanting, meditation, teachings, and calm ambience for daily practice.</p>
+        <p className="muted">Chanting, sutta recitation, and open recordings for daily practice.</p>
       </section>
 
       <section className="home-section">

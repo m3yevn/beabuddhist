@@ -32,8 +32,10 @@ export function PackagePage() {
     <div className="page">
       <Link to={`/browse/${pkg.categoryId}`} className="back">← Back</Link>
       {offline && <p className="muted small">Showing cached catalog (offline).</p>}
-      {hasPlaceholder && (
+      {hasPlaceholder ? (
         <p className="integrity-notice">Demo audio — calm ambience placeholder until licensed recordings are added.</p>
+      ) : (
+        <p className="integrity-notice">Free recording — public domain or Creative Commons. Credit is listed on each chant.</p>
       )}
       <div className="package-hero">
         <span className="emoji large">{pkg.coverEmoji}</span>
@@ -73,12 +75,16 @@ export function PackagePage() {
                 <strong>{t.title}</strong>
                 <span className="muted small">
                   {formatTime(t.durationSec)}
-                  {t.genre ? ` · ${t.genre}` : ""}
-                  {t.mood ? ` · ${t.mood}` : ""}
+                  {t.credit ? ` · ${t.credit}` : ""}
                   {t.isPlaceholderAudio ? " · demo audio" : ""}
                 </span>
               </span>
             </button>
+            {t.sourceUrl && (
+              <a className="track-source" href={t.sourceUrl} target="_blank" rel="noopener noreferrer">
+                {t.license || "Source"}
+              </a>
+            )}
             <AddToRoutine packageId={pkg.id} trackId={t.id} trackTitle={t.title} />
           </li>
         ))}

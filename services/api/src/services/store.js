@@ -335,7 +335,8 @@ export async function resolvePlayback(userId, routineId) {
     title: routine.title,
     tracks: routine.tasks.map((t, i) => ({
       index: i,
-      taskId: t.id,
+      taskId: t.trackId || t.id,
+      trackId: t.trackId,
       title: t.title,
       packageTitle: t.packageTitle,
       audioUrl: t.audioUrl,

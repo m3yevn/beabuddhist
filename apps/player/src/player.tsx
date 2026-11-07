@@ -8,6 +8,7 @@ import {
   type ReactNode,
 } from "react";
 import type { PlaybackTrack } from "./api";
+import { resolvePlayableUrl } from "./playableAudio";
 import { addRecentPlay } from "./recentPlays";
 
 type PlayerContextValue = {
@@ -19,6 +20,7 @@ type PlayerContextValue = {
   duration: number;
   currentTrack: PlaybackTrack | null;
   queueOpen: boolean;
+  playbackError: string | null;
   setQueueOpen: (open: boolean) => void;
   playRoutine: (title: string, list: PlaybackTrack[]) => void;
   playTrack: (title: string, track: PlaybackTrack) => void;
@@ -43,15 +45,28 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
   const [queueOpen, setQueueOpen] = useState(false);
+  const [playbackError, setPlaybackError] = useState<string | null>(null);
 
   const playIndex = useCallback((list: PlaybackTrack[], index: number) => {
     const track = list[index];
     if (!track) return;
     const audio = audioRef.current;
-    audio.src = track.audioUrl;
+    const src = resolvePlayableUrl(track);
+    if (!src) {
+      setIsPlaying(false);
+      setPlaybackError("This chant has no audio file yet.");
+      return;
+    }
+    setPlaybackError(null);
+    audio.src = src;
     audio.load();
     audio.onloadedmetadata = () => setDuration(audio.duration || track.durationSec || 0);
     audio.ontimeupdate = () => setCurrentTime(audio.currentTime);
+    audio.onerror = () => {
+      if (audio.error?.code === 1) return;
+      setIsPlaying(false);
+      setPlaybackError("This recording didn’t load. Try another chant.");
+    };
     audio.onended = () => {
       const next = indexRef.current + 1;
       if (next < tracksRef.current.length) {
@@ -64,9 +79,13 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
     };
     audio.play().then(() => {
       setIsPlaying(true);
+      setPlaybackError(null);
       const t = list[index];
-      if (t) addRecentPlay(t);
-    }).catch(() => setIsPlaying(false));
+      if (t) addRecentPlay({ ...t, audioUrl: src });
+    }).catch(() => {
+      setIsPlaying(false);
+      setPlaybackError("Playback was blocked. Press play once more.");
+    });
   }, []);
 
   const value = useMemo<PlayerContextValue>(
@@ -79,6 +98,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
       duration,
       currentTrack: tracks[currentIndex] ?? null,
       queueOpen,
+      playbackError,
       setQueueOpen,
       playRoutine(title, list) {
         setRoutineTitle(title);
@@ -135,7 +155,7 @@ export function PlayerProvider({ children }: { children: ReactNode }) {
         setCurrentTime(time);
       },
     }),
-    [tracks, routineTitle, currentIndex, isPlaying, currentTime, duration, queueOpen, playIndex]
+    [tracks, routineTitle, currentIndex, isPlaying, currentTime, duration, queueOpen, playbackError, playIndex]
   );
 
   return <PlayerContext.Provider value={value}>{children}</PlayerContext.Provider>;

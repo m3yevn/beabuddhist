@@ -6,6 +6,7 @@ import {
   setCachedPackage,
   setCachedPackages,
 } from "./catalogCache";
+import { preferSeedPackage } from "./playableAudio";
 import { seedCategories, seedPackages } from "./seedCatalog";
 
 const API_BASE = import.meta.env.VITE_API_URL || "https://beabuddhist-api.vercel.app";
@@ -66,9 +67,10 @@ export const api = {
   async packages(categoryId: string) {
     try {
       const data = await request<{ packages: Package[] }>(`/catalog/categories/${categoryId}/packages`);
-      setCachedPackages(categoryId, data.packages);
-      for (const p of data.packages) setCachedPackage(p.id, p);
-      return data;
+      const packages = data.packages.map((pkg) => preferSeedPackage(pkg));
+      setCachedPackages(categoryId, packages);
+      for (const p of packages) setCachedPackage(p.id, p);
+      return { packages };
     } catch {
       const cached = getCachedPackages<Package[]>(categoryId);
       if (cached) return { packages: cached };
@@ -80,8 +82,9 @@ export const api = {
   async package(id: string) {
     try {
       const data = await request<{ package: Package }>(`/catalog/packages/${id}`);
-      setCachedPackage(id, data.package);
-      return data;
+      const pkg = preferSeedPackage(data.package);
+      setCachedPackage(id, pkg);
+      return { package: pkg };
     } catch {
       const cached = getCachedPackage<Package>(id);
       if (cached) return { package: cached };
@@ -128,6 +131,9 @@ export type Track = {
   genre?: string;
   mood?: string;
   isPlaceholderAudio?: boolean;
+  license?: string;
+  credit?: string;
+  sourceUrl?: string;
 };
 export type Package = {
   id: string;
@@ -147,9 +153,11 @@ export type Package = {
 export type RoutineTask = {
   id: string;
   packageId: string;
+  trackId?: string;
   title: string;
   audioUrl: string;
   packageTitle: string;
+  durationSec?: number;
 };
 export type Routine = {
   id: string;
@@ -160,6 +168,7 @@ export type Routine = {
 export type PlaybackTrack = {
   index: number;
   taskId: string;
+  trackId?: string;
   title: string;
   packageTitle: string;
   audioUrl: string;

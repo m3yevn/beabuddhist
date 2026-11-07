@@ -4,11 +4,13 @@
 
 ---
 
-## Current state (v2)
+## Current state (v3)
 
-- Tracks use **Pixabay** ambient URLs (`isPlaceholderAudio: true`)
-- Titles and metadata are spiritually accurate; audio is royalty-free placeholder
-- `contentGovernance.js` warns on placeholder audio (−10 score)
+- Chant and sutta tracks stream **public-domain and Creative Commons** recordings (Internet Archive and Wikimedia Commons)
+- Pixabay placeholder URLs were removed — those CDN links returned 403 and would not play
+- Each track stores `license`, `credit`, and `sourceUrl`
+- `CATALOG_VERSION` is 3 so the API reseeds MongoDB on the next deploy
+- `contentGovernance.js` still warns if a track is marked `isPlaceholderAudio`
 
 ---
 

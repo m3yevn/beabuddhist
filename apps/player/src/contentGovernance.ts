@@ -8,9 +8,9 @@ export const FORBIDDEN_GENRES = new Set([
 ]);
 
 export const ALLOWED_GENRES_BY_TYPE: Record<string, string[]> = {
-  chant: ["traditional", "pali", "sanskrit", "theravada", "mahayana", "devotional", "acapella", "temple chant"],
-  meditation: ["guided", "mindfulness", "ambient", "breathing", "loving-kindness", "body scan"],
-  dharma: ["teaching", "lecture", "discussion", "study", "dharma talk"],
+  chant: ["traditional", "pali", "sanskrit", "theravada", "mahayana", "devotional", "acapella", "temple chant", "recitation"],
+  meditation: ["guided", "mindfulness", "ambient", "breathing", "loving-kindness", "body scan", "contemplative"],
+  dharma: ["teaching", "lecture", "discussion", "study", "dharma talk", "sutra reading"],
   instrumental: ["temple ambience", "nature sounds", "meditation music", "singing bowls", "soft instrumental"],
   learning: ["beginner", "history", "philosophy", "study material", "introductory"],
 };

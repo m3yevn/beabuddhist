@@ -269,6 +269,15 @@ a:hover { color: var(--accent); }
 }
 
 .creator-line { margin-top: 8px; }
+.playback-error { color: #8a3b2c; font-size: 0.85rem; margin: 8px 0 0; }
+.track-source {
+  flex: 0 0 auto;
+  align-self: center;
+  font-size: 0.75rem;
+  color: var(--muted);
+  text-decoration: underline;
+  padding: 0 8px;
+}
 
 .track-list { list-style: none; }
 .track-row {
@@ -434,7 +443,13 @@ a:hover { color: var(--accent); }
 .queue-num { color: var(--muted); width: 24px; font-size: 0.85rem; }
 .queue-live { margin-left: auto; font-size: 0.75rem; }
 
-.track-list-item { border-bottom: 1px solid var(--border); }
+.track-list-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.track-list-item .track-row { border-bottom: none; width: auto; flex: 1; }
 .add-to-routine { margin-top: 8px; }
 .routine-picker {
   margin-top: 12px;

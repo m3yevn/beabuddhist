@@ -7,6 +7,7 @@ import {
   setCachedPackages,
 } from "./catalogCache";
 import { api, type Category, type Package } from "./api";
+import { preferSeedPackage } from "./playableAudio";
 import { seedCategories, seedPackages } from "./seedCatalog";
 
 export type SearchHit = {
@@ -52,7 +53,7 @@ export function getAllPackages(): Package[] {
       const cache = JSON.parse(raw);
       const packagesById = cache.packagesById || {};
       for (const id of Object.keys(packagesById)) {
-        byId.set(id, packagesById[id] as Package);
+        byId.set(id, preferSeedPackage(packagesById[id] as Package));
       }
     }
   } catch {
